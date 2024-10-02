@@ -2,17 +2,33 @@
 
 import { useEffect, useState } from "react";
 import MapComponent from "@/app/components/Map";
-import { LngLat } from "mapbox-gl";
+import { LngLat, LngLatBounds, Map } from "mapbox-gl";
 import { MapViewState } from "@/app/types/MapTypes";
 import { ViewStateChangeEvent } from "react-map-gl";
+import { SearchBoxRetrieveResponse } from "@mapbox/search-js-core";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { SearchBox } from "@mapbox/search-js-react";
-const MAPBOX_ACCESS_TOKEN =
+import AddressList from "./components/AddressList";
+import MapboxGL from "./components/MapboxGL";
+export const MAPBOX_ACCESS_TOKEN =
   "pk.eyJ1IjoiemFoZmlyIiwiYSI6ImNtMWw2emJzazAyanAya3B2b2psYXJlbXIifQ.lqcRz0-kLaGP4vIgZNmHIw";
 
 export default function Home() {
-  const [userLocation, setLocation] = useState<LngLat>();
+  const [userLocation, setUserLocation] = useState<LngLat>();
   const [viewState, setViewState] = useState<MapViewState>();
+  const [addresses, setAddresses] = useState<SearchBoxRetrieveResponse[]>([]);
+
+  // const mapContainer = document.createElement("div");
+  // mapContainer.id = "map";
+  // mapContainer.style.width = "100vw";
+  // mapContainer.style.height = "100vh";
+  // mapContainer.style.position = "relative";
+
+  const addressCoords = addresses.map((address) => {
+    return {
+      longitude: address.features[0].geometry.coordinates[0],
+      latitude: address.features[0].geometry.coordinates[1],
+    };
+  });
 
   console.log(userLocation);
 
@@ -29,10 +45,12 @@ export default function Home() {
           zoom: 14,
         };
 
-        setLocation(location);
+        setUserLocation(location);
         setViewState(viewState);
         console.log("location", location);
       });
+    } else {
+      console.log("Geolocation is not available");
     }
   }, []);
 
@@ -44,24 +62,16 @@ export default function Home() {
 
   if (!userLocation) return null;
   return (
-    <div style={{ position: "relative", width: "100vw", height: "100vh" }}>
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "25rem",
-          height: "100%",
-          backgroundColor: "rgba(255, 255, 255, 1)",
-          padding: "20px",
-          zIndex: 1,
-        }}
-      >
-        <h1>Meet Me Halfway</h1>
-        <p>Who&apos;s meeting up today?</p>
-        <SearchBox accessToken={MAPBOX_ACCESS_TOKEN} />
-      </div>
-      <MapComponent viewState={viewState} onMove={onMapMove} />
+    <div>
+      <AddressList
+        addresses={addresses}
+        setAddresses={setAddresses}
+      ></AddressList>
+      <MapboxGL
+        viewState={viewState}
+        onMove={onMapMove}
+        addressCoords={addressCoords}
+      />
     </div>
   );
 }
