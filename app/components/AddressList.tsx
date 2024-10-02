@@ -49,7 +49,6 @@ const AddressList: React.FC<AddressListProps> = ({
 
       <SearchBox
         accessToken={MAPBOX_ACCESS_TOKEN}
-        
         value={searchText}
         placeholder="Choose starting location"
         onChange={handleSearchChange}
@@ -59,9 +58,7 @@ const AddressList: React.FC<AddressListProps> = ({
             unit: "1rem",
             border: "1px solid black",
             boxShadow: "0 0 0 1px black",
-
           },
-
         }}
       />
     </div>

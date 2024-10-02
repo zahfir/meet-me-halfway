@@ -13,21 +13,6 @@ const MapBox: React.FC<MapBoxProps> = ({
   onMove,
   addressCoords,
 }) => {
-  // const map = new Map({
-  //   accessToken: MAPBOX_ACCESS_TOKEN,
-  //   container: "mapContainer",
-  //   style: "mapbox://styles/mapbox/streets-v11",
-  //   ...viewState,
-  // });
-
-  // if (addressCoords.length > 0) {
-  //   const bounds = getBounds(addressCoords);
-  //   map.fitBounds(bounds, {
-  //     padding: 50, // Add padding to ensure markers are not too close to the edges
-  //     maxZoom: 14, // Set a maximum zoom level to avoid zooming in too far
-  //   });
-  // }
-
   return (
     <Map
       {...viewState}

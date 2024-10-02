@@ -62,16 +62,15 @@ export default function Home() {
 
   if (!userLocation) return null;
   return (
-    <div>
-      <AddressList
-        addresses={addresses}
-        setAddresses={setAddresses}
-      ></AddressList>
+    <div style={{ position: "relative", width: "100vw", height: "100vh" }}>
       <MapboxGL
         viewState={viewState}
         onMove={onMapMove}
         addressCoords={addressCoords}
       />
+      <div className="position-absolute top-0 start-0 w-25 h-100 bg-white bg-opacity-75 p-3 overflow-auto">
+        <AddressList addresses={addresses} setAddresses={setAddresses} />
+      </div>
     </div>
   );
 }
