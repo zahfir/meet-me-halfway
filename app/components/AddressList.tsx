@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { SearchBox } from "@mapbox/search-js-react";
+import useMapStore from "@/app/state/useMapStore";
 import { SearchBoxRetrieveResponse } from "@mapbox/search-js-core";
-
 import { MAPBOX_ACCESS_TOKEN } from "@/app/page";
 
-const AddressList: React.FC<AddressListProps> = ({
-  addresses,
-  setAddresses,
-}) => {
+const AddressList: React.FC = () => {
   const [searchText, setSearchText] = useState("");
+  const { addresses, addAddress } = useMapStore();
 
   const onRetrieve = (selectedAddress: SearchBoxRetrieveResponse) => {
     console.log("selected address", selectedAddress);
-    setAddresses([...addresses, selectedAddress]);
+    addAddress(selectedAddress);
     setSearchText("");
   };
 
@@ -64,9 +62,10 @@ const AddressList: React.FC<AddressListProps> = ({
   );
 };
 
+export default AddressList;
+
 export interface AddressListProps {
   addresses: any[];
   setAddresses: any;
 }
 
-export default AddressList;

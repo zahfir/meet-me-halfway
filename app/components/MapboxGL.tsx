@@ -5,31 +5,75 @@ import mapboxgl, {
   Popup,
   Map,
   PaddingOptions,
+  LngLat,
 } from "mapbox-gl";
-import { MAPBOX_ACCESS_TOKEN } from "../page";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { MAPBOX_ACCESS_TOKEN } from "@/app/page";
+import useMapStore from "@/app/state/useMapStore";
 
-const MapboxGL: React.FC<MapBoxProps> = ({
-  viewState,
-  onMove,
-  addressCoords,
-}) => {
+interface MapboxGLProps {
+  addressCoords: { longitude: number; latitude: number }[];
+}
+
+const MAP_STYLE = "mapbox://styles/mapbox/dark-v11";
+
+const MapboxGL: React.FC<MapboxGLProps> = ({ addressCoords }) => {
+  const { setUserLocation, setViewState } = useMapStore();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<mapboxgl.Map | null>(null);
+  const mapRef = useRef<Map | null>(null);
 
-  // Map init
+  // Initialize the map on first render
   useEffect(() => {
-    if (mapContainerRef.current && !mapRef.current) {
+    const mapIsAvailable = mapRef.current;
+    const containerIsAvailable = mapContainerRef.current;
+    if (!mapIsAvailable && containerIsAvailable) {
       mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN ?? "";
       mapRef.current = new Map({
-        container: mapContainerRef.current,
-        style: "mapbox://styles/mapbox/dark-v11",
+        container: mapContainerRef.current!,
+        style: MAP_STYLE,
+      });
+    } else {
+      console.debug(containerIsAvailable, mapIsAvailable);
+    }
+  }, [mapContainerRef.current]);
 
-        ...viewState,
+  // Update the map view when the view state is updated
+  useEffect(() => {
+    const unsubscribe = useMapStore.subscribe((state, prevState) => {
+      if (mapRef.current && state.viewState !== prevState.viewState) {
+        console.log("change in state.viewState", state.viewState);
+        const { longitude, latitude, zoom } = state.viewState!;
+
+        mapRef.current.setCenter([longitude, latitude]);
+        mapRef.current.setZoom(zoom!);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Get user location and set view state
+  useEffect(() => {
+    const geolocationIsAvailable = "geolocation" in navigator;
+    if (
+      mapRef.current &&
+      geolocationIsAvailable &&
+      !useMapStore.getState().userLocation
+    ) {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        const { latitude, longitude } = coords;
+        const location = new LngLat(longitude, latitude);
+        console.log("location", location);
+        setUserLocation(location);
+        setViewState({
+          longitude: location.lng,
+          latitude: location.lat,
+          zoom: 14,
+        });
       });
     }
-  }, [viewState, onMove]);
+  }, []);
 
+  // Update the map when the address list changes
   useEffect(() => {
     if (mapRef.current && addressCoords.length > 0) {
       customFitBounds(mapRef.current, addressCoords);
@@ -57,7 +101,6 @@ const getBounds = (addressCoords: any) => {
   addressCoords.forEach((address: any) => {
     bounds.extend([address.longitude, address.latitude]);
   });
-
   return bounds;
 };
 
@@ -76,16 +119,10 @@ const FitBoundsPadding: PaddingOptions = {
   top: 300,
   bottom: 300,
   right: 300,
-  left: 800, // Adjusted for sidebar
+  left: 800,
 };
 
 export default MapboxGL;
-
-interface MapBoxProps {
-  viewState: MapViewState | undefined;
-  onMove: (e: any) => void;
-  addressCoords: any[];
-}
 export interface MapViewState {
   longitude: number;
   latitude: number;
