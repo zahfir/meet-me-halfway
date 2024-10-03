@@ -9,13 +9,7 @@ import mapboxgl, {
 import { MAPBOX_ACCESS_TOKEN } from "../page";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-interface MapboxGLProps {
-  viewState: any;
-  onMove: (event: any) => void;
-  addressCoords: { longitude: number; latitude: number }[];
-}
-
-const MapboxGL: React.FC<MapboxGLProps> = ({
+const MapboxGL: React.FC<MapBoxProps> = ({
   viewState,
   onMove,
   addressCoords,
@@ -86,3 +80,14 @@ const FitBoundsPadding: PaddingOptions = {
 };
 
 export default MapboxGL;
+
+interface MapBoxProps {
+  viewState: MapViewState | undefined;
+  onMove: (e: any) => void;
+  addressCoords: any[];
+}
+export interface MapViewState {
+  longitude: number;
+  latitude: number;
+  zoom?: number;
+}

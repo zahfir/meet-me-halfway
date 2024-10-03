@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import MapComponent from "@/app/components/Map";
-import { LngLat, LngLatBounds, Map } from "mapbox-gl";
-import { MapViewState } from "@/app/types/MapTypes";
+import { LngLat } from "mapbox-gl";
+import { MapViewState } from "@/app/components/MapboxGL";
 import { ViewStateChangeEvent } from "react-map-gl";
 import { SearchBoxRetrieveResponse } from "@mapbox/search-js-core";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,12 +15,6 @@ export default function Home() {
   const [userLocation, setUserLocation] = useState<LngLat>();
   const [viewState, setViewState] = useState<MapViewState>();
   const [addresses, setAddresses] = useState<SearchBoxRetrieveResponse[]>([]);
-
-  // const mapContainer = document.createElement("div");
-  // mapContainer.id = "map";
-  // mapContainer.style.width = "100vw";
-  // mapContainer.style.height = "100vh";
-  // mapContainer.style.position = "relative";
 
   const addressCoords = addresses.map((address) => {
     return {

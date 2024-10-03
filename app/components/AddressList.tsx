@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AddressListProps } from "@/app/types/AddressListTypes";
 import { SearchBox } from "@mapbox/search-js-react";
 import { SearchBoxRetrieveResponse } from "@mapbox/search-js-core";
 
@@ -64,5 +63,10 @@ const AddressList: React.FC<AddressListProps> = ({
     </div>
   );
 };
+
+export interface AddressListProps {
+  addresses: any[];
+  setAddresses: any;
+}
 
 export default AddressList;
