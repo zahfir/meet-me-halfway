@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { SearchBox } from "@mapbox/search-js-react";
 import useMapStore from "@/app/state/useMapStore";
@@ -68,4 +69,3 @@ export interface AddressListProps {
   addresses: any[];
   setAddresses: any;
 }
-

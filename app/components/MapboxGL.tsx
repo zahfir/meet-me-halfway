@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef } from "react";
 import mapboxgl, {
   LngLatBounds,
@@ -22,7 +23,7 @@ const MapboxGL: React.FC<MapboxGLProps> = ({ addressCoords }) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<Map | null>(null);
 
-  // Initialize the map on first render
+  // Initialize the map
   useEffect(() => {
     const mapIsAvailable = mapRef.current;
     const containerIsAvailable = mapContainerRef.current;
