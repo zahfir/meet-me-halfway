@@ -7,12 +7,13 @@ interface MapStore {
   // State
   userLocation: LngLat | null;
   viewState: MapViewState | null;
-  addresses: SearchBoxRetrieveResponse[];
+  addresses: SearchBoxRetrieveResponse[]; // make this a Set for faster ops
   // Actions
   setUserLocation: (location: LngLat) => void;
   setViewState: (state: MapViewState) => void;
   setAddresses: (addresses: SearchBoxRetrieveResponse[]) => void;
   addAddress: (address: SearchBoxRetrieveResponse) => void;
+  removeAddress: (address: SearchBoxRetrieveResponse) => void;
 }
 
 const useMapStore = create<MapStore>()((set) => ({
@@ -29,10 +30,24 @@ const useMapStore = create<MapStore>()((set) => ({
     set((state: MapStore) => ({
       addresses: [...state.addresses, address],
     })),
+  removeAddress: (address: SearchBoxRetrieveResponse) =>
+    removeAddress(set)(address),
 }));
 
 const setLoc = (set: any) => (location: LngLat) => {
   set(() => ({ userLocation: location }));
 };
+
+const removeAddress =
+  (set: any) => (deleted_addr: SearchBoxRetrieveResponse) => {
+    set((state: MapStore) => ({
+      addresses: state.addresses.filter(
+        (addr) =>
+          addr.features[0].properties.name !==
+          deleted_addr.features[0].properties.name
+      ),
+    }));
+    console.log("deleted address", deleted_addr);
+  };
 
 export default useMapStore;
