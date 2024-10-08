@@ -1,12 +1,9 @@
 import { useEffect } from "react";
 import mapboxgl, { LngLat, Map, LngLatBounds } from "mapbox-gl";
+
 import useMapStore from "@/app/state/useMapStore";
-import {
-  buildMarker,
-  customFitBounds,
-  getAddressCoords,
-} from "@/app/utils/mapUtils";
-import { SearchBoxRetrieveResponse } from "@mapbox/search-js-core";
+import { customFitBounds, getAddressCoords } from "@/app/utils/mapUtils";
+import Person from "@/app/models/Person";
 
 export const useInitializeMap = (
   mapContainerRef: React.MutableRefObject<HTMLDivElement | null>,
@@ -20,6 +17,8 @@ export const useInitializeMap = (
         container: mapContainerRef.current,
         style: "mapbox://styles/mapbox/dark-v11",
       });
+      useMapStore.getState().setMapRef(mapRef);
+      console.log(mapRef.current._mapId);
     }
   }, [mapContainerRef.current]);
 };
@@ -50,34 +49,26 @@ export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
 export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
   useEffect(() => {
     const unsubscribe = useMapStore.subscribe((state, prevState) => {
-      if (mapRef.current) {
-        // Change map to match viewState
-        if (state.viewState !== prevState.viewState) {
-          const { longitude, latitude, zoom } = state.viewState!;
-          mapRef.current.setCenter([longitude, latitude]);
-          mapRef.current.setZoom(zoom!);
-        }
-        // Remove existing markers
-        mapRef.current._markers.forEach((marker) => marker.remove());
+      if (!mapRef.current) return;
 
-        if (state.addresses.length === 0) return;
-        // Add new markers and fit markers in new bounds
-        const markerColors = ["red", "blue", "green", "yellow", "purple"];
-        const bounds = new LngLatBounds();
-        state.addresses.forEach(
-          (address: SearchBoxRetrieveResponse, i: number) => {
-            const coord = getAddressCoords(address);
-            bounds.extend([coord.lng, coord.lat]);
-
-            buildMarker(
-              mapRef.current!,
-              coord,
-              markerColors[i % markerColors.length]
-            );
-          }
-        );
-        customFitBounds(mapRef.current, bounds);
+      // Change map to match viewState
+      if (state.viewState !== prevState.viewState) {
+        const { longitude, latitude, zoom } = state.viewState!;
+        mapRef.current.setCenter([longitude, latitude]);
+        mapRef.current.setZoom(zoom!);
       }
+
+      if (state.people.length === 0) return;
+
+      // Add marker for each person and extend camera bounds to include them
+      const bounds = new LngLatBounds();
+      state.people.forEach((person: Person, _: number) => {
+        const coord = getAddressCoords(person.address);
+        bounds.extend([coord.lng, coord.lat]);
+        person.marker?.addTo(mapRef.current!);
+      });
+
+      customFitBounds(mapRef.current, bounds);
     });
 
     return () => unsubscribe();

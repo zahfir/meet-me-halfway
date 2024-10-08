@@ -1,6 +1,6 @@
 "use client";
 import MapboxGL from "./components/MapboxGL";
-import AddressSection from "@/app/components/AddressSection";
+import PersonSection from "@/app/components/PersonSection";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export const MAPBOX_ACCESS_TOKEN =
@@ -11,7 +11,7 @@ export default function Home() {
     <div style={{ position: "relative", width: "100vw", height: "100vh" }}>
       <MapboxGL />
 
-      <AddressSection />
+      <PersonSection />
     </div>
   );
 }

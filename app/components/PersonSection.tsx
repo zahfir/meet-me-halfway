@@ -4,61 +4,57 @@ import { SearchBox } from "@mapbox/search-js-react";
 import useMapStore from "@/app/state/useMapStore";
 import { SearchBoxRetrieveResponse } from "@mapbox/search-js-core";
 import { MAPBOX_ACCESS_TOKEN } from "@/app/page";
-import AddressListItem from "./AddressListItem";
+import PersonListItem from "./PersonListItem";
+import Person from "@/app/models/Person";
 
-const AddressSection: React.FC = () => {
+const PersonSection: React.FC = () => {
   const [searchText, setSearchText] = useState("");
-  const { addresses, addAddress, removeAddress } = useMapStore();
+  const { addPerson } = useMapStore();
 
-  const handleAddressSelect = (selectedAddress: SearchBoxRetrieveResponse) => {
-    addAddress(selectedAddress);
-    setSearchText("");
+  const createPerson = (selectedAddress: SearchBoxRetrieveResponse) => {
+    return new Person(selectedAddress);
   };
 
-  const handleAddressDelete = (address: SearchBoxRetrieveResponse) => {
-    removeAddress(address);
-    buildAddressList(useMapStore.getState().addresses);
+  const handleAddressSelect = (selectedAddress: SearchBoxRetrieveResponse) => {
+    const person = createPerson(selectedAddress);
+    addPerson(person);
+    setSearchText("");
   };
 
   const handleSearchChange = (newValue: string) => {
     setSearchText(newValue);
   };
 
-  const buildListItem = (address: SearchBoxRetrieveResponse) => {
+  const buildListItem = (person: Person) => {
     return (
       <li
-        key={address.features[0].properties.full_address}
+        key={person.address.features[0].properties.address}
         className="list-group-item"
       >
-        <AddressListItem
-          address={address}
-          onDelete={() => handleAddressDelete(address)}
-          markerColor="red"
-        />
+        <PersonListItem person={person} />
       </li>
     );
   };
 
-  const buildAddressList = (addresses: SearchBoxRetrieveResponse[]) => {
-    // const names = addresses.map(
-    //   (address) => address.features[0].properties.name
-    // );
+  const buildPeopleList = () => {
+    const people = useMapStore.getState().people;
     return (
       <ul className="list-group">
-        {addresses.map((address, index) => buildListItem(address))}
+        {people.map((person, _) => buildListItem(person))}
       </ul>
     );
   };
 
   return (
     <div className="row h-100">
+      {/* List of People */}
       <div
         className="position-relative col-3 p-3"
         style={{ backgroundColor: "black", opacity: 0.85 }}
       >
-        {buildAddressList(addresses)}
+        {buildPeopleList()}
       </div>
-
+      {/* Search Box */}
       <div className="col-3 p-2">
         <SearchBox
           accessToken={MAPBOX_ACCESS_TOKEN}
@@ -89,9 +85,4 @@ const AddressSection: React.FC = () => {
   );
 };
 
-export default AddressSection;
-
-export interface AddressListProps {
-  addresses: any[];
-  setAddresses: any;
-}
+export default PersonSection;

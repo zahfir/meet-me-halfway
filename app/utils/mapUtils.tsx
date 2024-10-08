@@ -27,13 +27,12 @@ export const getBounds = (addressCoords: LngLat[]) => {
   return bounds;
 };
 
-export const buildMarker = (map: Map, addressCoords: LngLat, color: string) => {
+export const createMarker = (addressCoords: LngLat, color: string) => {
   const marker = new Marker({
     color: color,
   })
     .setLngLat([addressCoords.lng, addressCoords.lat])
-    .setPopup(new Popup().setText(color))
-    .addTo(map);
+    .setPopup(new Popup().setText(color));
   return marker;
 };
 
