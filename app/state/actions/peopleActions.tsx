@@ -1,18 +1,18 @@
 import useMapStore, { MapStore } from "@/app/state/useMapStore";
 import Person from "@/app/models/Person";
 import { LngLat } from "mapbox-gl";
-import { createMarker, getAddressCoords } from "@/app/utils/mapUtils";
-import markerColors from "../constants/markerColors";
+import {
+  createMarker,
+  getAddressCoords,
+  nextColor,
+} from "@/app/utils/mapUtils";
 
 export const addPersonAction = (set: any) => (person: Person) => {
   set((state: MapStore) => {
     const newPeople = [...state.people, person];
 
     if (!person.marker && useMapStore.getState().mapRef.current) {
-      const usedColors = newPeople.map((p) => p.marker?._color);
-      const availableColor =
-        markerColors.find((color) => !usedColors.includes(color)) ??
-        markerColors[0];
+      const availableColor = nextColor(newPeople);
       const coord = getAddressCoords(person.address);
 
       person.marker = createMarker(coord, availableColor);

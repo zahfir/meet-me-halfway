@@ -7,10 +7,24 @@ import {
   LngLat,
 } from "mapbox-gl";
 import { SearchBoxRetrieveResponse } from "@mapbox/search-js-core";
+import markerColors from "@/app/constants/markerColors";
+import Person from "../models/Person";
+import { MutableRefObject } from "react";
 
-export const customFitBounds = (map: Map, bounds: LngLatBounds) => {
+export const FitBoundsPadding: PaddingOptions = {
+  top: 300,
+  bottom: 300,
+  right: 300,
+  left: 800,
+};
+
+export const customFitBounds = (
+  map: MutableRefObject<Map | null>,
+  bounds: LngLatBounds
+) => {
+  if (!map.current) return;
   try {
-    map.fitBounds(bounds, {
+    map.current.fitBounds(bounds, {
       padding: FitBoundsPadding,
       maxZoom: 14,
     });
@@ -27,6 +41,13 @@ export const getBounds = (addressCoords: LngLat[]) => {
   return bounds;
 };
 
+export const getAddressCoords = (address: SearchBoxRetrieveResponse) => {
+  return new LngLat(
+    address.features[0].geometry.coordinates[0],
+    address.features[0].geometry.coordinates[1]
+  );
+};
+
 export const createMarker = (addressCoords: LngLat, color: string) => {
   const marker = new Marker({
     color: color,
@@ -36,16 +57,11 @@ export const createMarker = (addressCoords: LngLat, color: string) => {
   return marker;
 };
 
-export const FitBoundsPadding: PaddingOptions = {
-  top: 300,
-  bottom: 300,
-  right: 300,
-  left: 800,
-};
-
-export const getAddressCoords = (address: SearchBoxRetrieveResponse) => {
-  return new LngLat(
-    address.features[0].geometry.coordinates[0],
-    address.features[0].geometry.coordinates[1]
-  );
+export const nextColor = (people: Person[]) => {
+  // Returns the next available marker color from the list of marker colors.
+  const usedColors = people.map((p) => p.marker?._color);
+  const availableColor =
+    markerColors.find((color) => !usedColors.includes(color)) ??
+    markerColors[0];
+  return availableColor;
 };

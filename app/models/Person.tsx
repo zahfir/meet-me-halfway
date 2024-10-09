@@ -1,5 +1,6 @@
 import { SearchBoxRetrieveResponse } from "@mapbox/search-js-core";
 import { Marker } from "mapbox-gl";
+// TODO: Add weight property to Person
 class Person {
   address: SearchBoxRetrieveResponse;
   marker: Marker | null = null;

@@ -2,9 +2,15 @@ import { useEffect } from "react";
 import mapboxgl, { LngLat, Map, LngLatBounds } from "mapbox-gl";
 
 import useMapStore from "@/app/state/useMapStore";
-import { customFitBounds, getAddressCoords } from "@/app/utils/mapUtils";
+import {
+  createMarker,
+  customFitBounds,
+  getAddressCoords,
+} from "@/app/utils/mapUtils";
 import Person from "@/app/models/Person";
+import MeetingArea from "../models/MeetingArea";
 
+// Initializes Map instance
 export const useInitializeMap = (
   mapContainerRef: React.MutableRefObject<HTMLDivElement | null>,
   mapRef: React.MutableRefObject<Map | null>,
@@ -18,19 +24,20 @@ export const useInitializeMap = (
         style: "mapbox://styles/mapbox/dark-v11",
       });
       useMapStore.getState().setMapRef(mapRef);
-      console.log(mapRef.current._mapId);
     }
   }, [mapContainerRef.current]);
 };
 
+// Initializes program with user location
 export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
-  const { setUserLocation, setViewState } = useMapStore();
+  // Lift !userLocation check to up here
+  const { setUserLocation, setViewState, setMeetingArea } = useMapStore();
 
   useEffect(() => {
     if (
+      !useMapStore.getState().userLocation &&
       mapRef.current &&
-      "geolocation" in navigator &&
-      !useMapStore.getState().userLocation
+      "geolocation" in navigator
     ) {
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         const { latitude, longitude } = coords;
@@ -41,6 +48,13 @@ export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
           latitude: location.lat,
           zoom: 14,
         });
+        // Create meeting area if it doesn't exist
+        if (!useMapStore.getState().meetingArea) {
+          setMeetingArea(
+            new MeetingArea(location, createMarker(location, "white"))
+          );
+          useMapStore.getState().meetingArea?.marker.addTo(mapRef.current!);
+        }
       });
     }
   }, [mapRef.current]);
@@ -61,15 +75,22 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
       if (state.people.length === 0) return;
 
       // Add marker for each person and extend camera bounds to include them
-      const bounds = new LngLatBounds();
-      state.people.forEach((person: Person, _: number) => {
-        const coord = getAddressCoords(person.address);
-        bounds.extend([coord.lng, coord.lat]);
-        person.marker?.addTo(mapRef.current!);
-      });
+      if (state.people !== prevState.people) {
+        const bounds = new LngLatBounds();
+        state.people.forEach((person: Person, _: number) => {
+          const coord = getAddressCoords(person.address);
+          bounds.extend([coord.lng, coord.lat]);
+          person.marker?.addTo(mapRef.current!);
+        });
 
-      customFitBounds(mapRef.current, bounds);
-    });
+        if (state.meetingArea) {
+          const centroid = bounds.getCenter();
+          state.meetingArea.centroid = centroid;
+          state.meetingArea?.marker.setLngLat(centroid);
+        }
+        customFitBounds(mapRef, bounds);
+      }
+    }); // End subscribe
 
     return () => unsubscribe();
   }, [mapRef]);
