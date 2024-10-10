@@ -1,12 +1,14 @@
 import { SearchBoxRetrieveResponse } from "@mapbox/search-js-core";
 import { Marker } from "mapbox-gl";
-// TODO: Add weight property to Person
 class Person {
   address: SearchBoxRetrieveResponse;
-  marker: Marker | null = null;
+  marker?: Marker;
+  weight: number;
 
   constructor(address: SearchBoxRetrieveResponse) {
     this.address = address;
+    this.weight = Math.floor(Math.random() * 100) + 1;
+    console.log(address, "weight of", this.weight);
   }
 }
 

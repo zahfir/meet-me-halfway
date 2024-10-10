@@ -2,16 +2,25 @@ import Person from "@/app/models/Person";
 import { getAddressCoords } from "@/app/utils/mapUtils";
 import { LngLat } from "mapbox-gl";
 
-// Input list 'people' must be non-empty
-// TODO: adjust for weight attribute which needs to go o neach person
 export const calculateCentroid = (people: Person[]): LngLat => {
+  if (people.length === 0) {
+    throw new Error("No people provided to calculate the centroid.");
+  }
+
   let totalLat = 0;
   let totalLng = 0;
+  let totalWeight = 0;
 
   people.forEach((person) => {
     const { lat, lng } = getAddressCoords(person.address);
-    totalLat += lat;
-    totalLng += lng;
+    totalLat += lat * person.weight;
+    totalLng += lng * person.weight;
+    totalWeight += person.weight; // Keep track of total weight
   });
-  return new LngLat(totalLng / people.length, totalLat / people.length);
+
+  // Calculate the weighted centroid
+  const centroidLat = totalLat / totalWeight;
+  const centroidLng = totalLng / totalWeight;
+
+  return new LngLat(centroidLng, centroidLat); // Create LngLat with the correct values
 };

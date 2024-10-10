@@ -9,6 +9,7 @@ import {
 } from "@/app/utils/mapUtils";
 import Person from "@/app/models/Person";
 import MeetingArea from "../models/MeetingArea";
+import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
 
 // Initializes Map instance
 export const useInitializeMap = (
@@ -83,8 +84,8 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
           person.marker?.addTo(mapRef.current!);
         });
 
-        if (state.meetingArea) {
-          const centroid = bounds.getCenter();
+        if (state.meetingArea && state.people.length > 1) {
+          const centroid = calculateCentroid(state.people);
           state.meetingArea.centroid = centroid;
           state.meetingArea?.marker.setLngLat(centroid);
         }
