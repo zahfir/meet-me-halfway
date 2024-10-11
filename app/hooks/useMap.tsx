@@ -10,6 +10,7 @@ import {
 import Person from "@/app/models/Person";
 import MeetingArea from "../models/MeetingArea";
 import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
+import { fetchMatchingRoute } from "../utils/mapMatchingUtils";
 
 // Initializes Map instance
 export const useInitializeMap = (
@@ -88,6 +89,16 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
           const centroid = calculateCentroid(state.people);
           state.meetingArea.centroid = centroid;
           state.meetingArea?.marker.setLngLat(centroid);
+
+          if (state.meetingArea !== prevState.meetingArea) {
+            console.log("Fetching routes...");
+            if (state.meetingArea) {
+              state.people.forEach(async (person: Person, _: number) => {
+                const coord = getAddressCoords(person.address);
+                await fetchMatchingRoute([coord, centroid]);
+              });
+            }
+          }
         }
         customFitBounds(mapRef, bounds);
       }

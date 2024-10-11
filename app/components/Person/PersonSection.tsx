@@ -25,6 +25,10 @@ const PersonSection: React.FC = () => {
     setSearchText(newValue);
   };
 
+  const handleSuggestionError = (error: Error) => {
+    console.error(error);
+  };
+
   const buildPeopleList = () => {
     const people = useMapStore.getState().people;
     return (
@@ -52,6 +56,7 @@ const PersonSection: React.FC = () => {
           value={searchText}
           placeholder="Add locations"
           onChange={handleSearchChange}
+          onSuggestError={handleSuggestionError}
           onRetrieve={handleAddressSelect}
           theme={{
             variables: {

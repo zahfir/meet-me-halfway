@@ -8,7 +8,7 @@ import {
   removePersonAction,
   setPersonWeightAction,
   setUserLocationAction,
-} from "@/app/state/actions/peopleActions";
+} from "@/app/state/actions/personActions";
 
 import MeetingArea from "../models/MeetingArea";
 import { setMeetingAreaAction } from "@/app/state/actions/meetingAreaActions";

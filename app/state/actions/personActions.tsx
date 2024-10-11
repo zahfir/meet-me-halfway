@@ -34,19 +34,20 @@ export const removePersonAction = (set: any) => (person: Person) => {
   }
 };
 
-export const setPersonWeightAction = (set: any) => (id: string, weight: number) => {
-  set((state: MapStore) => {
-    const person = state.people.find((p) => p.id === id);
+export const setPersonWeightAction =
+  (set: any) => (id: string, weight: number) => {
+    set((state: MapStore) => {
+      const person = state.people.find((p) => p.id === id);
 
-    if (person) {
-      person.weight = weight;
-    }
+      if (person) {
+        person.weight = weight;
+      }
 
-    return {
-      people: [...state.people],
-    };
-  });
-}
+      return {
+        people: [...state.people],
+      };
+    });
+  };
 
 export const setUserLocationAction = (set: any) => (location: LngLat) => {
   set(() => ({ userLocation: location }));
