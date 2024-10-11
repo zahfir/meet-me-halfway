@@ -25,22 +25,13 @@ const PersonSection: React.FC = () => {
     setSearchText(newValue);
   };
 
-  const buildListItem = (person: Person) => {
-    return (
-      <li
-        key={person.address.features[0].properties.address}
-        className="list-group-item"
-      >
-        <PersonListItem person={person} />
-      </li>
-    );
-  };
-
   const buildPeopleList = () => {
     const people = useMapStore.getState().people;
     return (
-      <ul className="list-group">
-        {people.map((person, _) => buildListItem(person))}
+      <ul className="list-group m-0 p-0 border-0">
+        {people.map((person, _) => (
+          <PersonListItem key={person.id} person={person} />
+        ))}
       </ul>
     );
   };

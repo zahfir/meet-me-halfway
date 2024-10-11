@@ -6,6 +6,7 @@ import Person from "@/app/models/Person";
 import {
   addPersonAction,
   removePersonAction,
+  setPersonWeightAction,
   setUserLocationAction,
 } from "@/app/state/actions/peopleActions";
 
@@ -25,6 +26,7 @@ export interface MapStore {
   setViewState: (state: MapViewState) => void;
   addPerson: (person: Person) => void;
   removePerson: (person: Person) => void;
+  updatePersonWeight: (id: string, weight: number) => void;
   setMeetingArea: (meetingArea: MeetingArea) => void;
 }
 
@@ -44,6 +46,8 @@ const useMapStore = create<MapStore>()((set) => ({
   // People actions
   addPerson: (person: Person) => addPersonAction(set)(person),
   removePerson: (person: Person) => removePersonAction(set)(person),
+  updatePersonWeight: (id: string, weight: number) =>
+    setPersonWeightAction(set)(id, weight),
   // Meeting area actions
   setMeetingArea: (meetingArea: MeetingArea) =>
     setMeetingAreaAction(set)(meetingArea),

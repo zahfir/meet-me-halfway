@@ -1,6 +1,6 @@
 "use client";
 import MapboxGL from "./components/MapboxGL";
-import PersonSection from "@/app/components/PersonSection";
+import PersonSection from "@/app/components/Person/PersonSection";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export const MAPBOX_ACCESS_TOKEN =

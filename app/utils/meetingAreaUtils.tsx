@@ -15,12 +15,12 @@ export const calculateCentroid = (people: Person[]): LngLat => {
     const { lat, lng } = getAddressCoords(person.address);
     totalLat += lat * person.weight;
     totalLng += lng * person.weight;
-    totalWeight += person.weight; // Keep track of total weight
+    totalWeight += person.weight;
   });
 
   // Calculate the weighted centroid
   const centroidLat = totalLat / totalWeight;
   const centroidLng = totalLng / totalWeight;
 
-  return new LngLat(centroidLng, centroidLat); // Create LngLat with the correct values
+  return new LngLat(centroidLng, centroidLat);
 };
