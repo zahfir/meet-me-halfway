@@ -15,38 +15,38 @@ const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
   const { removePerson, updatePersonWeight } = useMapStore();
   const address = person.address.features[0].properties.address;
   // WEIGHT SLIDER STATE
-  const [dragging, setDragging] = useState(false);
-  const [currentWeight, setCurrentWeight] = useState(person.weight);
+  // const [dragging, setDragging] = useState(false);
+  // const [currentWeight, setCurrentWeight] = useState(person.weight);
 
-  const handleDrag = (e: MouseEvent) => {
-    if (dragging) {
-      const newWeight = computeNewWeight(currentWeight, e.movementX);
-      setCurrentWeight(newWeight);
-      updatePersonWeight(person.id, newWeight);
-    }
-  };
+  // const handleDrag = (e: MouseEvent) => {
+  //   if (dragging) {
+  //     const newWeight = computeNewWeight(currentWeight, e.movementX);
+  //     setCurrentWeight(newWeight);
+  //     updatePersonWeight(person.id, newWeight);
+  //   }
+  // };
 
   // SLIDER STYLING
-  const fillPercentage = Math.min(100, (currentWeight / 100) * 100);
-  const fillColorWithOpacity = person.marker?._color + "40";
+  // const fillPercentage = Math.min(100, (currentWeight / 100) * 100);
+  // const fillColorWithOpacity = person.marker?._color + "40";
 
   return (
     <li
       key={person.id}
-      className="list-group-item text-white p-4 border-light border-opacity-25"
-      style={{
-        background: `linear-gradient(to right, ${fillColorWithOpacity} ${fillPercentage}%, transparent ${fillPercentage}%)`,
-        cursor: dragging ? "grabbing" : "grab",
-      }}
-      onMouseDown={() => setDragging(true)}
-      onMouseUp={() => setDragging(false)}
-      onMouseMove={(e) => handleDrag(e)}
+      className="list-group-item text-white bg-transparent p-4 border-light border-opacity-25"
+      // style={{
+      //   background: `linear-gradient(to right, ${fillColorWithOpacity} ${fillPercentage}%, transparent ${fillPercentage}%)`,
+      //   cursor: dragging ? "grabbing" : "grab",
+      // }}
+      // onMouseDown={() => setDragging(true)}
+      // onMouseUp={() => setDragging(false)}
+      // onMouseMove={(e) => handleDrag(e)}
     >
       <div className="d-flex align-items-center justify-content-between">
         {/* LEFT */}
         <div className="d-flex align-items-center ">
           {/* Mode of Transportation */}
-          <span className="me-2">
+          <span className="me-3">
             <CarIcon color={person.marker?._color} />
           </span>
           <div className="">
@@ -58,9 +58,9 @@ const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
         {/* RIGHT */}
         <div className="d-flex align-items-center">
           {/* Weight Text */}
-          <small className="me-3 opacity-75">
+          {/* <small className="me-3 opacity-75">
             Weight {Math.round(currentWeight)}
-          </small>
+          </small> */}
 
           {/* Delete button */}
           <button
