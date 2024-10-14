@@ -1,5 +1,4 @@
 import Person from "@/app/models/Person";
-import { getAddressCoords } from "@/app/utils/mapUtils";
 import { LngLat } from "mapbox-gl";
 
 export const calculateCentroid = (people: Person[]): LngLat => {
@@ -12,7 +11,7 @@ export const calculateCentroid = (people: Person[]): LngLat => {
   let totalWeight = 0;
 
   people.forEach((person) => {
-    const { lat, lng } = getAddressCoords(person.address);
+    const { lat, lng } = person.address.coord;
     totalLat += lat * person.weight;
     totalLng += lng * person.weight;
     totalWeight += person.weight;

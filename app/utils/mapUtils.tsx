@@ -6,7 +6,6 @@ import {
   PaddingOptions,
   LngLat,
 } from "mapbox-gl";
-import { SearchBoxRetrieveResponse } from "@mapbox/search-js-core";
 import markerColors from "@/app/constants/markerColors";
 import Person from "../models/Person";
 import { MutableRefObject } from "react";
@@ -39,13 +38,6 @@ export const getBounds = (addressCoords: LngLat[]) => {
     bounds.extend([coord.lng, coord.lat]);
   });
   return bounds;
-};
-
-export const getAddressCoords = (address: SearchBoxRetrieveResponse) => {
-  return new LngLat(
-    address.features[0].geometry.coordinates[0],
-    address.features[0].geometry.coordinates[1]
-  );
 };
 
 export const createMarker = (addressCoords: LngLat, color: string) => {

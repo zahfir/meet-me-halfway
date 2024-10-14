@@ -32,10 +32,11 @@ export async function fetchMatchingRoute(
 
     // Return the matched route for further processing
     return matchedRoute;
-  } catch (error: any) {
-    // Handle any errors that occurred during the fetch or processing
-    console.error("Error fetching matched route:", error);
-    alert(error.message); // Optionally alert the user about the error
+  } catch (error: Error | unknown) {
+    if (error instanceof Error) {
+      console.error("Error fetching matched route:", error);
+      alert(error?.message);
+    }
   }
 }
 

@@ -2,11 +2,7 @@ import { useEffect } from "react";
 import mapboxgl, { LngLat, Map, LngLatBounds } from "mapbox-gl";
 
 import useMapStore from "@/app/state/useMapStore";
-import {
-  createMarker,
-  customFitBounds,
-  getAddressCoords,
-} from "@/app/utils/mapUtils";
+import { createMarker, customFitBounds } from "@/app/utils/mapUtils";
 import Person from "@/app/models/Person";
 import MeetingArea from "../models/MeetingArea";
 import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
@@ -79,8 +75,8 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
       // Add marker for each person and extend camera bounds to include them
       if (state.people !== prevState.people) {
         const bounds = new LngLatBounds();
-        state.people.forEach((person: Person, _: number) => {
-          const coord = getAddressCoords(person.address);
+        state.people.forEach((person: Person) => {
+          const coord = person.address.coord;
           bounds.extend([coord.lng, coord.lat]);
           person.marker?.addTo(mapRef.current!);
         });
@@ -93,8 +89,8 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
           if (state.meetingArea !== prevState.meetingArea) {
             console.log("Fetching routes...");
             if (state.meetingArea) {
-              state.people.forEach(async (person: Person, _: number) => {
-                const coord = getAddressCoords(person.address);
+              state.people.forEach(async (person: Person) => {
+                const coord = person.address.coord;
                 await fetchMatchingRoute([coord, centroid]);
               });
             }

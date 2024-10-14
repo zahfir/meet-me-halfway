@@ -1,19 +1,19 @@
 "use client";
-import { FC, MouseEvent, useState } from "react";
+import { FC } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Person from "@/app/models/Person";
 import useMapStore from "@/app/state/useMapStore";
 import TrashIcon from "@/app/assets/icons/trashIcon";
 import CarIcon from "@/app/assets/icons/carIcon";
-import { computeNewWeight } from "@/app/utils/personUtils";
 
 interface PersonListItemProps {
   person: Person;
 }
 
 const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
-  const { removePerson, updatePersonWeight } = useMapStore();
-  const address = person.address.features[0].properties.address;
+  console.log("building Personlistitem", person);
+  const { removePerson } = useMapStore();
+  const address = person.address.name;
   // WEIGHT SLIDER STATE
   // const [dragging, setDragging] = useState(false);
   // const [currentWeight, setCurrentWeight] = useState(person.weight);

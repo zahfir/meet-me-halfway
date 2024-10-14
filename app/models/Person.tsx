@@ -1,14 +1,14 @@
-import { SearchBoxRetrieveResponse } from "@mapbox/search-js-core";
 import { Marker } from "mapbox-gl";
 import TransportationTypes from "@/app/constants/transportationTypes";
+import Address from "@/app/models/Address";
 class Person {
   id: string;
-  address: SearchBoxRetrieveResponse;
+  address: Address;
   marker?: Marker;
   weight: number;
   modeOfTransportation;
 
-  constructor(address: SearchBoxRetrieveResponse) {
+  constructor(address: Address) {
     this.id = Math.random().toString(36).substring(2, 11);
     this.address = address;
     this.weight = 1;
