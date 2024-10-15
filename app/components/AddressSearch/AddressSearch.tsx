@@ -1,7 +1,11 @@
 import React, { useState, useEffect, FC } from "react";
-import SearchIcon from "../assets/icons/searchIcon";
-import CancelIcon from "../assets/icons/cancelIcon";
+import SearchIcon from "../../assets/icons/searchIcon";
+import CancelIcon from "../../assets/icons/cancelIcon";
 import "./AddressSearch.css";
+import { NominatimResult } from "../../constants/nominatimJSONResponseType";
+import { fetchAddressSuggestions } from "../../utils/nominatimUtils";
+import AddressSearchListItemContent from "./AddressSearchListItemContent";
+import Address from "@/app/models/Address";
 
 // Debounce hook to delay API calls
 const useDebounce = (value: string, delay: number) => {
@@ -21,25 +25,22 @@ const useDebounce = (value: string, delay: number) => {
 };
 
 interface AddressSearchProps {
-  onAddressSelect: (selectedAddress: NominatimResult) => void;
+  onAddressSelect: (selectedAddress: Address) => void;
 }
 
-// TypeScript component for address search with autocomplete and keyboard navigation
 const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
-  const [query, setQuery] = useState<string>(""); // Search query text state
-  const [results, setResults] = useState<NominatimResult[]>([]); // Search suggestions state
-  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1); // Track the highlighted item
-  const debouncedQuery = useDebounce(query, 500); // Debounced query to limit API calls
+  const [query, setQuery] = useState<string>("");
+  const [searchSuggestions, setSearchSuggestions] = useState<Address[]>([]);
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const debouncedQuery = useDebounce(query, 500);
 
-  // Function to fetch address data from Nominatim
   const searchAddress = async (query: string) => {
     try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5`
-      );
+      const response = await fetchAddressSuggestions(query);
       const data: NominatimResult[] = await response.json();
-      // console.log("Nominatim Search Result:", data);
-      setResults(data);
+      console.log("Nominatim Search Result:", data);
+      const suggestedAddresses = data.map((result) => new Address(result));
+      setSearchSuggestions(suggestedAddresses);
       setHighlightedIndex(-1);
     } catch (error) {
       console.error("Error fetching address:", error);
@@ -51,36 +52,36 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
     if (debouncedQuery && debouncedQuery.trim()) {
       searchAddress(debouncedQuery);
     } else {
-      setResults([]);
+      setSearchSuggestions([]);
     }
   }, [debouncedQuery]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowDown") {
       setHighlightedIndex((prevIndex) =>
-        prevIndex < results.length - 1 ? prevIndex + 1 : prevIndex
+        prevIndex < searchSuggestions.length - 1 ? prevIndex + 1 : prevIndex
       );
     } else if (e.key === "ArrowUp") {
       setHighlightedIndex((prevIndex) =>
         prevIndex > 0 ? prevIndex - 1 : prevIndex
       );
     } else if (e.key === "Enter" && highlightedIndex >= 0) {
-      onAddressSelect(results[highlightedIndex]);
+      onAddressSelect(searchSuggestions[highlightedIndex]);
     }
   };
 
   const clearAddressSearch = () => {
     setQuery("");
-    setResults([]);
+    setSearchSuggestions([]);
   };
 
-  const handleSelect = (selectedAddress: NominatimResult) => {
+  const handleSelect = (selectedAddress: Address) => {
     clearAddressSearch();
     onAddressSelect(selectedAddress);
   };
 
   return (
-    <div className="position-relative">
+    <div className="position-relative mt-1">
       {/* Search Input with Icons */}
       <div className="input-group" style={{ backgroundColor: "#1f1f1f" }}>
         {/* Leading Search Icon */}
@@ -102,7 +103,7 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
         />
         {query && (
           <span
-            className="input-group-text bg-transparent border-0 text-white"
+            className="input-group-text bg-transparent text-white border-0"
             onClick={clearAddressSearch}
             style={{ cursor: "pointer", backgroundColor: "#1f1f1f" }}
           >
@@ -111,19 +112,26 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
         )}
       </div>
 
-      {/* Render search suggestions */}
-      {results.length > 0 && (
-        <ul className="list-group w-100">
-          {results.map((result, index) => (
+      {/* List of suggestions */}
+      {searchSuggestions.length > 0 && (
+        <ul
+          className="list-group w-100 mt-2 py-2 px-2"
+          style={{ backgroundColor: "#1f1f1f" }}
+        >
+          {searchSuggestions.map((address, index) => (
             <li
               key={index}
-              className={`list-group-item ${
+              className={`list-group-item text-white border-0 ${
                 index === highlightedIndex ? "active" : ""
               }`}
-              onClick={() => handleSelect(result)}
-              style={{ cursor: "pointer" }}
+              onClick={() => handleSelect(address)}
+              style={{
+                cursor: "pointer",
+                backgroundColor:
+                  index === highlightedIndex ? "#111111" : "#1f1f1f",
+              }}
             >
-              {result.display_name}
+              <AddressSearchListItemContent address={address} />
             </li>
           ))}
         </ul>
@@ -133,9 +141,3 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
 };
 
 export default AddressSearch;
-
-export interface NominatimResult {
-  display_name: string;
-  lat: string;
-  lon: string;
-}

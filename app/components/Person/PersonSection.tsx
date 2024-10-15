@@ -5,8 +5,9 @@ import useMapStore from "@/app/state/useMapStore";
 import { MAPBOX_ACCESS_TOKEN } from "@/app/page";
 import PersonListItem from "./PersonListItem";
 import { getPOIs } from "@/app/utils/placesUtils";
-import AddressSearch, { NominatimResult } from "../AddressSearch";
+import AddressSearch from "../AddressSearch/AddressSearch";
 import { createPerson } from "@/app/utils/personUtils";
+import Address from "@/app/models/Address";
 
 const PersonSection: React.FC = () => {
   const { addPerson } = useMapStore();
@@ -37,7 +38,7 @@ const PersonSection: React.FC = () => {
     );
   };
 
-  const onAddressSelect = (address: NominatimResult) => {
+  const onAddressSelect = (address: Address) => {
     try {
       const person = createPerson(address);
       if (!person) return;
