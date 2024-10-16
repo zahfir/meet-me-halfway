@@ -11,7 +11,6 @@ interface PersonListItemProps {
 }
 
 const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
-  console.log("building Personlistitem", person);
   const { removePerson } = useMapStore();
   const address = person.address.display_name;
   // WEIGHT SLIDER STATE

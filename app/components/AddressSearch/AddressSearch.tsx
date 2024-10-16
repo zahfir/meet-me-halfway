@@ -2,27 +2,11 @@ import React, { useState, useEffect, FC } from "react";
 import SearchIcon from "../../assets/icons/searchIcon";
 import CancelIcon from "../../assets/icons/cancelIcon";
 import "./AddressSearch.css";
-import { NominatimResult } from "../../constants/nominatimJSONResponseType";
+import { NominatimResult } from "../../types/nominatimJSONResponseType";
 import { fetchAddressSuggestions } from "../../utils/nominatimUtils";
 import AddressSearchListItemContent from "./AddressSearchListItemContent";
 import Address from "@/app/models/Address";
-
-// Debounce hook to delay API calls
-const useDebounce = (value: string, delay: number) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-};
+import useDebounce from "@/app/hooks/useSearch";
 
 interface AddressSearchProps {
   onAddressSelect: (selectedAddress: Address) => void;
@@ -38,7 +22,6 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
     try {
       const response = await fetchAddressSuggestions(query);
       const data: NominatimResult[] = await response.json();
-      console.log("Nominatim Search Result:", data);
       const suggestedAddresses = data.map((result) => new Address(result));
       setSearchSuggestions(suggestedAddresses);
       setHighlightedIndex(-1);
@@ -47,7 +30,7 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
     }
   };
 
-  // Fetch new data whenever the debounced query changes
+  // Debounce queries to prevent API spamming
   useEffect(() => {
     if (debouncedQuery && debouncedQuery.trim()) {
       searchAddress(debouncedQuery);

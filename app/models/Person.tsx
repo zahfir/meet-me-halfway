@@ -1,5 +1,5 @@
 import { Marker } from "mapbox-gl";
-import TransportationTypes from "@/app/constants/transportationTypes";
+import TransportationTypes from "@/app/types/transportationTypes";
 import Address from "@/app/models/Address";
 class Person {
   id: string;

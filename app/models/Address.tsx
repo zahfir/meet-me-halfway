@@ -1,6 +1,6 @@
 import { LngLat } from "mapbox-gl";
 import { validateNominatimResult } from "@/app/validation/NominatimValidator";
-import { NominatimResult } from "../constants/nominatimJSONResponseType";
+import { NominatimResult } from "../types/nominatimJSONResponseType";
 
 class Address {
   display_name: string;

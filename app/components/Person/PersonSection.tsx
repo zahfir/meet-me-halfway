@@ -1,34 +1,27 @@
 "use client";
-import React, { useState } from "react";
-import { SearchBox } from "@mapbox/search-js-react";
+import React from "react";
 import useMapStore from "@/app/state/useMapStore";
-import { MAPBOX_ACCESS_TOKEN } from "@/app/page";
 import PersonListItem from "./PersonListItem";
-import { getPOIs } from "@/app/utils/placesUtils";
+import { getPOIs } from "@/app/utils/overpassUtils";
 import AddressSearch from "../AddressSearch/AddressSearch";
 import { createPerson } from "@/app/utils/personUtils";
 import Address from "@/app/models/Address";
+import CategoryButtonRow from "@/app/components/PlaceCategory/CategoryButtonRow";
+import { PlaceCategory } from "@/app/constants/overpassPlaceCategories";
 
 const PersonSection: React.FC = () => {
   const { addPerson } = useMapStore();
-  const [searchText, setSearchText] = useState("");
-
-  const handleSearchChange = (newValue: string) => {
-    setSearchText(newValue);
-  };
 
   const handleFindClick = async () => {
-    try {
-      console.log("Find clicked");
-      const pois = await getPOIs();
-      console.log(pois);
-    } catch (error) {
-      console.error("Error fetching POIs:", error);
-    }
+    const meeting = useMapStore.getState().meetingArea;
+    if (!meeting) return;
+    console.log("Got Meeting Area State:", meeting);
+    const pois = await getPOIs(meeting);
+    console.log(pois);
   };
+
   const buildPeopleList = () => {
     const people = useMapStore.getState().people;
-    console.log("building people list", people);
     return (
       <ul className="list-group m-0 p-0 border-0">
         {people.map((person) => (
@@ -49,6 +42,23 @@ const PersonSection: React.FC = () => {
     }
   };
 
+  const onCategoryClick = (categoryValue: string) => {
+    const meeting = useMapStore.getState().meetingArea;
+    const categoryEntry = Object.values(PlaceCategory).find(
+      (value) => value === categoryValue
+    );
+    if (!categoryEntry || !meeting) return;
+
+    if (meeting.placeCategories.has(categoryEntry)) {
+      meeting.placeCategories.delete(categoryEntry);
+    } else {
+      meeting.placeCategories.add(categoryEntry);
+    }
+
+    useMapStore.setState({ meetingArea: meeting });
+    console.log("Meeting Area State:", useMapStore.getState().meetingArea);
+  };
+
   return (
     <div className="row h-100">
       {/* List of People */}
@@ -65,31 +75,8 @@ const PersonSection: React.FC = () => {
           Find
         </button>
       </div>
-      {/* Search Box */}
       <div className="col-3 p-2">
-        <SearchBox
-          accessToken={MAPBOX_ACCESS_TOKEN}
-          value={searchText}
-          placeholder="Add locations"
-          onChange={handleSearchChange}
-          theme={{
-            variables: {
-              border: "1px solid #333333",
-              borderRadius: "6px",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)",
-              colorBackground: "#1f1f1f",
-              colorBackgroundHover: "#333333",
-              colorBackgroundActive: "#000000",
-              colorText: "#ffffff",
-              padding: "1em",
-            },
-            cssText: `
-              .Input:hover { opacity: 0.85; }
-              .Input { color: #ffffff; }
-              .Input:focus { color: #ffffff; }
-            `,
-          }}
-        />
+        <CategoryButtonRow onCategoryClick={onCategoryClick} />
       </div>
     </div>
   );
