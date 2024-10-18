@@ -6,7 +6,7 @@ import { getPOIs } from "@/app/utils/overpassUtils";
 import AddressSearch from "../AddressSearch/AddressSearch";
 import { createPerson } from "@/app/utils/personUtils";
 import Address from "@/app/models/Address";
-import CategoryButtonRow from "@/app/components/PlaceCategory/CategoryButtonRow";
+import CategoryButtonRow from "@/app/components/PlaceCategoryButtons/CategoryButtonRow";
 import { PlaceCategory } from "@/app/constants/overpassPlaceCategories";
 
 const PersonSection: React.FC = () => {

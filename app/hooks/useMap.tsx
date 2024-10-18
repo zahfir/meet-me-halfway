@@ -46,12 +46,14 @@ export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
           latitude: location.lat,
           zoom: 14,
         });
-        // Create meeting area if it doesn't exist
+
+        // Meeting Area Initialization
         if (!useMapStore.getState().meetingArea) {
-          setMeetingArea(
-            new MeetingArea(location, createMarker(location, "white"))
-          );
-          useMapStore.getState().meetingArea?.marker.addTo(mapRef.current!);
+          const marker = createMarker(location, "white");
+          const meetingArea = new MeetingArea(location, marker);
+          setMeetingArea(meetingArea);
+          meetingArea.marker.addTo(mapRef.current!);
+          meetingArea.initCircle();
         }
       });
     }
@@ -81,13 +83,20 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
           person.marker?.addTo(mapRef.current!);
         });
 
+        // debug
+        if (state.people.length < 2) {
+          console.log("Not enough people to calculate meeting area.");
+          customFitBounds(mapRef, bounds);
+          return;
+        }
+
         if (state.meetingArea && state.people.length > 1) {
           const centroid = calculateCentroid(state.people);
           state.meetingArea.centroid = centroid;
           state.meetingArea?.marker.setLngLat(centroid);
+          state.meetingArea.updateCircle();
 
           if (state.meetingArea !== prevState.meetingArea) {
-            console.log("Fetching routes...");
             if (state.meetingArea) {
               state.people.forEach(async (person: Person) => {
                 const coord = person.address.coord;

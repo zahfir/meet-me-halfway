@@ -5,6 +5,7 @@ import {
   Popup,
   PaddingOptions,
   LngLat,
+  GeoJSONSourceSpecification,
 } from "mapbox-gl";
 import markerColors from "@/app/constants/markerColors";
 import Person from "../models/Person";
@@ -40,9 +41,14 @@ export const getBounds = (addressCoords: LngLat[]) => {
   return bounds;
 };
 
-export const createMarker = (addressCoords: LngLat, color: string) => {
+export const createMarker = (
+  addressCoords: LngLat,
+  color: string,
+  element?: HTMLElement
+) => {
   const marker = new Marker({
     color: color,
+    element: element,
   })
     .setLngLat([addressCoords.lng, addressCoords.lat])
     .setPopup(new Popup().setText(color));
@@ -56,4 +62,42 @@ export const nextColor = (people: Person[]) => {
     markerColors.find((color) => !usedColors.includes(color)) ??
     markerColors[0];
   return availableColor;
+};
+
+// Meeting area circle
+export const createGeoJSONCircle = function (
+  center: LngLat,
+  radius: number,
+  points?: number
+) {
+  if (!points) points = 64;
+  const ret = [];
+  const distanceX = radius / (111.32 * Math.cos((center.lat * Math.PI) / 180));
+  const distanceY = radius / 110.574;
+
+  let theta, x, y;
+  for (let i = 0; i < points; i++) {
+    theta = (i / points) * (2 * Math.PI);
+    x = distanceX * Math.cos(theta);
+    y = distanceY * Math.sin(theta);
+
+    ret.push([center.lng + x, center.lat + y]);
+  }
+  ret.push(ret[0]);
+
+  return {
+    type: "geojson",
+    data: {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          geometry: {
+            type: "Polygon",
+            coordinates: [ret],
+          },
+        },
+      ],
+    },
+  } as GeoJSONSourceSpecification;
 };
