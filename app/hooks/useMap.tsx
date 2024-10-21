@@ -6,7 +6,7 @@ import { createMarker, customFitBounds } from "@/app/utils/mapUtils";
 import Person from "@/app/models/Person";
 import MeetingArea from "../models/MeetingArea";
 import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
-import { fetchMatchingRoute } from "../utils/mapMatchingUtils";
+import { drawRoute, fetchRoute } from "../utils/routingUtils";
 
 // Initializes Map instance
 export const useInitializeMap = (
@@ -92,17 +92,27 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
 
         if (state.meetingArea && state.people.length > 1) {
           const centroid = calculateCentroid(state.people);
-          state.meetingArea.centroid = centroid;
-          state.meetingArea?.marker.setLngLat(centroid);
-          state.meetingArea.updateCircle();
+          if (centroid != prevState.meetingArea?.centroid) {
+            console.log("Centroid change detected.");
+            state.meetingArea.centroid = centroid;
+            state.meetingArea?.marker.setLngLat(centroid);
+            state.meetingArea.updateCircle();
 
-          if (state.meetingArea !== prevState.meetingArea) {
-            if (state.meetingArea) {
-              state.people.forEach(async (person: Person) => {
-                const coord = person.address.coord;
-                await fetchMatchingRoute([coord, centroid]);
-              });
-            }
+            // Set route to meeting area for each person
+            state.people.forEach(async (person: Person) => {
+              person.clearRoute(mapRef.current!);
+              const color = person.marker!._color;
+
+              const route = await fetchRoute(
+                person.address.coord,
+                state.meetingArea!.centroid
+              );
+              const id = String(route.metadata.timestamp);
+              const coordinates = route.features[0].geometry.coordinates;
+              person.routeId = id;
+              console.log("route id:", person.routeId);
+              drawRoute(id, mapRef.current!, coordinates, color);
+            });
           }
         }
         customFitBounds(mapRef, bounds);

@@ -33,6 +33,8 @@ export const removePersonAction =
     if (person.marker) {
       person.marker.remove();
     }
+
+    person.clearRoute(useMapStore.getState().mapRef.current!);
   };
 
 export const setPersonWeightAction =
