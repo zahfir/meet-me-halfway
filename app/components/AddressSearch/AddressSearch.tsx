@@ -49,7 +49,7 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
         prevIndex > 0 ? prevIndex - 1 : prevIndex
       );
     } else if (e.key === "Enter" && highlightedIndex >= 0) {
-      onAddressSelect(searchSuggestions[highlightedIndex]);
+      handleSelect(searchSuggestions[highlightedIndex]);
     }
   };
 
