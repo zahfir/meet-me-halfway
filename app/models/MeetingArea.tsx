@@ -7,6 +7,7 @@ class MeetingArea {
   marker: Marker;
   radius: number = 1;
   placeCategories: Set<PlaceCategory> = new Set();
+  POIs: unknown[] = [];
 
   constructor(centroid: LngLat, marker: Marker) {
     this.centroid = centroid;

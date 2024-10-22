@@ -26,8 +26,11 @@ const PersonSection: React.FC = () => {
   const onFindClick = async () => {
     const meeting = useMapStore.getState().meetingArea;
     if (!meeting) return;
-    console.log("Got Meeting Area State:", meeting);
     const pois = await getPOIs(meeting);
+    /** 
+     * INSERT HERE HANDLER THAT CREATES POI OBJECTS FROM FETCHED DATA
+     * AND UPDATES MEETING AREA STATE WITH POI OBJECTS ARRAY
+     *  **/
     console.log(pois);
   };
 
