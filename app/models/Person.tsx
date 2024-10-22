@@ -7,7 +7,6 @@ class Person {
   marker?: Marker;
   weight: number;
   modeOfTransportation;
-  routeId?: string;
 
   constructor(address: Address) {
     this.id = Math.random().toString(36).substring(2, 11);
@@ -17,10 +16,15 @@ class Person {
   }
 
   clearRoute(map: Map) {
-    if (this.routeId) {
-      map.removeLayer(this.routeId);
-      map.removeSource(this.routeId);
-      this.routeId = undefined;
+    const routeId = this.id + "-route";
+    const pointId = this.id + "-point";
+    if (map.getSource(routeId)) {
+      map.removeLayer(routeId);
+      map.removeSource(routeId);
+    }
+    if (map.getSource(pointId)) {
+      map.removeLayer(pointId);
+      map.removeSource(pointId);
     }
   }
 }

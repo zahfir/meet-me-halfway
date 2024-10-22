@@ -6,7 +6,7 @@ import { createMarker, customFitBounds } from "@/app/utils/mapUtils";
 import Person from "@/app/models/Person";
 import MeetingArea from "../models/MeetingArea";
 import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
-import { drawRoute, fetchRoute } from "../utils/routingUtils";
+import { addRouteToMap, fetchRoute } from "../utils/routingUtils";
 
 // Initializes Map instance
 export const useInitMap = (
@@ -107,11 +107,9 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
                 person.address.coord,
                 state.meetingArea!.centroid
               );
-              const id = String(route.metadata.timestamp);
               const coordinates = route.features[0].geometry.coordinates;
-              person.routeId = id;
-              console.log("route id:", person.routeId);
-              drawRoute(id, mapRef.current!, coordinates, color);
+
+              addRouteToMap(person.id, mapRef.current!, coordinates, color);
             });
           }
         }

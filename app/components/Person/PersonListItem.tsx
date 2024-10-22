@@ -1,10 +1,11 @@
 "use client";
-import { FC } from "react";
+import { FC, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Person from "@/app/models/Person";
 import useMapStore from "@/app/state/useMapStore";
 import TrashIcon from "@/app/assets/icons/trashIcon";
 import CarIcon from "@/app/assets/icons/carIcon";
+import { animatePointAlongRoute } from "@/app/utils/routingUtils";
 
 interface PersonListItemProps {
   person: Person;
@@ -12,34 +13,24 @@ interface PersonListItemProps {
 
 const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
   const { removePerson } = useMapStore();
+  const [isHover, setIsHover] = useState(false);
   const address = person.address.display_name;
-  // WEIGHT SLIDER STATE
-  // const [dragging, setDragging] = useState(false);
-  // const [currentWeight, setCurrentWeight] = useState(person.weight);
 
-  // const handleDrag = (e: MouseEvent) => {
-  //   if (dragging) {
-  //     const newWeight = computeNewWeight(currentWeight, e.movementX);
-  //     setCurrentWeight(newWeight);
-  //     updatePersonWeight(person.id, newWeight);
-  //   }
-  // };
+  const onMouseEnter = () => {
+    if (isHover) return;
+    setIsHover(true);
+    animatePointAlongRoute(person.id);
+  };
 
-  // SLIDER STYLING
-  // const fillPercentage = Math.min(100, (currentWeight / 100) * 100);
-  // const fillColorWithOpacity = person.marker?._color + "40";
-
+  const onMouseLeave = () => {
+    setIsHover(false);
+  };
   return (
     <li
       key={person.id}
       className="list-group-item text-white bg-transparent p-4 border-light border-opacity-25"
-      // style={{
-      //   background: `linear-gradient(to right, ${fillColorWithOpacity} ${fillPercentage}%, transparent ${fillPercentage}%)`,
-      //   cursor: dragging ? "grabbing" : "grab",
-      // }}
-      // onMouseDown={() => setDragging(true)}
-      // onMouseUp={() => setDragging(false)}
-      // onMouseMove={(e) => handleDrag(e)}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <div className="d-flex align-items-center justify-content-between">
         {/* LEFT */}
@@ -56,11 +47,6 @@ const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
 
         {/* RIGHT */}
         <div className="d-flex align-items-center">
-          {/* Weight Text */}
-          {/* <small className="me-3 opacity-75">
-            Weight {Math.round(currentWeight)}
-          </small> */}
-
           {/* Delete button */}
           <button
             onClick={() => removePerson(person)}

@@ -12,14 +12,6 @@ import { PlaceCategory } from "@/app/constants/overpassPlaceCategories";
 const PersonSection: React.FC = () => {
   const { addPerson } = useMapStore();
 
-  const handleFindClick = async () => {
-    const meeting = useMapStore.getState().meetingArea;
-    if (!meeting) return;
-    console.log("Got Meeting Area State:", meeting);
-    const pois = await getPOIs(meeting);
-    console.log(pois);
-  };
-
   const buildPeopleList = () => {
     const people = useMapStore.getState().people;
     return (
@@ -29,6 +21,14 @@ const PersonSection: React.FC = () => {
         ))}
       </ul>
     );
+  };
+
+  const onFindClick = async () => {
+    const meeting = useMapStore.getState().meetingArea;
+    if (!meeting) return;
+    console.log("Got Meeting Area State:", meeting);
+    const pois = await getPOIs(meeting);
+    console.log(pois);
   };
 
   const onAddressSelect = (address: Address) => {
@@ -42,7 +42,7 @@ const PersonSection: React.FC = () => {
     }
   };
 
-  const onCategoryClick = (categoryValue: string) => {
+  const onCategoryButtonClick = (categoryValue: string) => {
     const meeting = useMapStore.getState().meetingArea;
     const categoryEntry = Object.values(PlaceCategory).find(
       (value) => value === categoryValue
@@ -71,12 +71,12 @@ const PersonSection: React.FC = () => {
       >
         {buildPeopleList()}
         <AddressSearch onAddressSelect={onAddressSelect} />
-        <button className="btn btn-primary mt-auto" onClick={handleFindClick}>
+        <button className="btn btn-primary mt-auto" onClick={onFindClick}>
           Find
         </button>
       </div>
       <div className="col-3 p-2">
-        <CategoryButtonRow onCategoryClick={onCategoryClick} />
+        <CategoryButtonRow onCategoryClick={onCategoryButtonClick} />
       </div>
     </div>
   );
