@@ -4,7 +4,7 @@ import { Map } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { MAPBOX_ACCESS_TOKEN } from "@/app/page";
 import {
-  useInitializeMap,
+  useInitMap,
   useUserLocation,
   useStateListener,
 } from "@/app/hooks/useMap";
@@ -13,8 +13,7 @@ const MapboxGL = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<Map | null>(null);
 
-  // Custom hooks for initializing the map, getting user location, and subscribing to viewState
-  useInitializeMap(mapContainerRef, mapRef, MAPBOX_ACCESS_TOKEN ?? "");
+  useInitMap(mapContainerRef, mapRef, MAPBOX_ACCESS_TOKEN ?? "");
   useUserLocation(mapRef);
   useStateListener(mapRef);
 

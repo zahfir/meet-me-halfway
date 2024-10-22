@@ -9,7 +9,7 @@ import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
 import { drawRoute, fetchRoute } from "../utils/routingUtils";
 
 // Initializes Map instance
-export const useInitializeMap = (
+export const useInitMap = (
   mapContainerRef: React.MutableRefObject<HTMLDivElement | null>,
   mapRef: React.MutableRefObject<Map | null>,
   MAPBOX_ACCESS_TOKEN: string
