@@ -1,6 +1,6 @@
 import { LngLat } from "mapbox-gl";
 import { validateNominatimResult } from "@/app/validation/NominatimValidator";
-import { NominatimResult } from "../types/nominatimJSONResponseType";
+import { NominatimResult } from "../types/nominatimResponse";
 
 class Address {
   display_name: string;
@@ -45,7 +45,6 @@ class Address {
       .filter(Boolean)
       .join(", ")
       .trim();
-    console.log(tmp);
     return tmp;
   };
 }

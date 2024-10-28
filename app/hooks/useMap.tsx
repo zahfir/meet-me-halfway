@@ -64,7 +64,6 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
   useEffect(() => {
     const unsubscribe = useMapStore.subscribe((state, prevState) => {
       if (!mapRef.current) return;
-
       // Change map to match viewState
       if (state.viewState !== prevState.viewState) {
         const { longitude, latitude, zoom } = state.viewState!;
@@ -97,6 +96,8 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
             state.meetingArea.centroid = centroid;
             state.meetingArea?.marker.setLngLat(centroid);
             state.meetingArea.updateCircle();
+            if (state.meetingArea.POIs.length > 0)
+              state.clearPOIs(state.meetingArea);
 
             // Set route to meeting area for each person
             state.people.forEach(async (person: Person) => {

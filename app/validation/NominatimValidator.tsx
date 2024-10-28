@@ -1,4 +1,4 @@
-import { NominatimResult } from "@/app/types/nominatimJSONResponseType";
+import { NominatimResult } from "@/app/types/nominatimResponse";
 import { InvalidAddressError } from "@/app/validation/Address/AddressErrors";
 
 export const validateNominatimResult = (nominatimResult: NominatimResult) => {

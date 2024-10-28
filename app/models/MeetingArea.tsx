@@ -2,12 +2,13 @@ import { GeoJSONSource, LngLat, Marker } from "mapbox-gl";
 import { PlaceCategory } from "@/app/constants/overpassPlaceCategories";
 import useMapStore from "../state/useMapStore";
 import { createGeoJSONCircle } from "../utils/mapUtils";
+import POI from "./POI";
 class MeetingArea {
   centroid: LngLat;
   marker: Marker;
   radius: number = 1;
   placeCategories: Set<PlaceCategory> = new Set();
-  POIs: unknown[] = [];
+  POIs: POI[] = [];
 
   constructor(centroid: LngLat, marker: Marker) {
     this.centroid = centroid;

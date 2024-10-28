@@ -14,6 +14,15 @@ export const CategoryQueryMap: { [key in PlaceCategory]: string } = {
   [PlaceCategory.shopping]: "[building=retail]",
 };
 
+/**
+ * Maps place categories to their key, value pairs as seen in overpass json responses
+ */
+export const CategoryResponseMap: { [key in PlaceCategory]: string[] } = {
+  [PlaceCategory.restaurant]: ["amenity", "restaurant"],
+  [PlaceCategory.drinks]: ["amenity", "bar"],
+  [PlaceCategory.shopping]: ["building", "retail"],
+};
+
 export const CategoryIconMap: {
   [value in PlaceCategory]: React.ComponentType;
 } = {

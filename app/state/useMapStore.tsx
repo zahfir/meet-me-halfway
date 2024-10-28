@@ -11,7 +11,10 @@ import {
 } from "@/app/state/actions/personActions";
 
 import MeetingArea from "../models/MeetingArea";
-import { setMeetingAreaAction } from "@/app/state/actions/meetingAreaActions";
+import {
+  clearPOIsAction,
+  setMeetingAreaAction,
+} from "@/app/state/actions/meetingAreaActions";
 
 export interface MapStore {
   // State
@@ -28,6 +31,7 @@ export interface MapStore {
   removePerson: (person: Person) => void;
   updatePersonWeight: (id: string, weight: number) => void;
   setMeetingArea: (meetingArea: MeetingArea) => void;
+  clearPOIs: (meetingArea: MeetingArea) => void;
 }
 
 const useMapStore = create<MapStore>()((set) => ({
@@ -51,6 +55,7 @@ const useMapStore = create<MapStore>()((set) => ({
   // Meeting area actions
   setMeetingArea: (meetingArea: MeetingArea) =>
     setMeetingAreaAction(set)(meetingArea),
+  clearPOIs: (meetingArea: MeetingArea) => clearPOIsAction(set)(meetingArea),
 }));
 
 export default useMapStore;
