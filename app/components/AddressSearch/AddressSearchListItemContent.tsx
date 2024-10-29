@@ -20,7 +20,7 @@ const AddressSearchListItemContent: FC<AddressSearchListItemContentProps> = ({
   return (
     <div className="d-flex flex-column">
       <strong className="">{lineOne}</strong>
-      <text className="text-">{lineTwo}</text>
+      <span>{lineTwo}</span>
     </div>
   );
 };
