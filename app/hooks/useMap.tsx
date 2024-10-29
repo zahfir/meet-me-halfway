@@ -64,14 +64,19 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
   useEffect(() => {
     const unsubscribe = useMapStore.subscribe((state, prevState) => {
       if (!mapRef.current) return;
-      // Change map to match viewState
+      // VIEW STATE
       if (state.viewState !== prevState.viewState) {
         const { longitude, latitude, zoom } = state.viewState!;
         mapRef.current.setCenter([longitude, latitude]);
         mapRef.current.setZoom(zoom!);
       }
 
-      if (state.people.length === 0) return;
+      if (state.people.length === 0) {
+        console.log("No People. Hiding Circle.");
+        state.meetingArea?.updateCircle(false);
+        if (state.meetingArea) state.clearPOIs(state.meetingArea);
+        return;
+      }
 
       // Add marker for each person and extend camera bounds to include them
       if (state.people !== prevState.people) {
@@ -82,36 +87,32 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
           person.marker?.addTo(mapRef.current!);
         });
 
-        // debug
-        if (state.people.length < 2) {
-          console.log("Not enough people to calculate meeting area.");
-          customFitBounds(mapRef, bounds);
-          return;
-        }
+        if (state.meetingArea) {
+          if (state.people.length > 0) {
+            const centroid: LngLat = calculateCentroid(state.people);
+            if (centroid != prevState.meetingArea?.centroid) {
+              console.log("Centroid change detected.");
+              state.meetingArea.centroid = centroid;
+              state.meetingArea.marker.setLngLat(centroid);
+              state.meetingArea.updateCircle();
 
-        if (state.meetingArea && state.people.length > 1) {
-          const centroid = calculateCentroid(state.people);
-          if (centroid != prevState.meetingArea?.centroid) {
-            console.log("Centroid change detected.");
-            state.meetingArea.centroid = centroid;
-            state.meetingArea?.marker.setLngLat(centroid);
-            state.meetingArea.updateCircle();
-            if (state.meetingArea.POIs.length > 0)
-              state.clearPOIs(state.meetingArea);
+              if (state.meetingArea.POIs.length > 0)
+                state.clearPOIs(state.meetingArea);
 
-            // Set route to meeting area for each person
-            state.people.forEach(async (person: Person) => {
-              person.clearRoute(mapRef.current!);
-              const color = person.marker!._color;
+              // ROUTE REFRESH
+              state.people.forEach(async (person: Person) => {
+                person.clearRoute(mapRef.current!);
+                const color = person.marker!._color;
 
-              const route = await fetchRoute(
-                person.address.coord,
-                state.meetingArea!.centroid
-              );
-              const coordinates = route.features[0].geometry.coordinates;
+                const route = await fetchRoute(
+                  person.address.coord,
+                  state.meetingArea!.centroid
+                );
+                const coordinates = route.features[0].geometry.coordinates;
 
-              addRouteToMap(person.id, mapRef.current!, coordinates, color);
-            });
+                addRouteToMap(person.id, mapRef.current!, coordinates, color);
+              });
+            }
           }
         }
         customFitBounds(mapRef, bounds);

@@ -103,14 +103,14 @@ export const animatePointAlongRoute = (personId: string) => {
   const pointSource = map.getSource(pointId) as GeoJSONSource;
   const pointLayer = map.getLayer(pointId);
   if (!pointSource || !pointLayer) {
-    console.error(`Point with ID '${pointId}' not found.`);
+    console.debug(`Point with ID '${pointId}' not found.`);
     return;
   }
 
   // Extract path or "keyframes"
   const routeData = routeSource._data as GeoJSON.Feature;
   if (!routeData || routeData.geometry.type !== "LineString") {
-    console.error(`Invalid route data or geometry type for '${routeId}'.`);
+    console.debug(`Invalid route data or geometry type for '${routeId}'.`);
     return;
   }
 
@@ -151,6 +151,11 @@ export const animatePointAlongRoute = (personId: string) => {
       requestAnimationFrame(animate);
     } else {
       // Hide dot on completion
+      const pointLayer = map.getLayer(pointId);
+      if (!pointSource || !pointLayer) {
+        console.debug(`Point with ID '${pointId}' not found.`);
+        return;
+      }
       map.setPaintProperty(pointId, "circle-opacity", 0);
     }
   };

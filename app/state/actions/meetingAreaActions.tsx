@@ -8,8 +8,7 @@ export const setMeetingAreaAction =
 
 export const clearPOIsAction =
   (set: SetStateFunction) => (meetingArea: MeetingArea) => {
-    console.log("ENTERED CLEAR ACTION");
-    console.log(meetingArea);
+    console.log("ENTERED CLEAR ACTION WITH MEETING AREA STATE:", meetingArea);
     if (!meetingArea) return {};
 
     const stalePOIs = meetingArea.POIs;
@@ -22,5 +21,4 @@ export const clearPOIsAction =
     });
 
     meetingArea.POIs = [];
-    // set(() => ({ meetingArea }));
   };

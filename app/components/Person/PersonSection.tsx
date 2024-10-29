@@ -14,7 +14,7 @@ import { PlaceCategory } from "@/app/constants/overpassPlaceCategories";
 
 const PersonSection: React.FC = () => {
   const { addPerson, clearPOIs } = useMapStore();
-  const meeting = useMapStore((state) => state.meetingArea);
+  const meetingArea = useMapStore((state) => state.meetingArea);
 
   const buildPeopleList = () => {
     const people = useMapStore.getState().people;
@@ -28,25 +28,25 @@ const PersonSection: React.FC = () => {
   };
 
   const onFindClick = async () => {
-    if (!meeting) return;
+    if (!meetingArea) return;
     // CLEAR OLD POIS SOMEHOW
-    clearPOIs(meeting);
-    console.log("pois after click and clear", meeting.POIs);
-    const pois = await getPOIs(meeting);
+    clearPOIs(meetingArea);
+    console.log("pois after click and clear", meetingArea.POIs);
+    const pois = await getPOIs(meetingArea);
+    console.log(pois);
+
     /**
-     * INSERT HERE HANDLER THAT CREATES POI OBJECTS FROM FETCHED DATA
+     * HANDLER THAT CREATES POI OBJECTS FROM FETCHED DATA
      * AND UPDATES MEETING AREA STATE WITH POI OBJECTS ARRAY
      *  **/
-
-    console.log(pois);
-    const poiObjects = createPOIObjectsFromResponse(pois, meeting);
+    const poiObjects = createPOIObjectsFromResponse(pois, meetingArea);
     console.log(poiObjects);
     poiObjects.forEach((poi) => {
       poi.createMarkerOnMap();
     });
 
-    //ADD TO MEETING AREA AS WELL
-    meeting.POIs = poiObjects;
+    // ADD TO MEETING AREA
+    meetingArea.POIs = poiObjects;
   };
 
   const onAddressSelect = (address: Address) => {

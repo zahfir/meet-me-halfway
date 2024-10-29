@@ -6,6 +6,7 @@ import {
 import useMapStore from "../state/useMapStore";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import POIMarker from "../components/POIMarker";
 
 class POI {
   id: string;
@@ -27,13 +28,14 @@ class POI {
   }
 
   createMarkerOnMap() {
-    // TODO SLIDE IN MODAL ON MARKER CLICK EVENT
-    // https://stackoverflow.com/questions/31448397/how-to-add-click-listener-on-marker-in-mapbox-gl-js
-    console.log("in createMarkeronmap");
     const map = useMapStore.getState().mapRef.current;
-    const element = React.createElement(CategoryIconMap[this.category]);
+    const element = <POIMarker category={this.category} />;
     const htmlMarkup = renderToStaticMarkup(element);
     const htmlElement = document.createElement("div");
+    htmlElement.addEventListener("click", () => {
+      // TODO SLIDE IN MODAL ON MARKER CLICK EVENT
+      alert("Clicked");
+    });
     htmlElement.innerHTML = htmlMarkup;
 
     if (map && element) {

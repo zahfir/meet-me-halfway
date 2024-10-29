@@ -7,7 +7,6 @@ import {
 import OVERPASS_URL from "@/app/constants/overpassUrl";
 import POI from "../models/POI";
 import { OverpassResponse, OverpassTags } from "../types/overpassResponse";
-import useMapStore from "../state/useMapStore";
 
 async function getAreaPOIs(
   meetingArea: MeetingArea

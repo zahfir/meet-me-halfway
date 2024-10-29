@@ -10,6 +10,9 @@ class MeetingArea {
   placeCategories: Set<PlaceCategory> = new Set();
   POIs: POI[] = [];
 
+  readonly #circleMapId: string = "meeting-area-circle";
+  readonly #circleOpacity: number = 0.2;
+
   constructor(centroid: LngLat, marker: Marker) {
     this.centroid = centroid;
     this.marker = marker;
@@ -23,27 +26,37 @@ class MeetingArea {
       console.log("loaded");
 
       mapRef.current?.addSource(
-        "meeting-area-circle",
+        this.#circleMapId,
         createGeoJSONCircle(this.centroid, this.radius)
       );
 
       mapRef.current?.addLayer({
-        id: "meeting-area-circle",
+        id: this.#circleMapId,
         type: "fill",
-        source: "meeting-area-circle",
+        source: this.#circleMapId,
         layout: {},
         paint: {
           "fill-color": "#088",
-          "fill-opacity": 0.2,
+          "fill-opacity": this.#circleOpacity,
         },
       });
     });
   }
 
-  updateCircle() {
-    const mapRef = useMapStore.getState().mapRef;
+  updateCircle(show: boolean = true) {
+    const { mapRef } = useMapStore.getState();
+
+    const layer = mapRef.current?.getLayer(this.#circleMapId);
+    const opacity: number = show ? this.#circleOpacity : 0;
+    if (layer)
+      mapRef.current?.setPaintProperty(
+        this.#circleMapId,
+        "fill-opacity",
+        opacity
+      );
+
     const source = mapRef.current?.getSource(
-      "meeting-area-circle"
+      this.#circleMapId
     ) as GeoJSONSource;
 
     const newCircle = createGeoJSONCircle(this.centroid, this.radius)
