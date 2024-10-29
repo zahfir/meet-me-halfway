@@ -86,22 +86,29 @@ export const addRouteToMap = (
 
 // Function to animate a point along a route using a simple for-loop over coordinates
 export const animatePointAlongRoute = (personId: string) => {
-  const routeId = personId + "-route";
   const map = useMapStore.getState().mapRef.current;
   if (!map) {
     console.error("Map not found while animating point.");
     return;
   }
 
-  // Check if the source with the given routeId exists
-  const source = map.getSource(routeId) as GeoJSONSource;
-  if (!source) {
-    console.error(`Source with ID '${routeId}' not found.`);
+  // Verify Route and Point Exists
+  const routeId = personId + "-route";
+  const pointId = personId + "-point";
+  const routeSource = map.getSource(routeId) as GeoJSONSource;
+  if (!routeSource) {
+    console.debug(`Source with ID '${routeId}' not found.`);
+    return;
+  }
+  const pointSource = map.getSource(pointId) as GeoJSONSource;
+  const pointLayer = map.getLayer(pointId);
+  if (!pointSource || !pointLayer) {
+    console.error(`Point with ID '${pointId}' not found.`);
     return;
   }
 
-  // Extract the geometry coordinates from the source
-  const routeData = source._data as GeoJSON.Feature;
+  // Extract path or "keyframes"
+  const routeData = routeSource._data as GeoJSON.Feature;
   if (!routeData || routeData.geometry.type !== "LineString") {
     console.error(`Invalid route data or geometry type for '${routeId}'.`);
     return;
@@ -109,15 +116,6 @@ export const animatePointAlongRoute = (personId: string) => {
 
   const lineString = routeData.geometry;
   const coordinates = lineString.coordinates; // Get the array of coordinates
-
-  // Assuming the point source and layer exist on the map already
-  const pointId = personId + "-point";
-  const pointSource = map.getSource(pointId) as GeoJSONSource;
-
-  if (!pointSource) {
-    console.error(`Point source with ID '${pointId}' not found.`);
-    return;
-  }
 
   let animationCounter = 0;
   const noOfSteps = coordinates.length;
