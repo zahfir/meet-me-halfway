@@ -11,6 +11,7 @@ import { createPerson } from "@/app/utils/personUtils";
 import Address from "@/app/models/Address";
 import CategoryButtonRow from "@/app/components/PlaceCategoryButtons/CategoryButtonRow";
 import { PlaceCategory } from "@/app/constants/overpassPlaceCategories";
+import { OverpassResponse } from "@/app/types/overpassResponse";
 
 const PersonSection: React.FC = () => {
   const { addPerson, clearPOIs } = useMapStore();
@@ -29,23 +30,19 @@ const PersonSection: React.FC = () => {
 
   const onFindClick = async () => {
     if (!meetingArea) return;
-    // CLEAR OLD POIS SOMEHOW
     clearPOIs(meetingArea);
-    console.log("pois after click and clear", meetingArea.POIs);
-    const pois = await getPOIs(meetingArea);
-    console.log(pois);
-
-    /**
-     * HANDLER THAT CREATES POI OBJECTS FROM FETCHED DATA
-     * AND UPDATES MEETING AREA STATE WITH POI OBJECTS ARRAY
-     *  **/
-    const poiObjects = createPOIObjectsFromResponse(pois, meetingArea);
+    const overpassResponses: OverpassResponse[] = await getPOIs(meetingArea);
+    console.log(overpassResponses);
+    const poiObjects = createPOIObjectsFromResponse(
+      overpassResponses,
+      meetingArea
+    );
     console.log(poiObjects);
     poiObjects.forEach((poi) => {
       poi.createMarkerOnMap();
     });
 
-    // ADD TO MEETING AREA
+    // UPDATE MEETING AREA
     meetingArea.POIs = poiObjects;
   };
 
