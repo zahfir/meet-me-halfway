@@ -2,19 +2,26 @@ import { LngLat, Map } from "mapbox-gl";
 import { create } from "zustand";
 import { MapViewState } from "@/app/components/MapboxGL";
 
+// MODELS
 import Person from "@/app/models/Person";
+import MeetingArea from "@/app/models/MeetingArea";
+import POI from "@/app/models/POI";
+
+// ACTIONS
 import {
   addPersonAction,
   removePersonAction,
   setPersonWeightAction,
   setUserLocationAction,
 } from "@/app/state/actions/personActions";
-
-import MeetingArea from "../models/MeetingArea";
 import {
   clearPOIsAction,
   setMeetingAreaAction,
 } from "@/app/state/actions/meetingAreaActions";
+import {
+  setSelectedPOIAction,
+  clearSelectedPOIAction,
+} from "@/app/state/actions/selectedPOIActions";
 
 export interface MapStore {
   // State
@@ -23,6 +30,7 @@ export interface MapStore {
   viewState: MapViewState | null;
   people: Person[];
   meetingArea: MeetingArea | null;
+  selectedPOI: POI | null;
   // Actions
   setMapRef: (mapRef: React.RefObject<Map | null>) => void;
   setUserLocation: (location: LngLat) => void;
@@ -32,6 +40,8 @@ export interface MapStore {
   updatePersonWeight: (id: string, weight: number) => void;
   setMeetingArea: (meetingArea: MeetingArea) => void;
   clearPOIs: (meetingArea: MeetingArea) => void;
+  setSelectedPOI: (poi: POI) => void;
+  clearSelectedPOI: () => void;
 }
 
 const useMapStore = create<MapStore>()((set) => ({
@@ -40,6 +50,7 @@ const useMapStore = create<MapStore>()((set) => ({
   viewState: null,
   people: [],
   meetingArea: null,
+  selectedPOI: null,
   // Map actions
   setMapRef: (mapRef: React.RefObject<Map | null>) => set(() => ({ mapRef })),
   setUserLocation: (location: LngLat) => setUserLocationAction(set)(location),
@@ -56,6 +67,8 @@ const useMapStore = create<MapStore>()((set) => ({
   setMeetingArea: (meetingArea: MeetingArea) =>
     setMeetingAreaAction(set)(meetingArea),
   clearPOIs: (meetingArea: MeetingArea) => clearPOIsAction(set)(meetingArea),
+  setSelectedPOI: (poi: POI) => setSelectedPOIAction(set)(poi),
+  clearSelectedPOI: () => clearSelectedPOIAction(set)(),
 }));
 
 export default useMapStore;

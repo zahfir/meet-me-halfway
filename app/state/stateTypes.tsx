@@ -1,4 +1,4 @@
-import Person from "../models/Person";
+import Person from "@/app/models/Person";
 import { MapStore } from "./useMapStore";
 
 type SetStateFunction = {
