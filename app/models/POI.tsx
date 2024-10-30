@@ -1,8 +1,5 @@
 import { LngLat, Marker } from "mapbox-gl";
-import {
-  CategoryIconMap,
-  PlaceCategory,
-} from "../constants/overpassPlaceCategories";
+import { PlaceCategory } from "../constants/overpassPlaceCategories";
 import useMapStore from "../state/useMapStore";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -27,15 +24,38 @@ class POI {
     this.category = category;
   }
 
+  /**
+   * Handles POI marker clicks, including styling and global state updates
+   * @returns void
+   */
+  private readonly handleMarkerClick = () => {
+    const { selectedPOI, setSelectedPOI, clearSelectedPOI } =
+      useMapStore.getState();
+
+    if (selectedPOI) {
+      const oldMarker = selectedPOI.marker?.getElement()
+        ?.firstChild as HTMLElement;
+      oldMarker.classList.add("btn-light");
+      clearSelectedPOI();
+      if (this === selectedPOI) return;
+    }
+
+    setSelectedPOI(this);
+    const markerElement = this.marker?.getElement()?.firstChild as HTMLElement;
+    markerElement.classList.remove("btn-light");
+    markerElement.classList.add("btn-primary");
+
+    console.log("A", useMapStore.getState().selectedPOI);
+  };
+
   createMarkerOnMap() {
-    const map = useMapStore.getState().mapRef.current;
+    const { mapRef } = useMapStore.getState();
+    const map = mapRef.current;
+
     const element = <POIMarker category={this.category} />;
     const htmlMarkup = renderToStaticMarkup(element);
     const htmlElement = document.createElement("div");
-    htmlElement.addEventListener("click", () => {
-      // TODO SLIDE IN MODAL ON MARKER CLICK EVENT
-      alert("Clicked");
-    });
+    htmlElement.addEventListener("click", this.handleMarkerClick);
     htmlElement.innerHTML = htmlMarkup;
 
     if (map && element) {
@@ -43,6 +63,8 @@ class POI {
       this.marker.addTo(map);
     }
   }
+
+  isSelected = (): boolean => this === useMapStore.getState().selectedPOI;
 }
 
 export default POI;
