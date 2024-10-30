@@ -10,12 +10,16 @@ import { CategoryIconMap } from "@/app/constants/overpassPlaceCategories";
 
 const POIDetailsModal: React.FC = () => {
   const selectedPOI: POI | null = useMapStore((state) => state.selectedPOI);
+  const name = selectedPOI?.name;
   const category = selectedPOI?.category;
-  const size = 40;
-
+  const iconSize = 40;
+  // Replace this with a short circuiting function
   const IconComponent = category ? CategoryIconMap[category] : null;
+  const RenderedIcon = IconComponent ? <IconComponent size={iconSize} /> : null;
 
-  const RenderedIcon = IconComponent ? <IconComponent size={size} /> : null;
+  // TODO GET REAL DATA FROM POI OBJECT
+  const openNow = true;
+  const website = "www.google.com";
 
   return (
     <div
@@ -32,10 +36,34 @@ const POIDetailsModal: React.FC = () => {
             </div>
           )}
         </div>
-        <h5>{selectedPOI?.name}</h5>
-        <p>more</p>
+        <div className="d-flex flex-column justify-content-center">
+          <h5 className="m-0">{name}</h5>
+          <span className="d-flex">
+            <p className="my-0">amenity</p>
+            <p className="mx-2 my-0">&middot;</p>
+            <p className={`my-0 ${openNow ? "text-success" : "text-danger"}`}>
+              open hours
+            </p>
+          </span>
+        </div>
       </div>
-      <p>more</p>
+      <div
+        className="my-3 p-2 border border-dark rounded-3"
+        style={{ backgroundColor: "#1f1f1f" }}
+      >
+        Misc Tags Go Here
+      </div>
+      <h5>Address Goes Here</h5>
+      {website && (
+        <a
+          href={`https://${website}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {/* TODO STYLE THIS BUTTON */}
+          <button>More Details</button>
+        </a>
+      )}
     </div>
   );
 };

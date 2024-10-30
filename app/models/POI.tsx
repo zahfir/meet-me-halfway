@@ -11,6 +11,8 @@ class POI {
   coord: LngLat;
   category: PlaceCategory;
   marker?: Marker;
+  // TODO INCLUDE FIELDS FOR TAGS SECTION OF JSON RESPONSE
+  // TODO CREATE A PARSER FOR MISC TAGS TO DISPLAY IN MODAL
 
   constructor(
     name: string,
