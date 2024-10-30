@@ -1,30 +1,18 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import {
   CategoryIconMap,
   PlaceCategory,
-} from "../constants/overpassPlaceCategories";
-// import useMapStore from "../state/useMapStore";
+} from "@/app/constants/overpassPlaceCategories";
 
 interface POIMarkerProps {
   category: PlaceCategory;
 }
 
 const POIMarker: React.FC<POIMarkerProps> = ({ category }) => {
-  const backgroundColor = "#fff";
-  const containerStyle = {
-    backgroundColor,
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: "50%",
-    padding: 8,
-    cursor: "pointer",
-  } as CSSProperties;
-
   return (
-    <div style={containerStyle}>
+    <button className="btn btn-light p-1 d-inline-flex align-items-center justify-content-center rounded-circle">
       {React.createElement(CategoryIconMap[category])}
-    </div>
+    </button>
   );
 };
 
