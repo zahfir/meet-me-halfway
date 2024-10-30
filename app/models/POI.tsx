@@ -44,8 +44,6 @@ class POI {
     const markerElement = this.marker?.getElement()?.firstChild as HTMLElement;
     markerElement.classList.remove("btn-light");
     markerElement.classList.add("btn-primary");
-
-    console.log("A", useMapStore.getState().selectedPOI);
   };
 
   createMarkerOnMap() {

@@ -1,6 +1,6 @@
-import RestaurantIcon from "@/app/assets/icons/restaurantIcon";
-import DrinksIcon from "@/app/assets/icons/drinkIcon";
-import ShoppingIcon from "@/app/assets/icons/shoppingIcon";
+import RestaurantIcon from "@/app/assets/icons/PlaceCategoryIcons/restaurantIcon";
+import DrinksIcon from "@/app/assets/icons/PlaceCategoryIcons/drinkIcon";
+import ShoppingIcon from "@/app/assets/icons/PlaceCategoryIcons/shoppingIcon";
 
 export enum PlaceCategory {
   restaurant = "restaurant",
@@ -24,9 +24,14 @@ export const CategoryResponseMap: { [key in PlaceCategory]: string[] } = {
 };
 
 export const CategoryIconMap: {
-  [value in PlaceCategory]: React.ComponentType;
+  [value in PlaceCategory]: React.ComponentType<IconProps>;
 } = {
   [PlaceCategory.restaurant]: RestaurantIcon,
   [PlaceCategory.drinks]: DrinksIcon,
   [PlaceCategory.shopping]: ShoppingIcon,
+};
+
+export type IconProps = React.SVGProps<SVGSVGElement> & {
+  size?: number;
+  color?: string;
 };
