@@ -60,7 +60,7 @@ function createPOIObjectsFromResponse(
     const category = getPlaceCategoryFromResponse(tags, selectedCategories);
     if (!category) return [];
 
-    const poi = new POI(name, center.lat, center.lon, category);
+    const poi = new POI(name, center.lat, center.lon, category, tags);
     POIs.push(poi);
   });
 

@@ -11,19 +11,20 @@ class POI {
   coord: LngLat;
   category: PlaceCategory;
   marker?: Marker;
-  // TODO INCLUDE FIELDS FOR TAGS SECTION OF JSON RESPONSE
-  // TODO CREATE A PARSER FOR MISC TAGS TO DISPLAY IN MODAL
+  tagsJson: {};
 
   constructor(
     name: string,
     latitude: number,
     longitude: number,
-    category: PlaceCategory
+    category: PlaceCategory,
+    tagsJson: {}
   ) {
     this.id = Math.random().toString(36).substring(2, 11);
     this.name = name;
     this.coord = new LngLat(longitude, latitude);
     this.category = category;
+    this.tagsJson = tagsJson;
   }
 
   /**
@@ -48,23 +49,50 @@ class POI {
     markerElement.classList.add("btn-primary");
   };
 
+  /**
+   * Creates a MapboxGL marker (HTMLElement from <POIMarker/>), attaches a click event listener, and places it on the map
+   */
   createMarkerOnMap() {
     const { mapRef } = useMapStore.getState();
     const map = mapRef.current;
 
+    // JSX Element
     const element = <POIMarker category={this.category} />;
     const htmlMarkup = renderToStaticMarkup(element);
+
+    // HTML Element
     const htmlElement = document.createElement("div");
     htmlElement.addEventListener("click", this.handleMarkerClick);
     htmlElement.innerHTML = htmlMarkup;
 
+    // Place on Map
     if (map && element) {
       this.marker = new Marker({ element: htmlElement }).setLngLat(this.coord);
       this.marker.addTo(map);
     }
   }
 
-  isSelected = (): boolean => this === useMapStore.getState().selectedPOI;
+  // isSelected = (): boolean => this === useMapStore.getState().selectedPOI;
+
+  /**
+   * Calculates distance from user location
+   */
+
+  /**
+   * Extracts specific type of service/amenity/shop
+   */
+
+  /**
+   * Returns "Closed now" and "Open 'til Xam/pm"
+   */
+
+  /**
+   * Extracts address
+   */
+
+  /**
+   * Extracts website
+   */
 }
 
 export default POI;
