@@ -94,7 +94,7 @@ function buildQuery(
   categories.forEach((category) => {
     const categoryQuery = CategoryQueryMap[category];
     if (categoryQuery) {
-      categoriesString += `(way${categoryQuery}(around:${r},${lat},${lng}););`;
+      categoriesString += `(way${categoryQuery}(around:${r},${lat},${lng})[name];);`;
     }
   });
 
