@@ -1,5 +1,4 @@
 import { LngLat } from "mapbox-gl";
-import { validateNominatimResult } from "@/app/validation/NominatimValidator";
 import { NominatimResult } from "../types/nominatimResponse";
 
 class Address {
@@ -9,7 +8,6 @@ class Address {
   formattedAddressLineTwo?: string;
 
   constructor(nominatimResult: NominatimResult) {
-    validateNominatimResult(nominatimResult);
     this.display_name = nominatimResult.display_name;
     this.coord = new LngLat(
       parseFloat(nominatimResult.lon),

@@ -7,6 +7,7 @@ import { fetchAddressSuggestions } from "../../api/nominatimAddressFetch";
 import AddressSearchListItemContent from "./AddressSearchListItemContent";
 import Address from "@/app/models/Address";
 import useDebounce from "@/app/hooks/useSearch";
+import { isValidNominatimResult } from "@/app/validation/NominatimValidator";
 
 interface AddressSearchProps {
   onAddressSelect: (selectedAddress: Address) => void;
@@ -22,11 +23,14 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
     try {
       const response = await fetchAddressSuggestions(query);
       const data: NominatimResult[] = await response.json();
-      const suggestedAddresses = data.map((result) => new Address(result));
+
+      const suggestedAddresses = data
+        .filter((result: NominatimResult) => isValidNominatimResult(result))
+        .map((result: NominatimResult) => new Address(result));
       setSearchSuggestions(suggestedAddresses);
       setHighlightedIndex(-1);
     } catch (error) {
-      console.error("Error fetching address:", error);
+      console.error("Error searching address:", error);
     }
   };
 
