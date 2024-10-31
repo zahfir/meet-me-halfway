@@ -12,7 +12,9 @@ const POIDetailsModal: React.FC = () => {
   const selectedPOI: POI | null = useMapStore((state) => state.selectedPOI);
   const { name, category } = selectedPOI ?? {};
   const { isOpen, closingTime } = selectedPOI?.closingTimeToday() ?? {};
-  const website = "www.google.com";
+  const address = selectedPOI?.address();
+  const website = selectedPOI?.website();
+
   const distanceFromUser = selectedPOI?.distanceFromUser()?.toFixed(1) ?? false;
 
   // ICON
@@ -61,13 +63,9 @@ const POIDetailsModal: React.FC = () => {
       >
         Misc Tags Go Here
       </div>
-      <h5>Address Goes Here</h5>
+      <h5>{address}</h5>
       {website && (
-        <a
-          href={`https://${website}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href={website} target="_blank" rel="noopener noreferrer">
           {/* TODO STYLE THIS BUTTON */}
           <button>More Details</button>
         </a>

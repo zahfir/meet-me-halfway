@@ -103,10 +103,18 @@ class POI {
   /**
    * Extracts address
    */
+  address = (): string | undefined => {
+    const number = this.tagsJson["addr:housenumber"];
+    const street = this.tagsJson["addr:street"];
+
+    if (!number || !street) return;
+    return number + " " + street;
+  };
 
   /**
    * Extracts website
    */
+  website = (): string | undefined => this.tagsJson["website"];
 }
 
 export default POI;
