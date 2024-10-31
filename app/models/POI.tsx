@@ -4,6 +4,7 @@ import useMapStore from "../state/useMapStore";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import POIMarker from "../components/POIMarker";
+import { distance } from "@/app/utils/mapUtils";
 
 class POI {
   id: string;
@@ -77,6 +78,11 @@ class POI {
   /**
    * Calculates distance from user location
    */
+  distanceFromUser = () => {
+    const userLocation = useMapStore.getState().userLocation;
+    if (!userLocation) return;
+    return distance(userLocation, this.coord);
+  };
 
   /**
    * Extracts specific type of service/amenity/shop

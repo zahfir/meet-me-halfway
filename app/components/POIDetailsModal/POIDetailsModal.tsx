@@ -17,9 +17,10 @@ const POIDetailsModal: React.FC = () => {
   const IconComponent = category ? CategoryIconMap[category] : null;
   const RenderedIcon = IconComponent ? <IconComponent size={iconSize} /> : null;
 
-  // TODO GET REAL DATA FROM POI OBJECT
+  // TODO GET REAL DATA FROM POI CLASS
   const openNow = true;
   const website = "www.google.com";
+  const distanceFromUser = selectedPOI?.distanceFromUser()?.toFixed(1) ?? false;
 
   return (
     <div
@@ -39,7 +40,9 @@ const POIDetailsModal: React.FC = () => {
         <div className="d-flex flex-column justify-content-center">
           <h5 className="m-0">{name}</h5>
           <span className="d-flex">
-            <p className="my-0">amenity</p>
+            {!!distanceFromUser && (
+              <p className="my-0">{distanceFromUser} km</p>
+            )}
             <p className="mx-2 my-0">&middot;</p>
             <p className={`my-0 ${openNow ? "text-success" : "text-danger"}`}>
               open hours

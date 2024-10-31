@@ -18,6 +18,27 @@ export const FitBoundsPadding: PaddingOptions = {
   left: 800,
 };
 
+/**
+ * Returns the straight line distance between two points (Haversine formula)
+ * @param coord1
+ * @param coord2
+ * @returns distance in km
+ */
+export const distance = (coord1: LngLat, coord2: LngLat) => {
+  const r = 6371;
+  const p = Math.PI / 180;
+
+  const a =
+    0.5 -
+    Math.cos((coord2.lat - coord1.lat) * p) / 2 +
+    (Math.cos(coord1.lat * p) *
+      Math.cos(coord2.lat * p) *
+      (1 - Math.cos((coord2.lng - coord1.lng) * p))) /
+      2;
+
+  return 2 * r * Math.asin(Math.sqrt(a));
+};
+
 export const customFitBounds = (
   map: MutableRefObject<Map | null>,
   bounds: LngLatBounds
