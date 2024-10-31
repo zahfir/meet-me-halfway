@@ -2,7 +2,7 @@ import React from "react";
 import {
   CategoryIconMap,
   PlaceCategory,
-} from "@/app/constants/overpassPlaceCategories";
+} from "@/app/constants/overpass/overpassPlaceCategories";
 
 interface POIMarkerProps {
   category: PlaceCategory;

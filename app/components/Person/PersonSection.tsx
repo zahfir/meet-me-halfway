@@ -10,7 +10,7 @@ import AddressSearch from "../AddressSearch/AddressSearch";
 import { createPerson } from "@/app/utils/personUtils";
 import Address from "@/app/models/Address";
 import CategoryButtonRow from "@/app/components/PlaceCategoryButtons/CategoryButtonRow";
-import { PlaceCategory } from "@/app/constants/overpassPlaceCategories";
+import { PlaceCategory } from "@/app/constants/overpass/overpassPlaceCategories";
 import { OverpassResponse } from "@/app/types/overpassResponse";
 
 const PersonSection: React.FC = () => {

@@ -1,7 +1,7 @@
 import {
   CategoryIconMap,
   PlaceCategory,
-} from "@/app/constants/overpassPlaceCategories";
+} from "@/app/constants/overpass/overpassPlaceCategories";
 import useMapStore from "@/app/state/useMapStore";
 import React from "react";
 

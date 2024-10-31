@@ -1,5 +1,5 @@
 import { GeoJSONSource, LngLat, Marker } from "mapbox-gl";
-import { PlaceCategory } from "@/app/constants/overpassPlaceCategories";
+import { PlaceCategory } from "@/app/constants/overpass/overpassPlaceCategories";
 import useMapStore from "../state/useMapStore";
 import { createGeoJSONCircle } from "../utils/mapUtils";
 import POI from "./POI";

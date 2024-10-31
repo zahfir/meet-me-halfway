@@ -1,5 +1,5 @@
 import { LngLat, Marker } from "mapbox-gl";
-import { PlaceCategory } from "../constants/overpassPlaceCategories";
+import { PlaceCategory } from "../constants/overpass/overpassPlaceCategories";
 import useMapStore from "../state/useMapStore";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -86,8 +86,13 @@ class POI {
   };
 
   /**
-   * Extracts specific type of service/amenity/shop
+   * @returns 'amenity' (preferred) or 'shop' or undefined
    */
+  facilityKey = (): string | undefined => {
+    const tags = this.tagsJson;
+    if (tags["amenity"]) return "amenity";
+    if (tags["shop"]) return "shop";
+  };
 
   /**
    * Returns "Closed now" and "Open 'til Xam/pm"

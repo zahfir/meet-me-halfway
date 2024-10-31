@@ -3,8 +3,8 @@ import {
   CategoryQueryMap,
   CategoryResponseMap,
   PlaceCategory,
-} from "@/app/constants/overpassPlaceCategories";
-import OVERPASS_URL from "@/app/constants/overpassUrl";
+} from "@/app/constants/overpass/overpassPlaceCategories";
+import OVERPASS_URL from "@/app/constants/overpass/overpassUrl";
 import POI from "../models/POI";
 import { OverpassResponse, OverpassTags } from "../types/overpassResponse";
 

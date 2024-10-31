@@ -2,7 +2,7 @@ import React from "react";
 import useMapStore from "@/app/state/useMapStore";
 import "./POIDetailsModal.css";
 import POI from "@/app/models/POI";
-import { CategoryIconMap } from "@/app/constants/overpassPlaceCategories";
+import { CategoryIconMap } from "@/app/constants/overpass/overpassPlaceCategories";
 
 /**
  * POIDetailsModal component displays information about the selected POI.

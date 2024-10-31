@@ -1,4 +1,4 @@
-import { IconProps } from "@/app/constants/overpassPlaceCategories";
+import { IconProps } from "@/app/constants/overpass/overpassPlaceCategories";
 import React from "react";
 
 const ShoppingIcon: React.FC<IconProps> = ({
