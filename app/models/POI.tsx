@@ -5,6 +5,7 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import POIMarker from "../components/POIMarker";
 import { distance } from "@/app/utils/mapUtils";
+import { getOpenStatusAndClosingTime } from "@/app/utils/placesUtils";
 
 class POI {
   id: string;
@@ -12,7 +13,7 @@ class POI {
   coord: LngLat;
   category: PlaceCategory;
   marker?: Marker;
-  tagsJson: {};
+  tagsJson: { [key: string]: string };
 
   constructor(
     name: string,
@@ -78,7 +79,7 @@ class POI {
   /**
    * Calculates distance from user location
    */
-  distanceFromUser = () => {
+  distanceFromUser = (): number | undefined => {
     const userLocation = useMapStore.getState().userLocation;
     if (!userLocation) return;
     return distance(userLocation, this.coord);
@@ -91,6 +92,13 @@ class POI {
   /**
    * Returns "Closed now" and "Open 'til Xam/pm"
    */
+  closingTimeToday = ():
+    | { isOpen: boolean; closingTime?: string }
+    | undefined => {
+    const opening_hours = this.tagsJson["opening_hours"];
+    if (!opening_hours) return;
+    return getOpenStatusAndClosingTime(opening_hours);
+  };
 
   /**
    * Extracts address
