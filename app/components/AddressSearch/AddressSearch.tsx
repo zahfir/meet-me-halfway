@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC } from "react";
-import SearchIcon from "../../assets/icons/searchIcon";
-import CancelIcon from "../../assets/icons/cancelIcon";
+import SearchIcon from "../../assets/icons/PersonSectionIcons/searchIcon";
+import CancelIcon from "../../assets/icons/PersonSectionIcons/cancelIcon";
 import "./AddressSearch.css";
 import { NominatimResult } from "../../types/nominatimResponse";
 import { fetchAddressSuggestions } from "../../api/nominatimAddressFetch";

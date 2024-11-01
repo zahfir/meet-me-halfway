@@ -11,7 +11,7 @@ const DrinksIcon: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     width={size}
     height={size}
-    color={"#000000"}
+    color={color}
     fill={"none"}
     {...props}
   >

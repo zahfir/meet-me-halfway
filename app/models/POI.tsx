@@ -9,6 +9,11 @@ import { renderToStaticMarkup } from "react-dom/server";
 import POIMarker from "../components/POIMarker";
 import { distance } from "@/app/utils/mapUtils";
 import { getOpenStatusAndClosingTime } from "@/app/utils/placesUtils";
+import {
+  Facility,
+  FacilityIconMap,
+  FacilityResponseMap,
+} from "../constants/overpass/Facility";
 
 class POI {
   id: string;
@@ -89,27 +94,57 @@ class POI {
   };
 
   /**
-   * @returns 'amenity' (preferred) or 'shop' or undefined
+   * @returns a string facility in order of specificity
    */
   facilityKey = (): string | undefined => {
     const tags = this.tagsJson;
+    if (tags["cuisine"]) return "cuisine";
     if (tags["amenity"]) return "amenity";
     if (tags["shop"]) return "shop";
   };
 
-  facilityValue = (): string | undefined => {
+  facility = (): Facility | undefined => {
     const key = this.facilityKey();
     if (!key) return;
-    return this.tagsJson[key];
+    const facility = this.tagsJson[key];
+    return FacilityResponseMap[facility];
   };
 
-  createCategoryIcon = (size: number = 40): JSX.Element | undefined => {
+  /**
+   *
+   * @param size The size of the icon
+   * @returns Icon (JSX.Element) that is associated with this amenity/shop/cuisine
+   */
+  createFacilityIcon = (
+    facility?: Facility,
+    size: number = 24,
+    color: string = "#ffffff"
+  ): JSX.Element | undefined => {
+    if (!facility) return;
+
+    // COMPONENT
+    const IconComponent = FacilityIconMap[facility];
+    if (!IconComponent) return;
+
+    // JSX ELEMENT
+    return <IconComponent size={size} color={color} />;
+  };
+
+  /**
+   *
+   * @param size The size of the icon
+   * @returns Icon as a JSX.Element that is associated with this.category
+   */
+  createCategoryIcon = (
+    size: number = 40,
+    color: string = "#ffffff"
+  ): JSX.Element | undefined => {
     // COMPONENT
     const IconComponent = CategoryIconMap[this.category];
     if (!IconComponent) return;
 
     // JSX ELEMENT
-    return <IconComponent size={size} />;
+    return <IconComponent size={size} color={color} />;
   };
 
   /**
@@ -129,9 +164,10 @@ class POI {
   address = (): string | undefined => {
     const number = this.tagsJson["addr:housenumber"];
     const street = this.tagsJson["addr:street"];
+    const postcode = this.tagsJson["addr:postcode"] ?? "";
 
     if (!number || !street) return;
-    return number + " " + street;
+    return number + " " + street + " " + postcode;
   };
 
   /**

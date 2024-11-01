@@ -3,8 +3,8 @@ import { FC, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Person from "@/app/models/Person";
 import useMapStore from "@/app/state/useMapStore";
-import TrashIcon from "@/app/assets/icons/trashIcon";
-import CarIcon from "@/app/assets/icons/carIcon";
+import TrashIcon from "@/app/assets/icons/PersonSectionIcons/trashIcon";
+import CarIcon from "@/app/assets/icons/PersonSectionIcons/carIcon";
 import { animatePointAlongRoute } from "@/app/utils/routingUtils";
 
 interface PersonListItemProps {

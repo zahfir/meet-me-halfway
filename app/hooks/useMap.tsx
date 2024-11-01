@@ -71,12 +71,13 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
         mapRef.current.setZoom(zoom!);
       }
 
-      if (state.people.length === 0) {
-        console.log("No People. Hiding Circle.");
-        state.meetingArea?.updateCircle(false);
-        if (state.meetingArea) state.clearPOIs(state.meetingArea);
-        return;
-      }
+      // DEBUGA;SKLDF
+      // if (state.people.length === 0) {
+      //   console.log("No People. Hiding Circle.");
+      //   state.meetingArea?.updateCircle(false);
+      //   if (state.meetingArea) state.clearPOIs(state.meetingArea);
+      //   return;
+      // }
 
       // Add marker for each person and extend camera bounds to include them
       if (state.people !== prevState.people) {
@@ -115,7 +116,7 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
             }
           }
         }
-        customFitBounds(mapRef, bounds);
+        // customFitBounds(mapRef, bounds); debugA;SLDKJF
       }
     }); // End subscribe
 

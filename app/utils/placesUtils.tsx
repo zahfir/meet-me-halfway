@@ -9,10 +9,20 @@ export const getOpenStatusAndClosingTime = (
   const isOpen = oh.getState();
   const nextChange = oh.getNextChange();
 
-  // Format the next change as a time, if it exists
-  const closingTime = nextChange
-    ? nextChange.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-    : undefined;
+  const closingTime = nextChange ? formatClosingTime(nextChange) : undefined;
 
   return { isOpen, closingTime };
+};
+
+const formatClosingTime = (date: Date): string => {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  const ampm = hours >= 12 ? "pm" : "am";
+  const formattedHour = hours % 12 === 0 ? 12 : hours % 12;
+
+  // Return formatted time based on whether minutes are non-zero
+  return minutes === 0
+    ? `${formattedHour}${ampm}`
+    : `${formattedHour}:${minutes.toString().padStart(2, "0")}${ampm}`;
 };
