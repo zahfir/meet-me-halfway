@@ -2,7 +2,6 @@ import React from "react";
 import useMapStore from "@/app/state/useMapStore";
 import "./POIDetailsModal.css";
 import POI from "@/app/models/POI";
-import { CategoryIconMap } from "@/app/constants/overpass/overpassPlaceCategories";
 
 /**
  * POIDetailsModal component displays information about the selected POI.
@@ -10,16 +9,15 @@ import { CategoryIconMap } from "@/app/constants/overpass/overpassPlaceCategorie
 
 const POIDetailsModal: React.FC = () => {
   const selectedPOI: POI | null = useMapStore((state) => state.selectedPOI);
-  const { name, category } = selectedPOI ?? {};
+  const { name } = selectedPOI ?? {};
   const { isOpen, closingTime } = selectedPOI?.closingTimeToday() ?? {};
   const address = selectedPOI?.address();
   const website = selectedPOI?.website();
   const distanceFromUser = selectedPOI?.distanceFromUser()?.toFixed(1) ?? false;
 
-  // ICON - Replace this with a short circuiting function
-  const iconSize = 40;
-  const IconComponent = category ? CategoryIconMap[category] : null;
-  const RenderedIcon = IconComponent ? <IconComponent size={iconSize} /> : null;
+  // ICON
+  const CategoryIcon: JSX.Element | undefined =
+    selectedPOI?.createCategoryIcon();
 
   return (
     <div
@@ -32,9 +30,9 @@ const POIDetailsModal: React.FC = () => {
       <div className="d-flex">
         {/* ICON */}
         <div className="me-4">
-          {category && (
+          {CategoryIcon && (
             <div className="bg-primary p-2 d-inline-flex align-items-center justify-content-center rounded-circle">
-              {RenderedIcon}
+              {CategoryIcon}
             </div>
           )}
         </div>

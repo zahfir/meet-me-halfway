@@ -1,5 +1,8 @@
 import { LngLat, Marker } from "mapbox-gl";
-import { PlaceCategory } from "../constants/overpass/overpassPlaceCategories";
+import {
+  CategoryIconMap,
+  PlaceCategory,
+} from "../constants/overpass/overpassPlaceCategories";
 import useMapStore from "../state/useMapStore";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -92,6 +95,21 @@ class POI {
     const tags = this.tagsJson;
     if (tags["amenity"]) return "amenity";
     if (tags["shop"]) return "shop";
+  };
+
+  facilityValue = (): string | undefined => {
+    const key = this.facilityKey();
+    if (!key) return;
+    return this.tagsJson[key];
+  };
+
+  createCategoryIcon = (size: number = 40): JSX.Element | undefined => {
+    // COMPONENT
+    const IconComponent = CategoryIconMap[this.category];
+    if (!IconComponent) return;
+
+    // JSX ELEMENT
+    return <IconComponent size={size} />;
   };
 
   /**
