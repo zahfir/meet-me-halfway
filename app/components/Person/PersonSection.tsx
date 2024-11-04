@@ -8,7 +8,7 @@ import Address from "@/app/models/Address";
 import CategoryButtonRow from "@/app/components/PlaceCategoryButtons/CategoryButtonRow";
 import { PlaceCategory } from "@/app/constants/overpass/overpassPlaceCategories";
 import Image from "next/image";
-import logo from "@/app/assets/images/halfway-logo.jpg";
+import logo from "@/app/assets/images/halfway-logo.png";
 import RadiusSlider from "../RadiusSlider";
 
 const PersonSection: React.FC = () => {
@@ -66,13 +66,7 @@ const PersonSection: React.FC = () => {
       >
         {/* HEADER */}
         <div className="m-2 py-2 d-flex justify-content-center align-items-center gap-2">
-          <Image
-            src={logo}
-            alt="App Logo"
-            width={50}
-            height={50}
-            style={{ borderRadius: "50%" }}
-          />
+          <Image src={logo} alt="App Logo" width={60} height={60} />
           <h4 className="text-light">MEET ME HALFWAY</h4>
         </div>
         <AddressSearch onAddressSelect={onAddressSelect} />
