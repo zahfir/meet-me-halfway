@@ -12,6 +12,8 @@ import Address from "@/app/models/Address";
 import CategoryButtonRow from "@/app/components/PlaceCategoryButtons/CategoryButtonRow";
 import { PlaceCategory } from "@/app/constants/overpass/overpassPlaceCategories";
 import { OverpassResponse } from "@/app/types/overpassResponse";
+import Image from "next/image";
+import logo from "@/app/assets/images/halfway-logo.jpg";
 
 const PersonSection: React.FC = () => {
   const { addPerson, clearPOIs } = useMapStore();
@@ -84,6 +86,16 @@ const PersonSection: React.FC = () => {
           boxShadow: "4px 0px 8px rgba(0, 0, 0, 0.5)",
         }}
       >
+        <div className="m-2 d-flex justify-content-center align-items-center gap-2">
+          <Image
+            src={logo}
+            alt="App Logo"
+            width={50}
+            height={50}
+            style={{ borderRadius: "50%" }}
+          />
+          <h4 className="text-light">MEET ME HALFWAY</h4>
+        </div>
         {buildPeopleList()}
         <AddressSearch onAddressSelect={onAddressSelect} />
         <button className="btn btn-primary mt-auto" onClick={onFindClick}>
