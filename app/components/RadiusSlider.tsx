@@ -16,6 +16,7 @@ const RadiusSlider: React.FC<RadiusSliderProps> = ({
   step,
   defaultValue,
 }) => {
+  const { clearPOIs, refreshPOIs } = useMapStore();
   const value = useMapStore(
     (state) => state.meetingArea?.radius ?? defaultValue
   );
@@ -28,6 +29,8 @@ const RadiusSlider: React.FC<RadiusSliderProps> = ({
     // STATE
     meeting.radius = updatedValue;
     useMapStore.setState({ meetingArea: meeting });
+    clearPOIs(meeting);
+    refreshPOIs(meeting);
 
     // UI
     meeting.updateCircle();
@@ -35,7 +38,7 @@ const RadiusSlider: React.FC<RadiusSliderProps> = ({
 
   return (
     <div>
-      <label htmlFor="radius-slider" className="form-label">
+      <label htmlFor="radius-slider" className="form-label text-light">
         Radius: {value} km
       </label>
       <input

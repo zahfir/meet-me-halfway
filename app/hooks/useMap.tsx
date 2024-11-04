@@ -90,14 +90,18 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
         if (state.meetingArea) {
           if (state.people.length > 0) {
             const centroid: LngLat = calculateCentroid(state.people);
-            if (centroid != prevState.meetingArea?.centroid) {
+            const centroidHasChanged =
+              centroid != prevState.meetingArea?.centroid;
+
+            if (centroidHasChanged) {
               console.log("Centroid change detected.");
               state.meetingArea.centroid = centroid;
               state.meetingArea.marker.setLngLat(centroid);
               state.meetingArea.updateCircle();
 
-              if (state.meetingArea.POIs.length > 0)
-                state.clearPOIs(state.meetingArea);
+              // POI REFRESH
+              state.clearPOIs(state.meetingArea);
+              state.refreshPOIs(state.meetingArea);
 
               // ROUTE REFRESH
               state.people.forEach(async (person: Person) => {

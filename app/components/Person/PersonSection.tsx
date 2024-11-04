@@ -2,22 +2,17 @@
 import React from "react";
 import useMapStore from "@/app/state/useMapStore";
 import PersonListItem from "./PersonListItem";
-import {
-  createPOIObjectsFromResponse,
-  getPOIs,
-} from "@/app/api/overpassPlacesFetch";
 import AddressSearch from "../AddressSearch/AddressSearch";
 import { createPerson } from "@/app/utils/personUtils";
 import Address from "@/app/models/Address";
 import CategoryButtonRow from "@/app/components/PlaceCategoryButtons/CategoryButtonRow";
 import { PlaceCategory } from "@/app/constants/overpass/overpassPlaceCategories";
-import { OverpassResponse } from "@/app/types/overpassResponse";
 import Image from "next/image";
 import logo from "@/app/assets/images/halfway-logo.jpg";
 import RadiusSlider from "../RadiusSlider";
 
 const PersonSection: React.FC = () => {
-  const { addPerson, clearPOIs } = useMapStore();
+  const { addPerson, clearPOIs, refreshPOIs } = useMapStore();
   const meetingArea = useMapStore((state) => state.meetingArea);
 
   const buildPeopleList = () => {
@@ -34,19 +29,7 @@ const PersonSection: React.FC = () => {
   const onFindClick = async () => {
     if (!meetingArea) return;
     clearPOIs(meetingArea);
-    const overpassResponses: OverpassResponse[] = await getPOIs(meetingArea);
-    console.log(overpassResponses);
-    const poiObjects = createPOIObjectsFromResponse(
-      overpassResponses,
-      meetingArea
-    );
-    console.log(poiObjects);
-    poiObjects.forEach((poi) => {
-      poi.createMarkerOnMap();
-    });
-
-    // UPDATE MEETING AREA
-    meetingArea.POIs = poiObjects;
+    await refreshPOIs(meetingArea);
   };
 
   const onAddressSelect = (address: Address) => {
@@ -61,20 +44,20 @@ const PersonSection: React.FC = () => {
   };
 
   const onCategoryButtonClick = (categoryValue: string) => {
-    const meeting = useMapStore.getState().meetingArea;
     const categoryEntry = Object.values(PlaceCategory).find(
       (value) => value === categoryValue
     );
-    if (!categoryEntry || !meeting) return;
+    if (!categoryEntry || !meetingArea) return;
 
-    if (meeting.placeCategories.has(categoryEntry)) {
-      meeting.placeCategories.delete(categoryEntry);
+    if (meetingArea.placeCategories.has(categoryEntry)) {
+      meetingArea.placeCategories.delete(categoryEntry);
     } else {
-      meeting.placeCategories.add(categoryEntry);
+      meetingArea.placeCategories.add(categoryEntry);
     }
 
-    useMapStore.setState({ meetingArea: meeting });
-    console.log("Meeting Area State:", useMapStore.getState().meetingArea);
+    useMapStore.setState({ meetingArea: meetingArea });
+    clearPOIs(meetingArea);
+    refreshPOIs(meetingArea);
   };
 
   return (

@@ -16,6 +16,7 @@ import {
 } from "@/app/state/actions/personActions";
 import {
   clearPOIsAction,
+  refreshPOIsAction,
   setMeetingAreaAction,
 } from "@/app/state/actions/meetingAreaActions";
 import {
@@ -42,6 +43,7 @@ export interface MapStore {
   clearPOIs: (meetingArea: MeetingArea) => void;
   setSelectedPOI: (poi: POI) => void;
   clearSelectedPOI: () => void;
+  refreshPOIs: (meetingArea: MeetingArea) => Promise<void>;
 }
 
 const useMapStore = create<MapStore>()((set) => ({
@@ -69,6 +71,8 @@ const useMapStore = create<MapStore>()((set) => ({
   clearPOIs: (meetingArea: MeetingArea) => clearPOIsAction(set)(meetingArea),
   setSelectedPOI: (poi: POI) => setSelectedPOIAction(set)(poi),
   clearSelectedPOI: () => clearSelectedPOIAction(set)(),
+  refreshPOIs: (meetingArea: MeetingArea) =>
+    refreshPOIsAction(set)(meetingArea),
 }));
 
 export default useMapStore;
