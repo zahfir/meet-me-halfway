@@ -14,6 +14,7 @@ import { PlaceCategory } from "@/app/constants/overpass/overpassPlaceCategories"
 import { OverpassResponse } from "@/app/types/overpassResponse";
 import Image from "next/image";
 import logo from "@/app/assets/images/halfway-logo.jpg";
+import RadiusSlider from "../RadiusSlider";
 
 const PersonSection: React.FC = () => {
   const { addPerson, clearPOIs } = useMapStore();
@@ -78,15 +79,16 @@ const PersonSection: React.FC = () => {
 
   return (
     <div className="row h-100">
-      {/* List of People */}
+      {/* LEFT PANEL */}
       <div
-        className="d-flex flex-column col-3 p-0 bg-black opacity-30"
+        className="px-4 d-flex flex-column col-3 p-0 bg-black opacity-30"
         style={{
           opacity: 0.85,
           boxShadow: "4px 0px 8px rgba(0, 0, 0, 0.5)",
         }}
       >
-        <div className="m-2 d-flex justify-content-center align-items-center gap-2">
+        {/* HEADER */}
+        <div className="m-2 py-2 d-flex justify-content-center align-items-center gap-2">
           <Image
             src={logo}
             alt="App Logo"
@@ -98,6 +100,12 @@ const PersonSection: React.FC = () => {
         </div>
         {buildPeopleList()}
         <AddressSearch onAddressSelect={onAddressSelect} />
+        <RadiusSlider
+          min={1}
+          max={50}
+          step={1}
+          defaultValue={meetingArea?.radius ?? 1}
+        />
         <button className="btn btn-primary mt-auto" onClick={onFindClick}>
           Find
         </button>
