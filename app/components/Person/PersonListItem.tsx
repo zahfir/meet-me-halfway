@@ -14,7 +14,9 @@ interface PersonListItemProps {
 const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
   const { removePerson } = useMapStore();
   const [isHover, setIsHover] = useState(false);
-  const address = person.address.display_name;
+  const addressLineOne =
+    person.address.formattedAddressLineOne || person.address.display_name;
+  const addressLineTwo = person.address.formattedAddressLineTwo || "";
 
   const onMouseEnter = () => {
     if (isHover) return;
@@ -28,7 +30,7 @@ const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
   return (
     <li
       key={person.id}
-      className="list-group-item text-white bg-transparent p-4 border-light border-opacity-25"
+      className="list-group-item text-white bg-transparent p-4 border-0"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
@@ -39,9 +41,10 @@ const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
           <span className="me-3">
             <CarIcon color={person.marker?._color} />
           </span>
-          <div className="">
+          <div className="d-flex flex-column">
             {/* Address */}
-            <strong>{address}</strong>
+            <strong>{addressLineOne}</strong>
+            <label className="fw-light">{addressLineTwo}</label>
           </div>
         </div>
 

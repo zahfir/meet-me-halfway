@@ -26,12 +26,6 @@ const PersonSection: React.FC = () => {
     );
   };
 
-  const onFindClick = async () => {
-    if (!meetingArea) return;
-    clearPOIs(meetingArea);
-    await refreshPOIs(meetingArea);
-  };
-
   const onAddressSelect = (address: Address) => {
     try {
       const person = createPerson(address);
@@ -81,17 +75,17 @@ const PersonSection: React.FC = () => {
           />
           <h4 className="text-light">MEET ME HALFWAY</h4>
         </div>
-        {buildPeopleList()}
         <AddressSearch onAddressSelect={onAddressSelect} />
-        <RadiusSlider
-          min={1}
-          max={50}
-          step={1}
-          defaultValue={meetingArea?.radius ?? 1}
-        />
-        <button className="btn btn-primary mt-auto" onClick={onFindClick}>
-          Find
-        </button>
+        {buildPeopleList()}
+        {/* BOTTOM */}
+        <div className="mt-auto">
+          <RadiusSlider
+            min={1}
+            max={50}
+            step={1}
+            defaultValue={meetingArea?.radius ?? 1}
+          />
+        </div>
       </div>
       <div className="col-3 p-2">
         <CategoryButtonRow onCategoryClick={onCategoryButtonClick} />

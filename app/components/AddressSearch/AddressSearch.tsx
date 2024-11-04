@@ -69,8 +69,11 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
 
   return (
     <div className="position-relative mt-1">
-      {/* Search Input with Icons */}
-      <div className="input-group" style={{ backgroundColor: "#1f1f1f" }}>
+      {/* INPUT */}
+      <div
+        className="input-group border rounded-4 border-dark border-2"
+        style={{ backgroundColor: "#1f1f1f" }}
+      >
         {/* Leading Search Icon */}
         <span className="input-group-text bg-transparent border-0 m-2">
           <SearchIcon color="#888888" />
@@ -80,7 +83,7 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
           placeholder="Add locations"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="form-control text-white px-0 m-0 border-0 rounded-0"
+          className="form-control text-white px-0 m-0 bg-transparent border-0"
           onKeyDown={handleKeyDown}
           style={{
             backgroundColor: "#1f1f1f",
