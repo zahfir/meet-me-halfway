@@ -14,16 +14,16 @@ export const setMeetingAreaAction =
 export const refreshPOIsAction =
   (set: SetStateFunction) =>
   async (meetingArea: MeetingArea): Promise<void> => {
-    console.log("REFRESH POI ACTION:", meetingArea);
+    // console.log("REFRESH POI ACTION:", meetingArea);
     if (!meetingArea) return;
 
     const overpassResponses: OverpassResponse[] = await getPOIs(meetingArea);
-    console.log(overpassResponses);
+    // console.log(overpassResponses);
     const poiObjects = createPOIObjectsFromResponse(
       overpassResponses,
       meetingArea
     );
-    console.log(poiObjects);
+    // console.log(poiObjects);
     poiObjects.forEach((poi) => {
       poi.createMarkerOnMap();
     });
@@ -34,7 +34,7 @@ export const refreshPOIsAction =
 
 export const clearPOIsAction =
   (set: SetStateFunction) => (meetingArea: MeetingArea) => {
-    console.log("CLEAR POI ACTION", meetingArea);
+    // console.log("CLEAR POI ACTION", meetingArea);
     if (!meetingArea) return {};
 
     const stalePOIs = meetingArea.POIs;
