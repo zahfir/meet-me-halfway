@@ -6,7 +6,6 @@ import { createMarker, customFitBounds } from "@/app/utils/mapUtils";
 import Person from "@/app/models/Person";
 import MeetingArea from "../models/MeetingArea";
 import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
-import { addRouteToMap, fetchRoute } from "../utils/routingUtils";
 
 // Initializes Map instance
 export const useInitMap = (
@@ -94,7 +93,6 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
               centroid != prevState.meetingArea?.centroid;
 
             if (centroidHasChanged) {
-              console.log("Centroid change detected.");
               state.meetingArea.centroid = centroid;
               state.meetingArea.marker.setLngLat(centroid);
               state.meetingArea.updateCircle();
@@ -106,15 +104,11 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
               // ROUTE REFRESH
               state.people.forEach(async (person: Person) => {
                 person.clearRoute(mapRef.current!);
-                const color = person.marker!._color;
-
-                const route = await fetchRoute(
-                  person.address.coord,
+                await state.updatePersonRouteData(
+                  person,
                   state.meetingArea!.centroid
                 );
-                const coordinates = route.features[0].geometry.coordinates;
-
-                addRouteToMap(person.id, mapRef.current!, coordinates, color);
+                person.addRouteToMap(mapRef.current!);
               });
             }
           }

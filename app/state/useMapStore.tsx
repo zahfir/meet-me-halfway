@@ -13,6 +13,7 @@ import {
   removePersonAction,
   setPersonWeightAction,
   setUserLocationAction,
+  updatePersonRouteDataAction,
 } from "@/app/state/actions/personActions";
 import {
   clearPOIsAction,
@@ -44,6 +45,7 @@ export interface MapStore {
   setSelectedPOI: (poi: POI) => void;
   clearSelectedPOI: () => void;
   refreshPOIs: (meetingArea: MeetingArea) => Promise<void>;
+  updatePersonRouteData: (person: Person, centroid: LngLat) => Promise<void>;
 }
 
 const useMapStore = create<MapStore>()((set) => ({
@@ -73,6 +75,8 @@ const useMapStore = create<MapStore>()((set) => ({
   clearSelectedPOI: () => clearSelectedPOIAction(set)(),
   refreshPOIs: (meetingArea: MeetingArea) =>
     refreshPOIsAction(set)(meetingArea),
+  updatePersonRouteData: (person: Person, centroid: LngLat) =>
+    updatePersonRouteDataAction(set)(person, centroid),
 }));
 
 export default useMapStore;

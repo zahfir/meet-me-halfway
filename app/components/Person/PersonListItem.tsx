@@ -20,6 +20,9 @@ const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
     address.formattedAddressLineOne || address.display_name.split(",")[0];
   const addressLineTwo = address.formattedAddressLineTwo;
 
+  const distance = person.routeDistance ?? person.getRouteDistance();
+  const duration = person.routeDuration ?? person.getRouteDuration();
+
   // Callbacks for route animation
   const onMouseEnter = () => {
     if (isHover) return;
@@ -39,22 +42,27 @@ const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
       onMouseLeave={onMouseLeave}
     >
       <div className="d-flex align-items-center justify-content-between">
-        {/* LEFT */}
         <div className="d-flex align-items-center ">
           {/* Mode of Transportation */}
           <span className="me-3">
             <CarIcon color={person.marker?._color} />
           </span>
           <div className="d-flex flex-column">
-            {/* ADDRESS */}
+            {/* MIDDLE */}
             <strong>{addressLineOne}</strong>
             {addressLineTwo && (
               <label className="fw-light">{addressLineTwo}</label>
             )}
+            {duration && distance && (
+              <div className="d-inline-flex">
+                <strong className="me-2">Route:</strong>
+                <label>{" " + duration + " mins"}</label>
+                <label className="mx-2 my-0 p-0">&bull;</label>
+                <label>{distance + " km"}</label>
+              </div>
+            )}
           </div>
         </div>
-
-        {/* RIGHT */}
         <div className="d-flex align-items-center">
           {/* Delete button */}
           <button

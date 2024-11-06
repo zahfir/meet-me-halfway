@@ -14,9 +14,10 @@ import RadiusSlider from "../RadiusSlider";
 const PersonSection: React.FC = () => {
   const { addPerson, clearPOIs, refreshPOIs } = useMapStore();
   const meetingArea = useMapStore((state) => state.meetingArea);
+  const people = useMapStore((state) => state.people);
 
   const buildPeopleList = () => {
-    const people = useMapStore.getState().people;
+    console.log("REBUILDING PEOPLE LIST");
     return (
       <ul className="list-group m-0 p-0 border-0">
         {people.map((person) => (

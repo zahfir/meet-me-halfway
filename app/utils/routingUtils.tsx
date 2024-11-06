@@ -1,13 +1,16 @@
-import { GeoJSONSource, LngLat, Map } from "mapbox-gl";
-import useMapStore from "../state/useMapStore";
+import { GeoJSONSource, LngLat } from "mapbox-gl";
+import useMapStore from "@/app/state/useMapStore";
 
 /**
  *
  * @param start Starting coordinate
  * @param end Ending coordinate
- * @returns GeoJSON object with route data
+ * @returns GeoJSON "route" from start to end
  */
-export const fetchRoute = async (start: LngLat, end: LngLat) => {
+export const fetchRoute = async (
+  start: LngLat,
+  end: LngLat
+): Promise<GeoJSON.FeatureCollection<GeoJSON.LineString>> => {
   const apiKey = "5b3ce3597851110001cf6248e37a497dc65c4b1d869c7c8b512a3e97";
   const baseUrl = "https://api.openrouteservice.org/v2/directions/driving-car";
   const url = `${baseUrl}?api_key=${apiKey}&start=${start.lng},${start.lat}&end=${end.lng},${end.lat}`;
@@ -17,71 +20,13 @@ export const fetchRoute = async (start: LngLat, end: LngLat) => {
     if (!response.ok) {
       throw new Error(`Error fetching route: ${response.statusText}`);
     }
-    const data = await response.json();
+    const data: GeoJSON.FeatureCollection<GeoJSON.LineString> =
+      await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching route:", error);
     throw error;
   }
-};
-
-export const addRouteToMap = (
-  id: string,
-  map: Map,
-  coordinates: any,
-  color: string
-) => {
-  const routeId = id + "-route";
-  const pointId = id + "-point";
-
-  map.addSource(routeId, {
-    type: "geojson",
-    data: {
-      type: "Feature",
-      properties: {},
-      geometry: {
-        type: "LineString",
-        coordinates: coordinates,
-      },
-    },
-  });
-
-  map.addLayer({
-    id: routeId,
-    type: "line",
-    source: routeId,
-    layout: {
-      "line-join": "round",
-      "line-cap": "round",
-    },
-    paint: {
-      "line-color": color,
-      "line-width": 4,
-    },
-  });
-
-  map.addSource(pointId, {
-    type: "geojson",
-    data: {
-      type: "Feature",
-      properties: {},
-      geometry: {
-        type: "Point",
-        coordinates: coordinates[0],
-      },
-    },
-  });
-
-  map.addLayer({
-    id: pointId,
-    type: "circle",
-    source: pointId,
-    paint: {
-      "circle-radius": 8,
-      "circle-color": color,
-      "circle-blur": 1,
-    },
-  });
 };
 
 // Function to animate a point along a route using a simple for-loop over coordinates
