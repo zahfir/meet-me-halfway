@@ -41,3 +41,19 @@ a {
     color-scheme: dark;
   }
 }
+
+/* Custom styles */
+/* (768px is Bootstrap’s `md` breakpoint) */
+
+/* MOBILE */
+.person-section {
+  max-height: 33%;
+}
+
+/* DESKTOP */
+@media (min-width: 768px) {
+  .person-section {
+    max-height: 100%;
+    flex: 1;
+  }
+}

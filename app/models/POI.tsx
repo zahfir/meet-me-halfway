@@ -41,7 +41,7 @@ class POI {
    * Handles POI marker clicks, including styling and global state updates
    * @returns void
    */
-  private readonly handleMarkerClick = () => {
+  handleMarkerClick = () => {
     const { selectedPOI, setSelectedPOI, clearSelectedPOI } =
       useMapStore.getState();
 

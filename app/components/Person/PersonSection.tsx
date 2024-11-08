@@ -56,12 +56,11 @@ const PersonSection: React.FC = () => {
   };
 
   return (
-    <div className="row h-100">
+    <div className="d-flex flex-column col-12 col-md-3 h-100">
       {/* LEFT PANEL */}
       <div
-        className="px-4 d-flex flex-column col-3 p-0 bg-black opacity-30"
+        className="person-section position-relative px-4 pb-4 d-flex flex-column p-0 bg-black bg-opacity-75 overflow-y-auto"
         style={{
-          opacity: 0.85,
           boxShadow: "4px 0px 8px rgba(0, 0, 0, 0.5)",
         }}
       >
@@ -70,20 +69,20 @@ const PersonSection: React.FC = () => {
           <Image src={logo} alt="App Logo" width={60} height={60} />
           <h4 className="text-light">MEET ME HALFWAY</h4>
         </div>
+        {/* PEOPLE LIST */}
         <AddressSearch onAddressSelect={onAddressSelect} />
         {buildPeopleList()}
-        {/* BOTTOM */}
-        <div className="mt-auto">
-          <RadiusSlider
-            min={1}
-            max={50}
-            step={1}
-            defaultValue={meetingArea?.radius ?? 1}
-          />
-        </div>
       </div>
-      <div className="col-3 p-2">
+      {/* BOTTOM */}
+      <div className="p-4 position-relative bg-black d-flex flex-column gap-2 mt-auto">
+        <h5 className="text-light">Area Search</h5>
         <CategoryButtonRow onCategoryClick={onCategoryButtonClick} />
+        <RadiusSlider
+          min={1}
+          max={10}
+          step={1}
+          defaultValue={meetingArea?.radius ?? 1}
+        />
       </div>
     </div>
   );

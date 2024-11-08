@@ -30,11 +30,12 @@ const CategoryButtonRow: React.FC<CategoryButtonRowProps> = ({
   };
 
   return (
-    <div className="btn-group" role="group">
+    <fieldset className="d-flex gap-2">
       {Array.from(allCategories).map((category) => (
         <button
           key={category}
-          className={`btn ${getButtonColor(category)}`}
+          type="button"
+          className={`btn rounded ${getButtonColor(category)}`}
           onClick={() => onCategoryClick(category)}
         >
           {
@@ -43,7 +44,7 @@ const CategoryButtonRow: React.FC<CategoryButtonRowProps> = ({
           }
         </button>
       ))}
-    </div>
+    </fieldset>
   );
 };
 

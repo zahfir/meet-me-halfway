@@ -2,6 +2,7 @@ import React from "react";
 import useMapStore from "@/app/state/useMapStore";
 import "./POIDetailsModal.css";
 import POI from "@/app/models/POI";
+import CancelIcon from "@/app/assets/icons/PersonSectionIcons/cancelIcon";
 
 /**
  * POIDetailsModal component displays information about the selected POI.
@@ -35,7 +36,7 @@ const POIDetailsModal: React.FC = () => {
     <div
       className={`modal-container ${
         selectedPOI ? "modal-visible" : "modal-hidden"
-      } d-flex gap-3 flex-column col-3 m-4 p-3
+      } d-flex gap-3 flex-column col-11 col-md-3 m-4 p-3
       bg-black text-white rounded-4`}
     >
       {/* HEADER */}
@@ -59,6 +60,12 @@ const POIDetailsModal: React.FC = () => {
             </p>
           </div>
         </div>
+        <button
+          className="btn btn-dark p-0 align-self-start ms-auto"
+          onClick={selectedPOI?.handleMarkerClick}
+        >
+          <CancelIcon />
+        </button>
       </div>
       {/* MIDDLE BANNER */}
       {facility && (
