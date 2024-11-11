@@ -1,3 +1,4 @@
+import { LngLat } from "mapbox-gl";
 import useMapStore from "../state/useMapStore";
 
 /**
@@ -9,10 +10,7 @@ export const fetchAddressSuggestions = async (
   query: string
 ): Promise<Response> => {
   const format = "json";
-  const coord = useMapStore.getState().userLocation;
-  const proximitySearchFilter = coord
-    ? `&lat=${coord.lat}&lon=${coord.lng}`
-    : "";
+  const proximitySearchFilter = getViewbox();
   const filters = `addressdetails=1&limit=5${proximitySearchFilter}`;
 
   const url = `https://nominatim.openstreetmap.org/search?format=${format}&q=${query}&${filters}`;
@@ -23,4 +21,24 @@ export const fetchAddressSuggestions = async (
     );
   }
   return response;
+};
+
+const getViewbox = () => {
+  const state = useMapStore.getState();
+  const centroid: LngLat | null =
+    state.meetingArea?.centroid ?? state.userLocation;
+  if (!centroid) return "";
+
+  const boxSize = 1.8;
+
+  const sw = {
+    lat: centroid.lat - boxSize,
+    lng: centroid.lng - boxSize,
+  };
+
+  const ne = {
+    lat: centroid.lat + boxSize,
+    lng: centroid.lng + boxSize,
+  };
+  return `&viewbox=${sw.lng},${sw.lat},${ne.lng},${ne.lat}`;
 };
