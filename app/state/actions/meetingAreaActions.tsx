@@ -16,6 +16,7 @@ export const refreshPOIsAction =
   async (meetingArea: MeetingArea): Promise<void> => {
     // console.log("REFRESH POI ACTION:", meetingArea);
     if (!meetingArea) return;
+    meetingArea.isOverpassLoading = true;
 
     const overpassResponses: OverpassResponse[] = await getPOIs(meetingArea);
     // console.log(overpassResponses);
@@ -30,19 +31,20 @@ export const refreshPOIsAction =
 
     // UPDATE MEETING AREA
     meetingArea.POIs = poiObjects;
+    meetingArea.isOverpassLoading = false;
+    set(() => ({}));
   };
 
-export const clearPOIsAction =
-  (set: SetStateFunction) => (meetingArea: MeetingArea) => {
-    // console.log("CLEAR POI ACTION", meetingArea);
-    if (!meetingArea) return {};
+export const clearPOIsAction = () => (meetingArea: MeetingArea) => {
+  // console.log("CLEAR POI ACTION", meetingArea);
+  if (!meetingArea) return {};
 
-    const stalePOIs = meetingArea.POIs;
-    stalePOIs.forEach((poi) => {
-      if (poi.marker) {
-        poi.marker.remove();
-      }
-    });
+  const stalePOIs = meetingArea.POIs;
+  stalePOIs.forEach((poi) => {
+    if (poi.marker) {
+      poi.marker.remove();
+    }
+  });
 
-    meetingArea.POIs = [];
-  };
+  meetingArea.POIs = [];
+};

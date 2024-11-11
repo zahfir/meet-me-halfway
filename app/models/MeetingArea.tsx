@@ -9,6 +9,7 @@ class MeetingArea {
   radius: number = 1;
   placeCategories: Set<PlaceCategory> = new Set();
   POIs: POI[] = [];
+  isOverpassLoading: boolean = false;
 
   readonly #circleMapId: string = "meeting-area-circle";
   readonly #circleOpacity: number = 0.2;

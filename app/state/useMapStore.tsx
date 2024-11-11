@@ -70,11 +70,11 @@ const useMapStore = create<MapStore>()((set) => ({
   // Meeting area actions
   setMeetingArea: (meetingArea: MeetingArea) =>
     setMeetingAreaAction(set)(meetingArea),
-  clearPOIs: (meetingArea: MeetingArea) => clearPOIsAction(set)(meetingArea),
   setSelectedPOI: (poi: POI) => setSelectedPOIAction(set)(poi),
   clearSelectedPOI: () => clearSelectedPOIAction(set)(),
   refreshPOIs: (meetingArea: MeetingArea) =>
     refreshPOIsAction(set)(meetingArea),
+  clearPOIs: (meetingArea: MeetingArea) => clearPOIsAction()(meetingArea),
   updatePersonRouteData: (person: Person, centroid: LngLat) =>
     updatePersonRouteDataAction(set)(person, centroid),
 }));

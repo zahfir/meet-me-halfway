@@ -10,6 +10,8 @@ import { PlaceCategory } from "@/app/constants/overpass/overpassPlaceCategories"
 import Image from "next/image";
 import logo from "@/app/assets/images/halfway-logo.png";
 import RadiusSlider from "../RadiusSlider";
+import Spinner from "../Basics/Spinner";
+import "./PersonSection.css";
 
 const PersonSection: React.FC = () => {
   const { addPerson, clearPOIs, refreshPOIs } = useMapStore();
@@ -17,7 +19,6 @@ const PersonSection: React.FC = () => {
   const people = useMapStore((state) => state.people);
 
   const buildPeopleList = () => {
-    console.log("REBUILDING PEOPLE LIST");
     return (
       <ul className="list-group m-0 p-0 border-0">
         {people.map((person) => (
@@ -73,16 +74,25 @@ const PersonSection: React.FC = () => {
         <AddressSearch onAddressSelect={onAddressSelect} />
         {buildPeopleList()}
       </div>
-      {/* BOTTOM */}
+      {/* BOTTOM - AREA SEARCH */}
       <div className="p-4 position-relative bg-black d-flex flex-column gap-2 mt-auto">
-        <h5 className="text-light">Area Search</h5>
-        <CategoryButtonRow onCategoryClick={onCategoryButtonClick} />
-        <RadiusSlider
-          min={1}
-          max={10}
-          step={1}
-          defaultValue={meetingArea?.radius ?? 1}
-        />
+        {meetingArea?.isOverpassLoading && (
+          <div className="loading-spinner">
+            <Spinner />
+          </div>
+        )}
+        <div
+          className={meetingArea?.isOverpassLoading ? "overlay-content" : ""}
+        >
+          <h5 className="text-light">Area Search</h5>
+          <CategoryButtonRow onCategoryClick={onCategoryButtonClick} />
+          <RadiusSlider
+            min={1}
+            max={10}
+            step={1}
+            defaultValue={meetingArea?.radius ?? 1}
+          />
+        </div>
       </div>
     </div>
   );

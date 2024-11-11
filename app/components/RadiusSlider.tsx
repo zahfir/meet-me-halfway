@@ -37,7 +37,7 @@ const RadiusSlider: React.FC<RadiusSliderProps> = ({
   };
 
   return (
-    <div>
+    <div className="pt-3">
       <label htmlFor="radius-slider" className="form-label text-light">
         Radius: {value} km
       </label>
