@@ -1,8 +1,22 @@
 import React from "react";
 
-const Spinner: React.FC = () => {
+interface SpinnerProps {
+  color?: string;
+  width?: string;
+  height?: string;
+}
+
+const Spinner: React.FC<SpinnerProps> = ({
+  color = "",
+  width = "",
+  height = "",
+}) => {
   return (
-    <div className="spinner-border text-light" role="status">
+    <div
+      className={`spinner-border ${color ? "" : "text-light"}`}
+      role="status"
+      style={{ color: color, borderWidth: "0.15rem", width, height }}
+    >
       <span className="visually-hidden">Loading...</span>
     </div>
   );
