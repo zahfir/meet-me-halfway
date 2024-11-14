@@ -35,7 +35,7 @@ export const removePersonAction =
       person.marker.remove();
     }
 
-    person.clearRoute(useMapStore.getState().mapRef.current!);
+    person.clearRouteFromMap(useMapStore.getState().mapRef.current!);
   };
 
 export const setPersonWeightAction =

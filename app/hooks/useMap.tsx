@@ -103,7 +103,7 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
 
               // ROUTE REFRESH
               state.people.forEach(async (person: Person) => {
-                person.clearRoute(mapRef.current!);
+                person.clearRouteFromMap(mapRef.current!);
                 await state.updatePersonRouteData(
                   person,
                   state.meetingArea!.centroid

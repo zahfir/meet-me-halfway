@@ -5,7 +5,7 @@ import Person from "@/app/models/Person";
 import useMapStore from "@/app/state/useMapStore";
 import TrashIcon from "@/app/assets/icons/PersonSectionIcons/trashIcon";
 import CarIcon from "@/app/assets/icons/PersonSectionIcons/carIcon";
-import { animatePointAlongRoute } from "@/app/utils/routingUtils";
+import { setRouteOpacityOnHover } from "@/app/utils/routingUtils";
 
 interface PersonListItemProps {
   person: Person;
@@ -13,6 +13,9 @@ interface PersonListItemProps {
 
 const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
   const { removePerson } = useMapStore();
+  const people = useMapStore((state) => state.people);
+  const mapRef = useMapStore((state) => state.mapRef);
+
   const [isHover, setIsHover] = useState(false);
 
   const address = person.address;
@@ -23,23 +26,23 @@ const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
   const distance = person.routeDistance ?? person.getRouteDistance();
   const duration = person.routeDuration ?? person.getRouteDuration();
 
-  // Callbacks for route animation
-  const onMouseEnter = () => {
-    if (isHover) return;
-    setIsHover(true);
-    animatePointAlongRoute(person.id);
-  };
-
-  const onMouseLeave = () => {
-    setIsHover(false);
+  const handleMouseHover = (enter: boolean) => {
+    setRouteOpacityOnHover(
+      isHover,
+      setIsHover,
+      mapRef,
+      people,
+      person.id,
+      enter
+    );
   };
 
   return (
     <li
       key={person.id}
       className="list-group-item text-white bg-transparent p-4 border-0"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={() => handleMouseHover(true)}
+      onMouseLeave={() => handleMouseHover(false)}
     >
       <div className="d-flex align-items-center justify-content-between">
         <div className="d-flex align-items-center ">
