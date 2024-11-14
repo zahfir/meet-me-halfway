@@ -1,4 +1,5 @@
 import { GeoJSONSource, Map, Marker } from "mapbox-gl";
+import { LineString, Position } from "geojson";
 import TransportationTypes from "@/app/types/transportationTypes";
 import Address from "@/app/models/Address";
 import { RouteResponseType } from "@/app/types/openRouteServiceResponse";
@@ -93,10 +94,6 @@ class Person {
   }
 
   getRouteDistance(): number | undefined {
-    return this.initializeRouteDistance();
-  }
-
-  initializeRouteDistance(): number | undefined {
     const meters = this.routeData?.features[0].properties?.summary.distance;
     if (!meters) return;
 
@@ -107,11 +104,6 @@ class Person {
   }
 
   getRouteDuration(): number | undefined {
-    const duration = this.initializeRouteDuration();
-    return duration;
-  }
-
-  initializeRouteDuration(): number | undefined {
     const seconds = this.routeData?.features[0].properties?.summary.duration;
     if (!seconds) return;
 
@@ -151,14 +143,14 @@ class Person {
       return;
     }
 
-    const lineString = routeData.geometry;
-    const coordinates = lineString.coordinates; // Get the array of coordinates
+    const lineString: LineString = routeData.geometry;
+    const coordinates: Position[] = lineString.coordinates;
 
     let animationCounter = 0;
     const noOfSteps = coordinates.length;
 
     function createPointFeature(
-      coord: any
+      coord: Position
     ): GeoJSON.FeatureCollection<GeoJSON.Geometry> {
       return {
         type: "FeatureCollection",
