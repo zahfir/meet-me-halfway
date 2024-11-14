@@ -21,13 +21,23 @@ class Person {
     this.routeId = this.id + "-route";
   }
 
-  // ROUTE METHODS
+  /**
+   * Sets the opacity of the route on the map.
+   *
+   * @param {Map} map - The Mapbox map instance.
+   * @param {number} opacity - The opacity value to set for the route.
+   */
   setRouteOpacity = (map: Map, opacity: number) => {
     if (map.getLayer(this.routeId)) {
       map.setPaintProperty(this.routeId, "line-opacity", opacity);
     }
   };
 
+  /**
+   * Adds the route to the map as a layer.
+   *
+   * @param {Map} map - The Mapbox map instance.
+   */
   addRouteToMap = (map: Map) => {
     if (!this.routeData) return;
 
@@ -61,6 +71,11 @@ class Person {
     });
   };
 
+  /**
+   * Removes the route from the map.
+   *
+   * @param {Map} map - The Mapbox map instance.
+   */
   clearRouteFromMap(map: Map) {
     if (map.getSource(this.routeId)) {
       map.removeLayer(this.routeId);
@@ -68,28 +83,33 @@ class Person {
     }
   }
 
-  getRouteDistance(): number | undefined {
-    if (!this.routeData) return;
+  /**
+   * Retrieves the route summary including distance and duration from the route data.
+   *
+   * @returns {{ distance: number | undefined, duration: number | undefined }}
+   *          An object containing the distance in kilometers and duration in minutes,
+   *          or undefined if the route data is not available or incomplete.
+   */
+  getRouteSummary(): {
+    distance: number | undefined;
+    duration: number | undefined;
+  } {
+    if (this.routeDistance && this.routeDuration)
+      return { distance: this.routeDistance, duration: this.routeDuration };
 
-    const meters = this.routeData.features[0].properties?.summary.distance;
-    if (!meters) return;
+    const summary = this.routeData?.features?.[0].properties?.summary;
+    if (!summary) return { distance: undefined, duration: undefined };
 
-    const km = Math.round(meters / 1000);
+    const meters = summary.distance;
+    const seconds = summary.duration;
+
+    const km = meters ? Math.round(meters / 1000) : undefined;
+    const minutes = seconds ? Math.round(seconds / 60) : undefined;
 
     this.routeDistance = km;
-    return km;
-  }
-
-  getRouteDuration(): number | undefined {
-    if (!this.routeData) return;
-
-    const seconds = this.routeData.features[0].properties?.summary.duration;
-    if (!seconds) return;
-
-    const minutes = Math.round(seconds / 60);
-
     this.routeDuration = minutes;
-    return minutes;
+
+    return { distance: km, duration: minutes };
   }
 }
 

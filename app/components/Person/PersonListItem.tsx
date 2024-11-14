@@ -23,8 +23,7 @@ const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
     address.formattedAddressLineOne || address.display_name.split(",")[0];
   const addressLineTwo = address.formattedAddressLineTwo;
 
-  const distance = person.routeDistance ?? person.getRouteDistance();
-  const duration = person.routeDuration ?? person.getRouteDuration();
+  const { distance, duration } = person.getRouteSummary();
 
   const handleMouseHover = (enter: boolean) => {
     setRouteOpacityOnHover(
