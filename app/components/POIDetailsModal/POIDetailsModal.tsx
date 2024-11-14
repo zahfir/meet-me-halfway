@@ -11,9 +11,9 @@ import CancelIcon from "@/app/assets/icons/PersonSectionIcons/cancelIcon";
 const POIDetailsModal: React.FC = () => {
   const selectedPOI: POI | null = useMapStore((state) => state.selectedPOI);
   const { name } = selectedPOI ?? {};
-  const { isOpen, closingTime } = selectedPOI?.closingTimeToday() ?? {};
   const address = selectedPOI?.address();
   const website = selectedPOI?.website();
+  const { isOpen, closingTime } = selectedPOI?.closingTimeToday() ?? {};
   const distanceFromUser = selectedPOI?.distanceFromUser()?.toFixed(1) ?? false;
 
   const CategoryIcon: JSX.Element | undefined =
@@ -60,6 +60,7 @@ const POIDetailsModal: React.FC = () => {
             </p>
           </div>
         </div>
+        {/* CLOSE BUTTON */}
         <button
           className="btn btn-dark p-0 align-self-start ms-auto"
           onClick={selectedPOI?.handleMarkerClick}

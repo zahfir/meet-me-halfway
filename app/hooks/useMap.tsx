@@ -74,6 +74,7 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
         console.log("No People. Hiding Circle.");
         state.meetingArea?.updateCircle(false);
         if (state.meetingArea) state.clearPOIs(state.meetingArea);
+        state.selectedPOI?.handleMarkerClick();
         return;
       }
 
@@ -88,6 +89,7 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
 
         if (state.meetingArea) {
           if (state.people.length > 0) {
+            state.selectedPOI?.handleMarkerClick();
             const centroid: LngLat = calculateCentroid(state.people);
             const centroidHasChanged =
               centroid != prevState.meetingArea?.centroid;

@@ -17,6 +17,7 @@ const PersonSection: React.FC = () => {
   const { addPerson, clearPOIs, refreshPOIs } = useMapStore();
   const meetingArea = useMapStore((state) => state.meetingArea);
   const people = useMapStore((state) => state.people);
+  const selectedPOI = useMapStore((state) => state.selectedPOI);
 
   const buildPeopleList = () => {
     return (
@@ -52,6 +53,7 @@ const PersonSection: React.FC = () => {
     }
 
     useMapStore.setState({ meetingArea: meetingArea });
+    selectedPOI?.handleMarkerClick();
     clearPOIs(meetingArea);
     refreshPOIs(meetingArea);
   };
