@@ -2,13 +2,12 @@ import {
   LngLatBounds,
   Map,
   Marker,
-  Popup,
   PaddingOptions,
   LngLat,
   GeoJSONSourceSpecification,
 } from "mapbox-gl";
 import markerColors from "@/app/constants/markerColors";
-import Person from "../models/Person";
+import Person from "@/app/models/Person";
 import { MutableRefObject } from "react";
 
 export const FitBoundsPadding: PaddingOptions = {
@@ -70,9 +69,7 @@ export const createMarker = (
   const marker = new Marker({
     color: color,
     element: element,
-  })
-    .setLngLat([addressCoords.lng, addressCoords.lat])
-    .setPopup(new Popup().setText(color));
+  }).setLngLat([addressCoords.lng, addressCoords.lat]);
   return marker;
 };
 

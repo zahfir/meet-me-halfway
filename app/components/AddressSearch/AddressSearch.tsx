@@ -146,6 +146,7 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
                 className={`list-group-item text-white border-0 ${
                   index === highlightedIndex ? "active" : ""
                 }`}
+                // TODO DEBUG THIS NOT REGISTERING CLICK - TRIED PASSING CALLBACK TO CONTENT CHILD
                 onClick={() => handleSelect(address)}
                 style={{
                   cursor: "pointer",
