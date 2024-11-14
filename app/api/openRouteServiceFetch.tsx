@@ -1,31 +1,5 @@
-import { LngLat, Map } from "mapbox-gl";
-import Person from "@/app/models/Person";
+import { LngLat } from "mapbox-gl";
 
-export const setRouteOpacityOnHover = (
-  isHover: boolean,
-  setIsHover: (hover: boolean) => void,
-  mapRef: React.RefObject<Map | null>,
-  people: Person[],
-  currentPersonId: string,
-  enter: boolean
-) => {
-  if (enter && isHover) return;
-
-  const map = mapRef.current;
-  if (!map) {
-    console.error("Map not found while highlighting route.");
-    return;
-  }
-
-  setIsHover(enter);
-
-  const opacity = enter ? 0.1 : 1;
-  people.forEach((person) => {
-    if (person.id !== currentPersonId) person.setRouteOpacity(map, opacity);
-  });
-};
-
-// MOVE THIS TO 3RD PARTY API FOLDER
 /**
  *
  * @param start Starting coordinate
@@ -43,6 +17,7 @@ export const fetchRoute = async (
   try {
     const response = await fetch(url);
     if (!response.ok) {
+      // TODO - Handle error by displaying a message to the user in person list item
       throw new Error(`Error fetching route: ${response.statusText}`);
     }
     const data: GeoJSON.FeatureCollection<GeoJSON.LineString> =

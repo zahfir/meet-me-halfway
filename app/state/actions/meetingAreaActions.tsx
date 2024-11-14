@@ -1,5 +1,5 @@
 import {
-  getPOIs,
+  fetchPOIs,
   createPOIObjectsFromResponse,
 } from "@/app/api/overpassPlacesFetch";
 import MeetingArea from "@/app/models/MeetingArea";
@@ -18,7 +18,7 @@ export const refreshPOIsAction =
     if (!meetingArea) return;
     meetingArea.isOverpassLoading = true;
 
-    const overpassResponses: OverpassResponse[] = await getPOIs(meetingArea);
+    const overpassResponses: OverpassResponse[] = await fetchPOIs(meetingArea);
     // console.log(overpassResponses);
     const poiObjects = createPOIObjectsFromResponse(
       overpassResponses,

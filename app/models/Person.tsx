@@ -8,6 +8,7 @@ class Person {
   marker?: Marker;
   weight: number;
   modeOfTransportation;
+  routeId: string;
   routeData?: RouteResponseType;
   routeDuration?: number; // in minutes
   routeDistance?: number; // in kilometers
@@ -17,25 +18,23 @@ class Person {
     this.address = address;
     this.weight = 1;
     this.modeOfTransportation = TransportationTypes.Car;
+    this.routeId = this.id + "-route";
   }
 
   // ROUTE METHODS
-
   setRouteOpacity = (map: Map, opacity: number) => {
-    const routeId = this.id + "-route";
-    if (map.getLayer(routeId)) {
-      map.setPaintProperty(routeId, "line-opacity", opacity);
+    if (map.getLayer(this.routeId)) {
+      map.setPaintProperty(this.routeId, "line-opacity", opacity);
     }
   };
 
   addRouteToMap = (map: Map) => {
     if (!this.routeData) return;
 
+    const routeColor = this.marker!._color;
     const coordinates = this.routeData.features[0].geometry.coordinates;
-    const routeId = this.id + "-route";
-    const color = this.marker!._color;
 
-    map.addSource(routeId, {
+    map.addSource(this.routeId, {
       type: "geojson",
       data: {
         type: "Feature",
@@ -48,25 +47,24 @@ class Person {
     });
 
     map.addLayer({
-      id: routeId,
+      id: this.routeId,
       type: "line",
-      source: routeId,
+      source: this.routeId,
       layout: {
         "line-join": "round",
         "line-cap": "round",
       },
       paint: {
-        "line-color": color,
+        "line-color": routeColor,
         "line-width": 4,
       },
     });
   };
 
   clearRouteFromMap(map: Map) {
-    const routeId = this.id + "-route";
-    if (map.getSource(routeId)) {
-      map.removeLayer(routeId);
-      map.removeSource(routeId);
+    if (map.getSource(this.routeId)) {
+      map.removeLayer(this.routeId);
+      map.removeSource(this.routeId);
     }
   }
 

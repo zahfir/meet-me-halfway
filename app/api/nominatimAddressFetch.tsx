@@ -1,10 +1,11 @@
 import { LngLat } from "mapbox-gl";
-import useMapStore from "../state/useMapStore";
+import useMapStore from "@/app/state/useMapStore";
 
 /**
+ * Fetches address suggestions from the Nominatim API based on the search query.
  *
- * @param query {String} search query
- * @returns {Promise<Response>}
+ * @param {string} query - The search query.
+ * @returns {Promise<Response>} A promise that resolves to the response from the Nominatim API.
  */
 export const fetchAddressSuggestions = async (
   query: string
@@ -23,7 +24,14 @@ export const fetchAddressSuggestions = async (
   return response;
 };
 
-const getViewbox = () => {
+/**
+ * Generates a viewbox parameter for the Nominatim API based on the current map state.
+ * The viewbox is a bounding box around the centroid of the meeting area or the user's location.
+ *
+ * @returns {string} The viewbox parameter in the format "&viewbox=sw.lng,sw.lat,ne.lng,ne.lat".
+ *                   Returns an empty string if the centroid is not available.
+ */
+const getViewbox = (): string => {
   const state = useMapStore.getState();
   const centroid: LngLat | null =
     state.meetingArea?.centroid ?? state.userLocation;

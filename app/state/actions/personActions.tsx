@@ -3,7 +3,7 @@ import Person from "@/app/models/Person";
 import { LngLat } from "mapbox-gl";
 import { createMarker, nextColor } from "@/app/utils/mapUtils";
 import { SetStateFunction } from "@/app/state/stateTypes";
-import { fetchRoute } from "@/app/utils/routingUtils";
+import { fetchRoute } from "@/app/api/openRouteServiceFetch";
 
 export const addPersonAction = (set: SetStateFunction) => (person: Person) => {
   set((state: { people: Person[] }) => {

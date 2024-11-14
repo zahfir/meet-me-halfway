@@ -5,7 +5,7 @@ import Person from "@/app/models/Person";
 import useMapStore from "@/app/state/useMapStore";
 import TrashIcon from "@/app/assets/icons/PersonSectionIcons/trashIcon";
 import CarIcon from "@/app/assets/icons/PersonSectionIcons/carIcon";
-import { setRouteOpacityOnHover } from "@/app/utils/routingUtils";
+import { setRouteOpacityOnHover } from "@/app/utils/routeUtils";
 
 interface PersonListItemProps {
   person: Person;

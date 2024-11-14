@@ -5,12 +5,20 @@ import {
   PlaceCategory,
 } from "@/app/constants/overpass/overpassPlaceCategories";
 import OVERPASS_URL from "@/app/constants/overpass/overpassUrl";
-import POI from "../models/POI";
-import { OverpassResponse, OverpassTags } from "../types/overpassResponse";
+import POI from "@/app/models/POI";
+import { OverpassResponse, OverpassTags } from "@/app/types/overpassResponse";
 
-async function getAreaPOIs(
+/**
+ * Fetches Points of Interest (POIs) from the Overpass API based on the meeting area.
+ *
+ * @param {MeetingArea} meetingArea - The meeting area containing the centroid, radius, and place categories.
+ * @returns {Promise<OverpassResponse[]>} A promise that resolves to an array of OverpassResponse objects.
+ *                                        Returns an empty array if the meeting area is not provided or if an error occurs.
+ * @throws {Error} If the fetch request fails.
+ */
+const fetchPOIs = async (
   meetingArea: MeetingArea
-): Promise<OverpassResponse[]> {
+): Promise<OverpassResponse[]> => {
   if (!meetingArea) return [];
 
   const { lat, lng } = meetingArea.centroid;
@@ -39,12 +47,19 @@ async function getAreaPOIs(
     console.error("Error fetching POIs from Overpass API:", error);
     return [];
   }
-}
+};
 
-function createPOIObjectsFromResponse(
+/**
+ * Creates an array of POI objects from the Overpass API response.
+ *
+ * @param {OverpassResponse[]} responses - The array of responses from the Overpass API.
+ * @param {MeetingArea} meetingArea - The meeting area containing the place categories.
+ * @returns {POI[]} An array of POI objects. Returns an empty array if the responses or meeting area are not provided.
+ */
+const createPOIObjectsFromResponse = (
   responses: OverpassResponse[],
   meetingArea: MeetingArea
-): POI[] {
+): POI[] => {
   if (!responses || !meetingArea) return [];
 
   const POIs: POI[] = [];
@@ -52,11 +67,8 @@ function createPOIObjectsFromResponse(
 
   // Create a POI for each json object
   responses.forEach((json) => {
-    const center = json.center;
-    const tags = json.tags;
-
+    const { tags, center } = json;
     const name = tags.name;
-
     const category = getPlaceCategoryFromResponse(tags, selectedCategories);
     if (!category) return [];
 
@@ -65,12 +77,19 @@ function createPOIObjectsFromResponse(
   });
 
   return POIs;
-}
+};
 
-function getPlaceCategoryFromResponse(
+/**
+ * Determines the place category from the Overpass API response tags.
+ *
+ * @param {OverpassTags} tags - The tags from the Overpass API response.
+ * @param {PlaceCategory[]} selectedCategories - The currently selected place categories.
+ * @returns {PlaceCategory | undefined} The matching place category, or undefined if no match is found.
+ */
+const getPlaceCategoryFromResponse = (
   tags: OverpassTags,
   selectedCategories: PlaceCategory[]
-): PlaceCategory | undefined {
+): PlaceCategory | undefined => {
   const category = selectedCategories.find((category) => {
     const mapping = CategoryResponseMap[category];
     const key = mapping[0]; // e.g. 'amenity'
@@ -80,14 +99,23 @@ function getPlaceCategoryFromResponse(
   });
 
   return category;
-}
+};
 
-function buildQuery(
+/**
+ * Builds the Overpass API query string based on the provided parameters.
+ *
+ * @param {number} lat - The latitude of the center point.
+ * @param {number} lng - The longitude of the center point.
+ * @param {number} r - The radius around the center point in meters.
+ * @param {Set<PlaceCategory>} categories - The set of place categories to include in the query.
+ * @returns {string} The Overpass API query string.
+ */
+const buildQuery = (
   lat: number,
   lng: number,
   r: number,
   categories: Set<PlaceCategory>
-): string {
+): string => {
   let categoriesString: string = "";
 
   // Iterate over each category and create the sub-queries
@@ -106,6 +134,6 @@ function buildQuery(
     );
     out center;
   `;
-}
+};
 
-export { getAreaPOIs as getPOIs, createPOIObjectsFromResponse };
+export { fetchPOIs, createPOIObjectsFromResponse };
