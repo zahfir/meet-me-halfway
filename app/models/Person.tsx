@@ -69,7 +69,9 @@ class Person {
   }
 
   getRouteDistance(): number | undefined {
-    const meters = this.routeData?.features[0].properties?.summary.distance;
+    if (!this.routeData) return;
+
+    const meters = this.routeData.features[0].properties?.summary.distance;
     if (!meters) return;
 
     const km = Math.round(meters / 1000);
@@ -79,7 +81,9 @@ class Person {
   }
 
   getRouteDuration(): number | undefined {
-    const seconds = this.routeData?.features[0].properties?.summary.duration;
+    if (!this.routeData) return;
+
+    const seconds = this.routeData.features[0].properties?.summary.duration;
     if (!seconds) return;
 
     const minutes = Math.round(seconds / 60);

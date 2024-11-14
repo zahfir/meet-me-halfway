@@ -56,13 +56,15 @@ const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
             {addressLineTwo && (
               <label className="fw-light">{addressLineTwo}</label>
             )}
-            {duration && distance && (
+            {duration && distance ? (
               <div className="d-inline-flex">
                 <strong className="me-2">Route:</strong>
                 <label>{" " + duration + " mins"}</label>
                 <label className="mx-2 my-0 p-0">&bull;</label>
                 <label>{distance + " km"}</label>
               </div>
+            ) : (
+              people.length > 1 && <label>Route not available</label>
             )}
           </div>
         </div>
