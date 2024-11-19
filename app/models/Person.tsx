@@ -2,6 +2,30 @@ import { Map, Marker } from "mapbox-gl";
 import TransportationTypes from "@/app/types/transportationTypes";
 import Address from "@/app/models/Address";
 import { RouteResponseType } from "@/app/types/openRouteServiceResponse";
+
+/**
+ * The `Person` class represents a person with an address, transportation mode, and route information.
+ * It provides methods to manage the person's route on a Mapbox map.
+ *
+ * @class
+ * @param {Address} address - The address associated with the person.
+ *
+ * @property {string} id - The unique identifier for the person.
+ * @property {Address} address - The address associated with the person.
+ * @property {Marker} [marker] - The marker representing the person's location on the map.
+ * @property {number} weight - The weight associated with the person.
+ * @property {TransportationTypes} modeOfTransportation - The mode of transportation for the person.
+ * @property {string} routeId - The unique identifier for the person's route.
+ * @property {RouteResponseType} [routeData] - The route data for the person's route.
+ * @property {number} [routeDuration] - The duration of the route in minutes.
+ * @property {number} [routeDistance] - The distance of the route in kilometers.
+ *
+ * @example
+ * const address = new Address(nominatimResult);
+ * const person = new Person(address);
+ * person.setRouteOpacity(map, 0.5);
+ * person.addRouteToMap(map);
+ */
 class Person {
   id: string;
   address: Address;
@@ -34,7 +58,7 @@ class Person {
   };
 
   /**
-   * Adds the route to the map as a layer.
+   * Adds the route to the map as a source and a layer.
    *
    * @param {Map} map - The Mapbox map instance.
    */

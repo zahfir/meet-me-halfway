@@ -1,20 +1,46 @@
-import { LngLat, Marker } from "mapbox-gl";
-import {
-  CategoryIconMap,
-  PlaceCategory,
-} from "../constants/overpass/overpassPlaceCategories";
-import useMapStore from "../state/useMapStore";
 import React from "react";
+import { LngLat, Marker } from "mapbox-gl";
 import { renderToStaticMarkup } from "react-dom/server";
-import POIMarker from "../components/POIMarker";
+
+import useMapStore from "@/app/state/useMapStore";
+
+import POIMarker from "@/app/components/POIMarker";
+
 import { distance } from "@/app/utils/mapUtils";
 import { getOpenStatusAndClosingTime } from "@/app/utils/placesUtils";
+
 import {
   Facility,
   FacilityIconMap,
   FacilityResponseMap,
-} from "../constants/overpass/Facility";
+} from "@/app/constants/overpass/Facility";
+import {
+  CategoryIconMap,
+  PlaceCategory,
+} from "@/app/constants/overpass/overpassPlaceCategories";
 
+/**
+ * The `POI` (Point of Interest) class represents a point of interest on the map with a name, coordinates, category, and additional tags.
+ * It provides methods to handle marker interactions and manage the POI's state.
+ *
+ * @class
+ * @param {string} name - The name of the point of interest.
+ * @param {number} latitude - The latitude of the point of interest.
+ * @param {number} longitude - The longitude of the point of interest.
+ * @param {PlaceCategory} category - The category of the point of interest.
+ * @param {Object} tagsJson - Additional tags associated with the point of interest.
+ *
+ * @property {string} id - The unique identifier for the point of interest.
+ * @property {string} name - The name of the point of interest.
+ * @property {LngLat} coord - The coordinates of the point of interest.
+ * @property {PlaceCategory} category - The category of the point of interest.
+ * @property {Marker} [marker] - The marker representing the point of interest on the map.
+ * @property {Object} tagsJson - Additional tags associated with the point of interest.
+ *
+ * @example
+ * const poi = new POI("Central Park", 40.785091, -73.968285, PlaceCategory.Park, {});
+ * poi.handleMarkerClick();
+ */
 class POI {
   id: string;
   name: string;
