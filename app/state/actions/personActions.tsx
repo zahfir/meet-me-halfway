@@ -5,6 +5,19 @@ import { createMarker, nextColor } from "@/app/utils/mapUtils";
 import { SetStateFunction } from "@/app/state/stateTypes";
 import { fetchRoute } from "@/app/api/openRouteServiceFetch";
 
+/**
+ * The `addPersonAction` function adds a person to the global state.people array.
+ * If the person does not have a marker, it creates one with the next available color.
+ *
+ * @param {SetStateFunction} set - The function to update the global state.
+ * @param {Person} person - The person to be added to the global state.
+ *
+ * @example
+ * const addPerson = addPersonAction(set);
+ * addPerson(new Person(address));
+ *
+ * @returns {void}
+ */
 export const addPersonAction = (set: SetStateFunction) => (person: Person) => {
   set((state: { people: Person[] }) => {
     if (!person) return {};
@@ -23,6 +36,19 @@ export const addPersonAction = (set: SetStateFunction) => (person: Person) => {
   });
 };
 
+/**
+ * The `removePersonAction` function removes a person from the global state.people array.
+ * It also removes the person's marker and clears their route from the map.
+ *
+ * @param {SetStateFunction} set - The function to update the global state.
+ * @param {Person} person - The person to be removed from the global state.
+ *
+ * @example
+ * const removePerson = removePersonAction(set);
+ * removePerson(person);
+ *
+ * @returns {void}
+ */
 export const removePersonAction =
   (set: SetStateFunction) => (person: Person) => {
     if (!person) return {};
@@ -38,26 +64,38 @@ export const removePersonAction =
     person.clearRouteFromMap(useMapStore.getState().mapRef.current!);
   };
 
-export const setPersonWeightAction =
-  (set: SetStateFunction) => (id: string, weight: number) => {
-    set((state: MapStore) => {
-      const person = state.people.find((p) => p.id === id);
-
-      if (person) {
-        person.weight = weight;
-      }
-
-      return {
-        people: [...state.people],
-      };
-    });
-  };
-
+/**
+ * The `setUserLocationAction` function sets the user's location in the global state.
+ *
+ * @param {SetStateFunction} set - The function to update the global state.
+ * @param {LngLat} location - The user's location to be set in the global state.
+ *
+ * @example
+ * const setUserLocation = setUserLocationAction(set);
+ * setUserLocation(new LngLat(-77.0365, 38.8977));
+ *
+ * @returns {void}
+ */
 export const setUserLocationAction =
   (set: SetStateFunction) => (location: LngLat) => {
     set(() => ({ userLocation: location }));
   };
 
+/**
+ * The `updatePersonRouteDataAction` function updates the route data for a person in the global state.
+ * It fetches the route data from the API based on the person's address and the given centroid,
+ * and then updates the person's route data, distance, and duration.
+ *
+ * @param {SetStateFunction} set - The function to update the global state.
+ * @param {Person} person - The person whose route data is to be updated.
+ * @param {LngLat} centroid - The centroid coordinates to calculate the route to.
+ *
+ * @example
+ * const updatePersonRouteData = updatePersonRouteDataAction(set);
+ * updatePersonRouteData(person, new LngLat(-77.0365, 38.8977));
+ *
+ * @returns {Promise<void>} A promise that resolves when the route data has been updated.
+ */
 export const updatePersonRouteDataAction =
   (set: SetStateFunction) =>
   async (person: Person, centroid: LngLat): Promise<void> => {
