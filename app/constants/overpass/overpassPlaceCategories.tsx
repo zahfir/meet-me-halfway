@@ -2,6 +2,9 @@ import RestaurantIcon from "@/app/assets/icons/PlaceCategoryIcons/restaurantIcon
 import DrinksIcon from "@/app/assets/icons/PlaceCategoryIcons/drinkIcon";
 import ShoppingIcon from "@/app/assets/icons/PlaceCategoryIcons/shoppingIcon";
 
+/**
+ * Enum defines the various categories to filter POIs
+ */
 export enum PlaceCategory {
   restaurant = "restaurant",
   drinks = "drinks",

@@ -12,8 +12,6 @@ export enum Facility {
   // Amenities
   fast_food = "Fast Food",
   cafe = "Cafe",
-  // Shops TODO
-
   // Cuisines
   pizza = "Pizza",
 }
