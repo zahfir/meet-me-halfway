@@ -70,13 +70,9 @@ const POIDetailsModal: React.FC = () => {
       </div>
       {/* MIDDLE BANNER */}
       {facility && (
-        <div
-          className="d-inline-flex p-2 border border-dark rounded-3"
-          style={{ backgroundColor: "#1f1f1f" }}
-        >
+        <div className="d-inline-flex bg-dark p-2 border border-dark rounded-3">
           <div className="d-inline-flex mx-2">
             {FacilityIcon} <div className="ms-2">{facility}</div>
-            {/* MAYBE ICON CLUSTER (WHEELCHAIR, TOILET) */}
           </div>
         </div>
       )}
@@ -84,10 +80,7 @@ const POIDetailsModal: React.FC = () => {
       {/* MORE DETAILS BUTTON */}
       {website && (
         <a href={website} target="_blank" rel="noopener noreferrer">
-          <button
-            className="w-100 p-3 border border-dark rounded-3"
-            style={{ backgroundColor: "#1f1f1f" }}
-          >
+          <button className="w-100 p-3 bg-dark border border-dark rounded-3">
             <h5>More Details</h5>
           </button>
         </a>

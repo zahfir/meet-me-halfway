@@ -84,10 +84,7 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
   return (
     <div className="position-relative mt-1">
       {/* INPUT */}
-      <div
-        className="input-group border rounded-4 border-dark border-2"
-        style={{ backgroundColor: "#1f1f1f" }}
-      >
+      <div className="input-group bg-dark border rounded-4 border-dark border-2">
         {/* Leading Icon */}
         <span className="input-group-text bg-transparent border-0 m-2">
           {isInputFocused && query && isLoading ? (
@@ -115,15 +112,15 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
           onFocus={() => setIsInputFocused(true)}
           onBlur={() => setIsInputFocused(false)}
           style={{
-            backgroundColor: "#1f1f1f",
             outline: "none",
             boxShadow: "none",
           }}
         />
+        {/* Clear Search Field Button */}
         {query && (
           <span
             className="input-group-text bg-transparent text-white border-0"
-            style={{ cursor: "pointer", backgroundColor: "#1f1f1f" }}
+            style={{ cursor: "pointer" }}
           >
             <button
               type="button"
@@ -138,34 +135,30 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
 
       {/* List */}
       {isInputFocused && query && !isLoading && (
-        <ul
-          className="list-group w-100 mt-2 py-2 px-2"
-          style={{ backgroundColor: "#1f1f1f" }}
-        >
+        <ul className="list-group bg-dark w-100 mt-2 py-2 px-2">
           {/* List items */}
           {searchSuggestions.length > 0 ? (
-            searchSuggestions.map((address, index) => (
-              <li
-                key={index}
-                className={`list-group-item pe-auto text-white border-0 ${
-                  index === highlightedIndex ? "active" : ""
-                }`}
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => handleSelect(address)}
-                style={{
-                  cursor: "pointer",
-                  backgroundColor:
-                    index === highlightedIndex ? "#111111" : "#1f1f1f",
-                }}
-              >
-                <AddressSearchListItemContent address={address} />
-              </li>
-            ))
+            searchSuggestions.map((address, index) => {
+              const isHighlighted = index === highlightedIndex;
+              const active = isHighlighted ? "active" : "";
+              const backgroundColor = isHighlighted ? "#111111" : "#1f1f1f";
+              return (
+                <li
+                  key={index}
+                  className={`list-group-item pe-auto text-white border-0 ${active}`}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => handleSelect(address)}
+                  style={{
+                    cursor: "pointer",
+                    backgroundColor: backgroundColor,
+                  }}
+                >
+                  <AddressSearchListItemContent address={address} />
+                </li>
+              );
+            })
           ) : (
-            <li
-              className="list-group-item text-white border-0"
-              style={{ backgroundColor: "#1f1f1f" }}
-            >
+            <li className="list-group-item bg-dark text-white border-0">
               <strong>No such places found...</strong>
             </li>
           )}
