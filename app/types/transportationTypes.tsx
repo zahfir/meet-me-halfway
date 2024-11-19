@@ -1,14 +1,14 @@
+/**
+ * The `TransportationTypes` enum represents various modes of transportation.
+ * It is used to specify the mode of transportation for a person or route.
+ *
+ * @enum {string}
+ *
+ * @example
+ * const modeOfTransportation = TransportationTypes.Car;
+ */
 enum TransportationTypes {
   Car = "Car",
-  Bus = "Bus",
-  Train = "Train",
-  Bicycle = "Bicycle",
-  Walking = "Walking",
-  Scooter = "Scooter",
-  Subway = "Subway",
-  Tram = "Tram",
-  Ferry = "Ferry",
-  Airplane = "Airplane",
 }
 
 export default TransportationTypes;
