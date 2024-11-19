@@ -19,7 +19,7 @@ class MeetingArea {
   constructor(centroid: LngLat, marker: Marker) {
     this.centroid = centroid;
     this.marker = marker;
-    this.placeCategories.add(PlaceCategory.shopping);
+    this.placeCategories.add(PlaceCategory.restaurant);
   }
 
   initCircle() {
