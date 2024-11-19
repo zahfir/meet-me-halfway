@@ -38,6 +38,18 @@ export const distance = (coord1: LngLat, coord2: LngLat) => {
   return 2 * r * Math.asin(Math.sqrt(a));
 };
 
+/**
+ * The `customFitBounds` function adjusts the map view to fit the given bounds with custom padding and maximum zoom level.
+ *
+ * @param {MutableRefObject<Map | null>} map - A reference to the Mapbox map instance.
+ * @param {LngLatBounds} bounds - The bounds to fit the map view to.
+ *
+ * @example
+ * const bounds = new LngLatBounds([[-77.0365, 38.8977], [-77.0365, 38.8978]]);
+ * customFitBounds(mapRef, bounds);
+ *
+ * @returns {void}
+ */
 export const customFitBounds = (
   map: MutableRefObject<Map | null>,
   bounds: LngLatBounds
@@ -53,6 +65,17 @@ export const customFitBounds = (
   }
 };
 
+/**
+ * The `getBounds` function calculates the bounding box for a given array of coordinates.
+ *
+ * @param {LngLat[]} addressCoords - An array of coordinates to calculate the bounding box for.
+ *
+ * @example
+ * const coords = [new LngLat(-77.0365, 38.8977), new LngLat(-77.0365, 38.8978)];
+ * const bounds = getBounds(coords);
+ *
+ * @returns {LngLatBounds} The calculated bounding box.
+ */
 export const getBounds = (addressCoords: LngLat[]) => {
   const bounds = new LngLatBounds();
   addressCoords.forEach((coord: LngLat) => {
@@ -61,6 +84,18 @@ export const getBounds = (addressCoords: LngLat[]) => {
   return bounds;
 };
 
+/**
+ * The `createMarker` function creates a new marker at the given coordinates with the specified color and optional custom element.
+ *
+ * @param {LngLat} addressCoords - The coordinates to place the marker at.
+ * @param {string} color - The color of the marker.
+ * @param {HTMLElement} [element] - An optional custom HTML element for the marker.
+ *
+ * @example
+ * const marker = createMarker(new LngLat(-77.0365, 38.8977), "red");
+ *
+ * @returns {Marker} The created marker.
+ */
 export const createMarker = (
   addressCoords: LngLat,
   color: string,
@@ -73,8 +108,17 @@ export const createMarker = (
   return marker;
 };
 
+/**
+ * The `nextColor` function returns the next available marker color from the list of marker colors.
+ *
+ * @param {Person[]} people - An array of people to check for used marker colors.
+ *
+ * @example
+ * const color = nextColor(people);
+ *
+ * @returns {string} The next available marker color.
+ */
 export const nextColor = (people: Person[]) => {
-  // Returns the next available marker color from the list of marker colors.
   const usedColors = people.map((p) => p.marker?._color);
   const availableColor =
     markerColors.find((color) => !usedColors.includes(color)) ??
@@ -82,7 +126,18 @@ export const nextColor = (people: Person[]) => {
   return availableColor;
 };
 
-// Meeting area circle
+/**
+ * The `createGeoJSONCircle` function creates a GeoJSON object representing a circle with the given center and radius.
+ *
+ * @param {LngLat} center - The center coordinates of the circle.
+ * @param {number} radius - The radius of the circle in kilometers.
+ * @param {number} [points=64] - The number of points to use for the circle.
+ *
+ * @example
+ * const geoJSONCircle = createGeoJSONCircle(new LngLat(-77.0365, 38.8977), 1);
+ *
+ * @returns {GeoJSONSourceSpecification} The GeoJSON object representing the circle.
+ */
 export const createGeoJSONCircle = function (
   center: LngLat,
   radius: number,

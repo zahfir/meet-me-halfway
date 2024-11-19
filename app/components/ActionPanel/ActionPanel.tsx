@@ -9,12 +9,12 @@ import CategoryButtonRow from "@/app/components/PlaceCategoryButtons/CategoryBut
 import RadiusSlider from "@/app/components/RadiusSlider";
 import Spinner from "@/app/components/Basics/Spinner";
 
-import { createPerson } from "@/app/utils/personUtils";
 import Address from "@/app/models/Address";
 import { PlaceCategory } from "@/app/constants/overpass/overpassPlaceCategories";
 import logo from "@/app/assets/images/halfway-logo.png";
 
 import "./ActionPanel.css";
+import Person from "@/app/models/Person";
 
 /**
  * The `ActionPanel` component is a React functional component that renders the left panel of the application.
@@ -42,8 +42,9 @@ const ActionPanel: React.FC = () => {
   };
 
   const onAddressSelect = (address: Address) => {
+    if (!address) return;
     try {
-      const person = createPerson(address);
+      const person = new Person(address);
       if (!person) return;
 
       addPerson(person);

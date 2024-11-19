@@ -1,6 +1,18 @@
 import opening_hours from "opening_hours";
 
-// Helper function to get the current open status and closing time
+/**
+ * The `getOpenStatusAndClosingTime` function determines if a place is currently open
+ * and calculates the next closing time based on the provided opening hours.
+ *
+ * @param {string} openingHours - The opening hours string in the format used by the `opening_hours` library.
+ *
+ * @example
+ * const { isOpen, closingTime } = getOpenStatusAndClosingTime("Mo-Fr 08:00-18:00");
+ *
+ * 
+ * @returns {{ isOpen: boolean; closingTime?: string }} 
+ * An object containing the open status and the next closing time (if available).
+ */
 export const getOpenStatusAndClosingTime = (
   openingHours: string
 ): { isOpen: boolean; closingTime?: string } => {
@@ -14,6 +26,16 @@ export const getOpenStatusAndClosingTime = (
   return { isOpen, closingTime };
 };
 
+/**
+ * The `formatClosingTime` function formats a Date object into a human-readable time string (e.g., "3pm" or "3:30pm").
+ *
+ * @param {Date} date - The Date object representing the closing time.
+ *
+ * @example
+ * const formattedTime = formatClosingTime(new Date());
+ *
+ * @returns {string} The formatted closing time string.
+ */
 const formatClosingTime = (date: Date): string => {
   const hours = date.getHours();
   const minutes = date.getMinutes();
