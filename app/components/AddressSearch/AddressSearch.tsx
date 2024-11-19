@@ -1,8 +1,8 @@
 import React, { useState, useEffect, FC } from "react";
 
-import { fetchAddressSuggestions } from "@/app/api/nominatimAddressFetch";
+import { fetchAddressSuggestions } from "@/app/api/nominatim/nominatimAddressFetch";
+import { isValidNominatimResult } from "@/app/api/nominatim/nominatimValidator";
 import { NominatimResult } from "@/app/types/nominatimResponse";
-import { isValidNominatimResult } from "@/app/validation/NominatimValidator";
 
 import Spinner from "@/app/components/Basics/Spinner";
 import AddressSearchListItemContent from "./AddressSearchListItemContent/AddressSearchListItemContent";

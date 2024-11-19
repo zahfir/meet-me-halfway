@@ -3,7 +3,7 @@ import Person from "@/app/models/Person";
 import { LngLat } from "mapbox-gl";
 import { createMarker, nextColor } from "@/app/utils/mapUtils";
 import { SetStateFunction } from "@/app/state/stateTypes";
-import { fetchRoute } from "@/app/api/openRouteServiceFetch";
+import { fetchRoute } from "@/app/api/ors/openRouteServiceFetch";
 
 /**
  * The `addPersonAction` function adds a person to the global state.people array.

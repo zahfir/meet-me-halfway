@@ -1,7 +1,7 @@
 import {
   fetchPOIs,
   createPOIObjectsFromResponse,
-} from "@/app/api/overpassPlacesFetch";
+} from "@/app/api/overpass/overpassPlacesFetch";
 import MeetingArea from "@/app/models/MeetingArea";
 import { SetStateFunction } from "@/app/state/stateTypes";
 import { OverpassResponse } from "@/app/types/overpassResponse";
