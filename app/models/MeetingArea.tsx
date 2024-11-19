@@ -1,8 +1,9 @@
 import { GeoJSONSource, LngLat, Marker } from "mapbox-gl";
 import { PlaceCategory } from "@/app/constants/overpass/overpassPlaceCategories";
-import useMapStore from "../state/useMapStore";
-import { createGeoJSONCircle } from "../utils/mapUtils";
+import useMapStore from "@/app/state/useMapStore";
+import { createGeoJSONCircle } from "@/app/utils/mapUtils";
 import POI from "./POI";
+
 class MeetingArea {
   centroid: LngLat;
   marker: Marker;
@@ -13,6 +14,7 @@ class MeetingArea {
 
   readonly #circleMapId: string = "meeting-area-circle";
   readonly #circleOpacity: number = 0.2;
+  readonly #circleColor: string = "#0ad692";
 
   constructor(centroid: LngLat, marker: Marker) {
     this.centroid = centroid;
@@ -37,7 +39,7 @@ class MeetingArea {
         source: this.#circleMapId,
         layout: {},
         paint: {
-          "fill-color": "#088",
+          "fill-color": this.#circleColor,
           "fill-opacity": this.#circleOpacity,
         },
       });

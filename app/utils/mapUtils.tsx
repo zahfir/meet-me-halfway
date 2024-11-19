@@ -6,7 +6,7 @@ import {
   LngLat,
   GeoJSONSourceSpecification,
 } from "mapbox-gl";
-import markerColors from "@/app/constants/markerColors";
+import { markerColors } from "@/app/constants/colors";
 import Person from "@/app/models/Person";
 import { MutableRefObject } from "react";
 
