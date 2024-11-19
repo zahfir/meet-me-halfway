@@ -14,7 +14,6 @@ const Spinner: React.FC<SpinnerProps> = ({
   return (
     <div
       className={`spinner-border ${color ? "" : "text-light"}`}
-      role="status"
       style={{ color: color, borderWidth: "0.15rem", width, height }}
     >
       <span className="visually-hidden">Loading...</span>

@@ -3,14 +3,27 @@ import { FC, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Person from "@/app/models/Person";
 import useMapStore from "@/app/state/useMapStore";
-import TrashIcon from "@/app/assets/icons/PersonSectionIcons/trashIcon";
-import CarIcon from "@/app/assets/icons/PersonSectionIcons/carIcon";
+import TrashIcon from "@/app/assets/icons/ActionPanelIcons/trashIcon";
+import CarIcon from "@/app/assets/icons/ActionPanelIcons/carIcon";
 import { setRouteOpacityOnHover } from "@/app/utils/routeUtils";
 
 interface PersonListItemProps {
   person: Person;
 }
 
+/**
+ * `PersonListItem` is a functional component that renders a list item representing a person.
+ * It displays the person's address, route summary (distance and duration), and provides a delete button.
+ * The component also handles mouse hover events to set the route opacity on the map.
+ *
+ * @component
+ * @param {PersonListItemProps} props - The props for the component.
+ * @param {Person} props.person - The person object containing details to be displayed.
+ * @returns {JSX.Element} The rendered list item component.
+ *
+ * @example
+ * <PersonListItem person={person} />
+ */
 const PersonListItem: FC<PersonListItemProps> = ({ person }) => {
   const { removePerson } = useMapStore();
   const people = useMapStore((state) => state.people);

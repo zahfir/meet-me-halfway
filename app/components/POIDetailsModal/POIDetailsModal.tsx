@@ -2,14 +2,19 @@ import React from "react";
 import useMapStore from "@/app/state/useMapStore";
 import "./POIDetailsModal.css";
 import POI from "@/app/models/POI";
-import CancelIcon from "@/app/assets/icons/PersonSectionIcons/cancelIcon";
+import CancelIcon from "@/app/assets/icons/ActionPanelIcons/cancelIcon";
 
 /**
- * POIDetailsModal component displays information about the selected POI.
+ * POIDetailsModal component displays detailed information about a selected Point of Interest (POI).
+ * It shows the POI's name, address, website, open status, distance from the user, and facility information.
+ * The modal also includes a close button to hide the details.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered POIDetailsModal component.
  */
-
 const POIDetailsModal: React.FC = () => {
   const selectedPOI: POI | null = useMapStore((state) => state.selectedPOI);
+
   const { name } = selectedPOI ?? {};
   const address = selectedPOI?.address();
   const website = selectedPOI?.website();
@@ -32,11 +37,11 @@ const POIDetailsModal: React.FC = () => {
       : "Open 24/7"
     : "Closed now";
 
+  const visibility = selectedPOI ? "modal-visible" : "modal-hidden";
+
   return (
     <div
-      className={`modal-container ${
-        selectedPOI ? "modal-visible" : "modal-hidden"
-      } d-flex gap-3 flex-column col-11 col-md-3 m-4 p-3
+      className={`modal-container ${visibility} d-flex gap-3 flex-column col-11 col-md-3 m-4 p-3
       bg-black text-white rounded-4`}
     >
       {/* HEADER */}

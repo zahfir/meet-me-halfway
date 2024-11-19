@@ -9,7 +9,30 @@ import {
   useStateListener,
 } from "@/app/hooks/useMap";
 
-const MapboxGL = () => {
+/**
+ * MapboxGL component initializes and renders a Mapbox GL map.
+ *
+ * This component uses the following hooks:
+ * - `useInitMap`: Initializes the map with the provided container reference, map reference, and access token.
+ * - `useUserLocation`: Tracks and updates the user's location on the map.
+ * - `useStateListener`: Listens to state changes and updates the map accordingly.
+ *
+ * @component
+ * @returns {JSX.Element} A div element that serves as the container for the Mapbox GL map.
+ *
+ * @example
+ * // Usage example:
+ * import MapboxGL from "@/app/components/MapboxGL";
+ *
+ * const App = () => (
+ *   <div>
+ *     <MapboxGL />
+ *   </div>
+ * );
+ *
+ * export default App;
+ */
+const MapboxGL = (): JSX.Element => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<Map | null>(null);
 

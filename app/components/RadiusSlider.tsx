@@ -7,6 +7,19 @@ interface RadiusSliderProps {
   defaultValue: number;
 }
 
+/**
+ * RadiusSlider component allows users to select a radius value within a specified range.
+ * It updates the meeting area radius and refreshes points of interest (POIs) on the map.
+ *
+ * @component
+ * @param {number} min - The minimum value for the slider.
+ * @param {number} max - The maximum value for the slider.
+ * @param {number} step - The step value for the slider.
+ * @param {number} defaultValue - The default value for the slider.
+ *
+ * @example
+ * <RadiusSlider min={1} max={100} step={1} defaultValue={50} />
+ */
 import "bootstrap/dist/css/bootstrap.min.css";
 import useMapStore from "../state/useMapStore";
 

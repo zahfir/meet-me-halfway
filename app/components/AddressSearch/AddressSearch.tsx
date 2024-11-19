@@ -1,19 +1,46 @@
 import React, { useState, useEffect, FC } from "react";
-import SearchIcon from "../../assets/icons/PersonSectionIcons/searchIcon";
-import CancelIcon from "../../assets/icons/PersonSectionIcons/cancelIcon";
-import "./AddressSearch.css";
-import { NominatimResult } from "../../types/nominatimResponse";
-import { fetchAddressSuggestions } from "../../api/nominatimAddressFetch";
-import AddressSearchListItemContent from "./AddressSearchListItemContent";
+
+import { fetchAddressSuggestions } from "@/app/api/nominatimAddressFetch";
+import { NominatimResult } from "@/app/types/nominatimResponse";
+import { isValidNominatimResult } from "@/app/validation/NominatimValidator";
+
+import Spinner from "@/app/components/Basics/Spinner";
+import AddressSearchListItemContent from "./AddressSearchListItemContent/AddressSearchListItemContent";
+
 import Address from "@/app/models/Address";
 import useDebounce from "@/app/hooks/useSearch";
-import { isValidNominatimResult } from "@/app/validation/NominatimValidator";
-import Spinner from "../Basics/Spinner";
+
+import SearchIcon from "@/app/assets/icons/ActionPanelIcons/searchIcon";
+import CancelIcon from "@/app/assets/icons/ActionPanelIcons/cancelIcon";
+
+import "./AddressSearch.css";
 
 interface AddressSearchProps {
   onAddressSelect: (selectedAddress: Address) => void;
 }
 
+/**
+ * The `AddressSearch` component is a React functional component that allows users to search for addresses using an input field.
+ * It fetches address suggestions from an API and displays them in a dropdown list.
+ * Users can select an address from the suggestions, which triggers the `onAddressSelect` callback.
+ *
+ * The component manages the search query, address suggestions, and input focus state.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {function} props.onAddressSelect - A callback function that is called when an address is selected from the suggestions.
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @example
+ * <AddressSearch onAddressSelect={(selectedAddress) => console.log(selectedAddress)} />
+ *
+ * @state {string} query - The current search query entered by the user.
+ * @state {Address[]} searchSuggestions - An array of address suggestions fetched from the API.
+ * @state {number} highlightedIndex - The index of the currently highlighted suggestion in the dropdown list.
+ * @state {boolean} isInputFocused - A boolean indicating whether the input field is focused.
+ * @state {boolean} isLoading - A boolean indicating whether the component is currently fetching address suggestions.
+ * @state {string} debouncedQuery - The debounced version of the search query to limit the number of API calls.
+ */
 const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
   const [query, setQuery] = useState<string>("");
   const [searchSuggestions, setSearchSuggestions] = useState<Address[]>([]);
@@ -45,7 +72,7 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
 
   // Debounce queries to prevent API spamming
   useEffect(() => {
-    if (debouncedQuery && debouncedQuery.trim()) {
+    if (debouncedQuery?.trim()) {
       searchAddress(debouncedQuery);
     } else {
       setSearchSuggestions([]);

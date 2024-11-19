@@ -1,19 +1,31 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import useMapStore from "@/app/state/useMapStore";
-import PersonListItem from "./PersonListItem";
-import AddressSearch from "../AddressSearch/AddressSearch";
+
+import PersonListItem from "@/app/components/ActionPanel/PersonListItem/PersonListItem";
+import AddressSearch from "@/app/components/AddressSearch/AddressSearch";
+import CategoryButtonRow from "@/app/components/PlaceCategoryButtons/CategoryButtonRow";
+import RadiusSlider from "@/app/components/RadiusSlider";
+import Spinner from "@/app/components/Basics/Spinner";
+
 import { createPerson } from "@/app/utils/personUtils";
 import Address from "@/app/models/Address";
-import CategoryButtonRow from "@/app/components/PlaceCategoryButtons/CategoryButtonRow";
 import { PlaceCategory } from "@/app/constants/overpass/overpassPlaceCategories";
-import Image from "next/image";
 import logo from "@/app/assets/images/halfway-logo.png";
-import RadiusSlider from "../RadiusSlider";
-import Spinner from "../Basics/Spinner";
-import "./PersonSection.css";
 
-const PersonSection: React.FC = () => {
+import "./ActionPanel.css";
+
+/**
+ * The `ActionPanel` component is a React functional component that renders the left panel of the application.
+ * It includes a header with the app logo, an address search input, a list of people, and an area search section.
+ *
+ * The component interacts with the `useMapStore` state to manage people, meeting areas, and points of interest (POIs).
+ *
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ */
+const ActionPanel: React.FC = () => {
   const { addPerson, clearPOIs, refreshPOIs } = useMapStore();
   const meetingArea = useMapStore((state) => state.meetingArea);
   const people = useMapStore((state) => state.people);
@@ -100,4 +112,4 @@ const PersonSection: React.FC = () => {
   );
 };
 
-export default PersonSection;
+export default ActionPanel;
