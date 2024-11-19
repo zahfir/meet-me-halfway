@@ -9,12 +9,13 @@ import CategoryButtonRow from "@/app/components/PlaceCategoryButtons/CategoryBut
 import RadiusSlider from "@/app/components/RadiusSlider";
 import Spinner from "@/app/components/Basics/Spinner";
 
+import Person from "@/app/models/Person";
 import Address from "@/app/models/Address";
+
 import { PlaceCategory } from "@/app/constants/overpass/overpassPlaceCategories";
 import logo from "@/app/assets/images/halfway-logo.png";
 
 import "./ActionPanel.css";
-import Person from "@/app/models/Person";
 
 /**
  * The `ActionPanel` component is a React functional component that renders the left panel of the application.
