@@ -63,18 +63,18 @@ export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
     ) {
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         const { latitude, longitude } = coords;
-        const location = new LngLat(longitude, latitude);
-        setUserLocation(location);
+        const userLocation = new LngLat(longitude, latitude);
+        setUserLocation(userLocation);
         setViewState({
-          longitude: location.lng,
-          latitude: location.lat,
+          longitude: userLocation.lng,
+          latitude: userLocation.lat,
           zoom: 14,
         });
 
         // Meeting Area Initialization
         if (!useMapStore.getState().meetingArea) {
-          const marker = createMarker(location, "white");
-          const meetingArea = new MeetingArea(location, marker);
+          const marker = createMarker(userLocation, "white");
+          const meetingArea = new MeetingArea(userLocation, marker);
           setMeetingArea(meetingArea);
           meetingArea.marker.addTo(mapRef.current!);
           meetingArea.initCircle();
