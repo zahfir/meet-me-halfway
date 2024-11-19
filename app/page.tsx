@@ -1,7 +1,7 @@
 "use client";
 import MapboxGL from "./components/MapboxGL";
 import PersonSection from "@/app/components/Person/PersonSection";
-import "@/app/_bootstrap.scss";
+import "@/app/styles/_bootstrap.scss";
 import POIDetailsModal from "./components/POIDetailsModal/POIDetailsModal";
 
 export const MAPBOX_ACCESS_TOKEN =
