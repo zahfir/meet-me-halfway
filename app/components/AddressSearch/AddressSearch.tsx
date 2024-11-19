@@ -123,10 +123,15 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
         {query && (
           <span
             className="input-group-text bg-transparent text-white border-0"
-            onClick={clearAddressSearch}
             style={{ cursor: "pointer", backgroundColor: "#1f1f1f" }}
           >
-            <CancelIcon color="#ffffff" />
+            <button
+              type="button"
+              className="btn btn-outline-dark m-0 p-0 border-0"
+              onClick={clearAddressSearch}
+            >
+              <CancelIcon color="#ffffff" />
+            </button>
           </span>
         )}
       </div>
