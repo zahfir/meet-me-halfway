@@ -90,7 +90,6 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
       >
         {/* Leading Icon */}
         <span className="input-group-text bg-transparent border-0 m-2">
-          {/* TODO ADD SPINNER HERE IF LOADING */}
           {isInputFocused && query && isLoading ? (
             <Spinner
               color={searchIconColor}
@@ -143,10 +142,10 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
             searchSuggestions.map((address, index) => (
               <li
                 key={index}
-                className={`list-group-item text-white border-0 ${
+                className={`list-group-item pe-auto text-white border-0 ${
                   index === highlightedIndex ? "active" : ""
                 }`}
-                // TODO DEBUG THIS NOT REGISTERING CLICK - TRIED PASSING CALLBACK TO CONTENT CHILD
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => handleSelect(address)}
                 style={{
                   cursor: "pointer",
