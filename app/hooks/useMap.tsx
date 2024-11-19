@@ -7,7 +7,21 @@ import Person from "@/app/models/Person";
 import MeetingArea from "../models/MeetingArea";
 import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
 
-// Initializes Map instance
+/**
+ * The `useInitMap` hook initializes a Mapbox map instance and sets the map reference in the global state.
+ * It is intended to be used in a component that renders a Mapbox map.
+ *
+ * @param {React.MutableRefObject<HTMLDivElement | null>} mapContainerRef - A ref object pointing to the map container div.
+ * @param {React.MutableRefObject<Map | null>} mapRef - A ref object to store the Mapbox map instance.
+ * @param {string} MAPBOX_ACCESS_TOKEN - The Mapbox access token for authentication.
+ *
+ * @example
+ * const mapContainerRef = useRef<HTMLDivElement | null>(null);
+ * const mapRef = useRef<Map | null>(null);
+ * useInitMap(mapContainerRef, mapRef, MAPBOX_ACCESS_TOKEN);
+ *
+ * @returns {void}
+ */
 export const useInitMap = (
   mapContainerRef: React.MutableRefObject<HTMLDivElement | null>,
   mapRef: React.MutableRefObject<Map | null>,
@@ -25,7 +39,18 @@ export const useInitMap = (
   }, [mapContainerRef.current]);
 };
 
-// Initializes program with user location
+/**
+ * The `useUserLocation` hook initializes the user's location on the map and sets the view state.
+ * It also initializes the meeting area if it is not already set.
+ *
+ * @param {React.RefObject<Map | null>} mapRef - A ref object to the Mapbox map instance.
+ *
+ * @example
+ * const mapRef = useRef<Map | null>(null);
+ * useUserLocation(mapRef);
+ *
+ * @returns {void}
+ */
 export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
   // Lift !userLocation check to up here
   const { setUserLocation, setViewState, setMeetingArea } = useMapStore();
@@ -59,6 +84,18 @@ export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
   }, [mapRef.current]);
 };
 
+/**
+ * The `useStateListener` hook subscribes to the global state and updates the map based on state changes.
+ * It handles view state updates, people updates, and meeting area updates.
+ *
+ * @param {React.RefObject<Map | null>} mapRef - A ref object to the Mapbox map instance.
+ *
+ * @example
+ * const mapRef = useRef<Map | null>(null);
+ * useStateListener(mapRef);
+ *
+ * @returns {void}
+ */
 export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
   useEffect(() => {
     const unsubscribe = useMapStore.subscribe((state, prevState) => {
@@ -70,6 +107,7 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
         mapRef.current.setZoom(zoom!);
       }
 
+      // PEOPLE
       if (state.people.length === 0) {
         console.log("No People. Hiding Circle.");
         state.meetingArea?.updateCircle(false);
@@ -78,44 +116,44 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
         return;
       }
 
-      // Add marker for each person and extend camera bounds to include them
       if (state.people !== prevState.people) {
-        const bounds = new LngLatBounds();
+        const cameraBounds = new LngLatBounds();
         state.people.forEach((person: Person) => {
-          const coord = person.address.coord;
-          bounds.extend([coord.lng, coord.lat]);
+          const personCoordinate = person.address.coord;
+          cameraBounds.extend([personCoordinate.lng, personCoordinate.lat]);
           person.marker?.addTo(mapRef.current!);
         });
 
+        customFitBounds(mapRef, cameraBounds);
+
+        // MEETING AREA
         if (state.meetingArea) {
-          if (state.people.length > 0) {
-            state.selectedPOI?.handleMarkerClick();
-            const centroid: LngLat = calculateCentroid(state.people);
-            const centroidHasChanged =
-              centroid != prevState.meetingArea?.centroid;
+          state.selectedPOI?.handleMarkerClick();
 
-            if (centroidHasChanged) {
-              state.meetingArea.centroid = centroid;
-              state.meetingArea.marker.setLngLat(centroid);
-              state.meetingArea.updateCircle();
+          const centroid: LngLat = calculateCentroid(state.people);
+          const centroidHasChanged =
+            centroid != prevState.meetingArea?.centroid;
 
-              // POI REFRESH
-              state.clearPOIs(state.meetingArea);
-              state.refreshPOIs(state.meetingArea);
+          if (centroidHasChanged) {
+            state.meetingArea.centroid = centroid;
+            state.meetingArea.marker.setLngLat(centroid);
+            state.meetingArea.updateCircle();
 
-              // ROUTE REFRESH
-              state.people.forEach(async (person: Person) => {
-                person.clearRouteFromMap(mapRef.current!);
-                await state.updatePersonRouteData(
-                  person,
-                  state.meetingArea!.centroid
-                );
-                person.addRouteToMap(mapRef.current!);
-              });
-            }
+            // POI REFRESH
+            state.clearPOIs(state.meetingArea);
+            state.refreshPOIs(state.meetingArea);
+
+            // ROUTE REFRESH
+            state.people.forEach(async (person: Person) => {
+              person.clearRouteFromMap(mapRef.current!);
+              await state.updatePersonRouteData(
+                person,
+                state.meetingArea!.centroid
+              );
+              person.addRouteToMap(mapRef.current!);
+            });
           }
         }
-        customFitBounds(mapRef, bounds);
       }
     }); // End subscribe
 

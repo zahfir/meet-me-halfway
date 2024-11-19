@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
 
-// Debounce hook to delay API calls
+/**
+ * Custom hook that debounces a value by a specified delay.
+ *
+ * @param value - The value to debounce.
+ * @param delay - The delay in milliseconds to debounce the value.
+ * @returns The debounced value.
+ *
+ * @example
+ * const debouncedSearchTerm = useDebounce(searchTerm, 500);
+ */
 const useDebounce = (value: string, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
