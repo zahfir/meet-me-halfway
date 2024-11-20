@@ -47,11 +47,9 @@ class MeetingArea {
   }
 
   initCircle() {
-    const mapRef = useMapStore.getState().mapRef;
-    console.log("setting listener");
-    mapRef.current?.on("load", () => {
-      console.log("loaded");
+    const { mapRef } = useMapStore.getState();
 
+    const createSourceAndLayer = () => {
       mapRef.current?.addSource(
         this.#circleMapId,
         createGeoJSONCircle(this.centroid, this.radius)
@@ -67,7 +65,13 @@ class MeetingArea {
           "fill-opacity": this.#circleOpacity,
         },
       });
-    });
+    };
+
+    if (mapRef.current?.loaded) {
+      createSourceAndLayer();
+      return;
+    }
+    mapRef.current?.on("load", createSourceAndLayer);
   }
 
   updateCircle(show: boolean = true) {

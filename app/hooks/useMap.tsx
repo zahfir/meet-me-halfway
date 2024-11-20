@@ -2,9 +2,8 @@ import { useEffect } from "react";
 import mapboxgl, { LngLat, Map, LngLatBounds } from "mapbox-gl";
 
 import useMapStore from "@/app/state/useMapStore";
-import { createMarker, customFitBounds } from "@/app/utils/mapUtils";
+import { customFitBounds } from "@/app/utils/mapUtils";
 import Person from "@/app/models/Person";
-import MeetingArea from "../models/MeetingArea";
 import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
 
 /**
@@ -34,14 +33,18 @@ export const useInitMap = (
         container: mapContainerRef.current,
         style: "mapbox://styles/mapbox/dark-v11",
       });
+
+      mapRef.current?.on("load", () => {
+        console.log("MAPBOX LOADED");
+      });
+
       useMapStore.getState().setMapRef(mapRef);
     }
   }, [mapContainerRef.current]);
 };
 
 /**
- * The `useUserLocation` hook initializes the user's location on the map and sets the view state.
- * It also initializes the meeting area if it is not already set.
+ * The `useUserLocation` hook initializes the user's location using the state action.
  *
  * @param {React.RefObject<Map | null>} mapRef - A ref object to the Mapbox map instance.
  *
@@ -52,8 +55,7 @@ export const useInitMap = (
  * @returns {void}
  */
 export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
-  // Lift !userLocation check to up here
-  const { setUserLocation, setViewState, setMeetingArea } = useMapStore();
+  const { setUserLocation } = useMapStore();
 
   useEffect(() => {
     if (
@@ -65,20 +67,6 @@ export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
         const { latitude, longitude } = coords;
         const userLocation = new LngLat(longitude, latitude);
         setUserLocation(userLocation);
-        setViewState({
-          longitude: userLocation.lng,
-          latitude: userLocation.lat,
-          zoom: 14,
-        });
-
-        // Meeting Area Initialization
-        if (!useMapStore.getState().meetingArea) {
-          const marker = createMarker(userLocation, "white");
-          const meetingArea = new MeetingArea(userLocation, marker);
-          setMeetingArea(meetingArea);
-          meetingArea.marker.addTo(mapRef.current!);
-          meetingArea.initCircle();
-        }
       });
     }
   }, [mapRef.current]);
@@ -106,6 +94,7 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
         mapRef.current.setCenter([longitude, latitude]);
         mapRef.current.setZoom(zoom!);
       }
+      console.log(state.userLocation);
 
       // PEOPLE
       if (state.people.length === 0) {

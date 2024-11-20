@@ -4,6 +4,7 @@ import { LngLat } from "mapbox-gl";
 import { createMarker, nextColor } from "@/app/utils/mapUtils";
 import { SetStateFunction } from "@/app/state/stateTypes";
 import { fetchRoute } from "@/app/api/ors/openRouteServiceFetch";
+import MeetingArea from "@/app/models/MeetingArea";
 
 /**
  * The `addPersonAction` function adds a person to the global state.people array.
@@ -66,6 +67,8 @@ export const removePersonAction =
 
 /**
  * The `setUserLocationAction` function sets the user's location in the global state.
+ * It also sets the map view state and meeting area if it hasn't been previously set
+ *
  *
  * @param {SetStateFunction} set - The function to update the global state.
  * @param {LngLat} location - The user's location to be set in the global state.
@@ -78,7 +81,29 @@ export const removePersonAction =
  */
 export const setUserLocationAction =
   (set: SetStateFunction) => (location: LngLat) => {
-    set(() => ({ userLocation: location }));
+    set((state: MapStore) => {
+      const { setMeetingArea } = state;
+
+      // Meeting Area Initialization
+      if (!state.meetingArea) {
+        const marker = createMarker(location, "white");
+        const meetingArea = new MeetingArea(location, marker);
+        setMeetingArea(meetingArea);
+        // if (state.mapRef.current) {
+        meetingArea.marker.addTo(state.mapRef.current!);
+        meetingArea.initCircle();
+        // }
+      }
+
+      return {
+        userLocation: location,
+        viewState: {
+          longitude: location.lng,
+          latitude: location.lat,
+          zoom: 14,
+        },
+      };
+    });
   };
 
 /**
