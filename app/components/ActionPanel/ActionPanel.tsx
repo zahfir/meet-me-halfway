@@ -31,6 +31,7 @@ const ActionPanel: React.FC = () => {
   const meetingArea = useMapStore((state) => state.meetingArea);
   const people = useMapStore((state) => state.people);
   const selectedPOI = useMapStore((state) => state.selectedPOI);
+  const numPOIs = meetingArea?.POIs.length;
 
   const buildPeopleList = () => {
     return (
@@ -100,7 +101,19 @@ const ActionPanel: React.FC = () => {
         <div
           className={meetingArea?.isOverpassLoading ? "overlay-content" : ""}
         >
-          <h5 className="text-light">Area Search</h5>
+          <div className="d-flex justify-content-between align-items-center text-light">
+            <h4>Area Search</h4>
+            <span>
+              {!meetingArea?.isOverpassLoading && people.length > 0 && (
+                <div className=" text-end d-flex flex-column fst-italic">
+                  <label>{numPOIs ?? 0} results found</label>
+                  {numPOIs === 0 && (
+                    <label className="fw-bold">Try increasing the radius</label>
+                  )}
+                </div>
+              )}
+            </span>
+          </div>
           <CategoryButtonRow onCategoryClick={onCategoryButtonClick} />
           <RadiusSlider
             min={1}
