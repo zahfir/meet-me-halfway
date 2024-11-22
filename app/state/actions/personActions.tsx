@@ -3,8 +3,8 @@ import Person from "@/app/models/Person";
 import { LngLat } from "mapbox-gl";
 import { createMarker, nextColor } from "@/app/utils/mapUtils";
 import { SetStateFunction } from "@/app/state/stateTypes";
-import { fetchRoute } from "@/app/api/ors/openRouteServiceFetch";
 import MeetingArea from "@/app/models/MeetingArea";
+import { fetchRouteClient } from "@/app/utils/clientRequests/fetchRouteClient";
 
 /**
  * The `addPersonAction` function adds a person to the global state.people array.
@@ -126,7 +126,7 @@ export const updatePersonRouteDataAction =
   async (person: Person, centroid: LngLat): Promise<void> => {
     if (!person) return;
 
-    person.routeData = await fetchRoute(person.address.coord, centroid);
+    person.routeData = await fetchRouteClient(person.address.coord, centroid);
     person.routeDistance = undefined;
     person.routeDuration = undefined;
 

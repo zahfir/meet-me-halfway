@@ -56,13 +56,15 @@ const AddressSearch: FC<AddressSearchProps> = ({ onAddressSelect }) => {
     try {
       setIsLoading(true);
       const response = await fetchAddressSuggestions(query);
-      const data: NominatimResult[] = await response.json();
+      if (response) {
+        const data: NominatimResult[] = await response.json();
 
-      const validAddresses = data
-        .filter((result: NominatimResult) => isValidNominatimResult(result))
-        .map((result: NominatimResult) => new Address(result));
+        const validAddresses = data
+          .filter((result: NominatimResult) => isValidNominatimResult(result))
+          .map((result: NominatimResult) => new Address(result));
 
-      setSearchSuggestions(validAddresses);
+        setSearchSuggestions(validAddresses);
+      }
       setHighlightedIndex(-1);
       setIsLoading(false);
     } catch (error) {

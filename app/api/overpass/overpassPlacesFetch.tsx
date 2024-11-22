@@ -4,7 +4,6 @@ import {
   CategoryResponseMap,
   PlaceCategory,
 } from "@/app/constants/overpass/overpassPlaceCategories";
-import OVERPASS_URL from "@/app/constants/overpass/overpassUrl";
 import POI from "@/app/models/POI";
 import { OverpassResponse, OverpassTags } from "@/app/types/overpassResponse";
 
@@ -21,6 +20,9 @@ const fetchPOIs = async (
 ): Promise<OverpassResponse[]> => {
   if (!meetingArea) return [];
 
+  const url = process.env.NEXT_PUBLIC_OVERPASS_URL;
+  if (!url) return [];
+
   const { lat, lng } = meetingArea.centroid;
   const r = meetingArea.radius * 1000;
   const placeCategories = meetingArea.placeCategories;
@@ -28,7 +30,7 @@ const fetchPOIs = async (
   const query = buildQuery(lat, lng, r, placeCategories);
 
   try {
-    const response = await fetch(OVERPASS_URL, {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

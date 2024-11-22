@@ -94,11 +94,9 @@ export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
         mapRef.current.setCenter([longitude, latitude]);
         mapRef.current.setZoom(zoom!);
       }
-      console.log(state.userLocation);
 
       // PEOPLE
       if (state.people.length === 0) {
-        console.log("No People. Hiding Circle.");
         state.meetingArea?.updateCircle(false);
         if (state.meetingArea) state.clearPOIs(state.meetingArea);
         state.selectedPOI?.handleMarkerClick();

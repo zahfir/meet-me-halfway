@@ -5,16 +5,19 @@ import useMapStore from "@/app/state/useMapStore";
  * Fetches address suggestions from the Nominatim API based on the search query.
  *
  * @param {string} query - The search query.
- * @returns {Promise<Response>} A promise that resolves to the response from the Nominatim API.
+ * @returns {Promise<Response | undefined>} A promise that resolves to the response from the Nominatim API
+ * or undefined if environment variables have not been set properly.
  */
 export const fetchAddressSuggestions = async (
   query: string
-): Promise<Response> => {
+): Promise<Response | undefined> => {
   const format = "json";
   const proximitySearchFilter = getViewbox();
   const filters = `addressdetails=1&limit=5${proximitySearchFilter}`;
+  const baseUrl = process.env.NEXT_PUBLIC_NOMINATIM_URL;
+  if (!baseUrl) return;
 
-  const url = `https://nominatim.openstreetmap.org/search?format=${format}&q=${query}&${filters}`;
+  const url = `${baseUrl}/search?format=${format}&q=${query}&${filters}`;
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(
