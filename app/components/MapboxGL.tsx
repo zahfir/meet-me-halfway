@@ -2,7 +2,6 @@
 import React, { useRef } from "react";
 import { Map } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { MAPBOX_ACCESS_TOKEN } from "@/app/page";
 import {
   useInitMap,
   useUserLocation,
@@ -13,7 +12,7 @@ import {
  * MapboxGL component initializes and renders a Mapbox GL map.
  *
  * This component uses the following hooks:
- * - `useInitMap`: Initializes the map with the provided container reference, map reference, and access token.
+ * - `useInitMap`: Initializes the map with the provided container reference and map reference.
  * - `useUserLocation`: Tracks and updates the user's location on the map.
  * - `useStateListener`: Listens to state changes and updates the map accordingly.
  *
@@ -36,7 +35,7 @@ const MapboxGL = (): JSX.Element => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<Map | null>(null);
 
-  useInitMap(mapContainerRef, mapRef, MAPBOX_ACCESS_TOKEN ?? "");
+  useInitMap(mapContainerRef, mapRef);
   useUserLocation(mapRef);
   useStateListener(mapRef);
 

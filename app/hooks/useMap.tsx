@@ -2,44 +2,60 @@ import { useEffect } from "react";
 import mapboxgl, { LngLat, Map, LngLatBounds } from "mapbox-gl";
 
 import useMapStore from "@/app/state/useMapStore";
-import { customFitBounds } from "@/app/utils/mapUtils";
+
 import Person from "@/app/models/Person";
+
+import { customFitBounds } from "@/app/utils/mapUtils";
 import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
+
+import { fetchMapboxTokenClient } from "@/app/utils/clientRequests/fetchMapboxTokenClient";
 
 /**
  * The `useInitMap` hook initializes a Mapbox map instance and sets the map reference in the global state.
  * It is intended to be used in a component that renders a Mapbox map.
+ * This hook ensures that the map is initialized only once and sets up the necessary configurations.
  *
  * @param {React.MutableRefObject<HTMLDivElement | null>} mapContainerRef - A ref object pointing to the map container div.
  * @param {React.MutableRefObject<Map | null>} mapRef - A ref object to store the Mapbox map instance.
- * @param {string} MAPBOX_ACCESS_TOKEN - The Mapbox access token for authentication.
  *
  * @example
  * const mapContainerRef = useRef<HTMLDivElement | null>(null);
  * const mapRef = useRef<Map | null>(null);
- * useInitMap(mapContainerRef, mapRef, MAPBOX_ACCESS_TOKEN);
+ * useInitMap(mapContainerRef, mapRef);
  *
  * @returns {void}
  */
 export const useInitMap = (
   mapContainerRef: React.MutableRefObject<HTMLDivElement | null>,
-  mapRef: React.MutableRefObject<Map | null>,
-  MAPBOX_ACCESS_TOKEN: string
+  mapRef: React.MutableRefObject<Map | null>
 ) => {
   useEffect(() => {
-    if (!mapRef.current && mapContainerRef.current) {
-      mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-      mapRef.current = new mapboxgl.Map({
-        container: mapContainerRef.current,
-        style: "mapbox://styles/mapbox/dark-v11",
-      });
+    const initMap = async () => {
+      if (!mapRef.current && mapContainerRef.current) {
+        const token = await fetchMapboxTokenClient();
+        if (!token) {
+          console.error(
+            "Mapbox token not available. Map initialization aborted."
+          );
+          return;
+        }
 
-      mapRef.current?.on("load", () => {
-        console.log("MAPBOX LOADED");
-      });
+        mapboxgl.accessToken = token;
 
-      useMapStore.getState().setMapRef(mapRef);
-    }
+        mapRef.current = new mapboxgl.Map({
+          container: mapContainerRef.current,
+          style: "mapbox://styles/mapbox/dark-v11",
+        });
+
+        mapRef.current?.on("load", () => {
+          console.log("MAPBOX LOADED");
+        });
+
+        useMapStore.getState().setMapRef(mapRef);
+      }
+    };
+
+    initMap();
   }, [mapContainerRef.current]);
 };
 
