@@ -4,6 +4,9 @@
 
 **Meet Me Halfway** is a location-sharing app designed to calculate the optimal meeting point (geometric centroid) for a group of people. Users can input their locations, and the app dynamically determines the best central location for everyone. Features include OpenStreetMap-based point of interest search and dynamic route generation.
 
+![image](https://github.com/user-attachments/assets/4bad527a-9a39-490a-9086-e17e023196ce)
+
+
 ## Features
 
 - Calculate a geometric centroid for user-defined locations.
