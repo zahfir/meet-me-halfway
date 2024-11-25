@@ -1,4 +1,4 @@
-const markerColors: string[] = [
+export const markerColors: string[] = [
   "#FF6347", // Tomato red
   "#FFD700", // Gold
   "#00FF00", // Lime green
@@ -10,5 +10,3 @@ const markerColors: string[] = [
   "#00FFFF", // Cyan
   "#FFFF00", // Yellow
 ];
-
-export default markerColors;

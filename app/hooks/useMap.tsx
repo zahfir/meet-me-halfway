@@ -1,39 +1,77 @@
-import { useEffect } from "react";
+import { useEffect, MutableRefObject, RefObject } from "react";
 import mapboxgl, { LngLat, Map, LngLatBounds } from "mapbox-gl";
 
 import useMapStore from "@/app/state/useMapStore";
-import {
-  createMarker,
-  customFitBounds,
-  getAddressCoords,
-} from "@/app/utils/mapUtils";
-import Person from "@/app/models/Person";
-import MeetingArea from "../models/MeetingArea";
-import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
-import { fetchMatchingRoute } from "../utils/mapMatchingUtils";
 
-// Initializes Map instance
-export const useInitializeMap = (
-  mapContainerRef: React.MutableRefObject<HTMLDivElement | null>,
-  mapRef: React.MutableRefObject<Map | null>,
-  MAPBOX_ACCESS_TOKEN: string
+import Person from "@/app/models/Person";
+
+import { customFitBounds } from "@/app/utils/mapUtils";
+import { calculateCentroid } from "@/app/utils/meetingAreaUtils";
+
+import { fetchMapboxTokenClient } from "@/app/utils/clientRequests/fetchMapboxTokenClient";
+
+/**
+ * The `useInitMap` hook initializes a Mapbox map instance and sets the map reference in the global state.
+ * It is intended to be used in a component that renders a Mapbox map.
+ * This hook ensures that the map is initialized only once and sets up the necessary configurations.
+ *
+ * @param {MutableRefObject<HTMLDivElement | null>} mapContainerRef - A ref object pointing to the map container div.
+ * @param {MutableRefObject<Map | null>} mapRef - A ref object to store the Mapbox map instance.
+ *
+ * @example
+ * const mapContainerRef = useRef<HTMLDivElement | null>(null);
+ * const mapRef = useRef<Map | null>(null);
+ * useInitMap(mapContainerRef, mapRef);
+ *
+ * @returns {void}
+ */
+export const useInitMap = (
+  mapContainerRef: MutableRefObject<HTMLDivElement | null>,
+  mapRef: MutableRefObject<Map | null>
 ) => {
   useEffect(() => {
-    if (!mapRef.current && mapContainerRef.current) {
-      mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-      mapRef.current = new mapboxgl.Map({
-        container: mapContainerRef.current,
-        style: "mapbox://styles/mapbox/dark-v11",
-      });
-      useMapStore.getState().setMapRef(mapRef);
-    }
+    const initMap = async () => {
+      if (!mapRef.current && mapContainerRef.current) {
+        const token = await fetchMapboxTokenClient();
+        if (!token) {
+          console.error(
+            "Mapbox token not available. Map initialization aborted."
+          );
+          return;
+        }
+
+        mapboxgl.accessToken = token;
+
+        mapRef.current = new mapboxgl.Map({
+          container: mapContainerRef.current,
+          style: "mapbox://styles/mapbox/dark-v11",
+        });
+
+        mapRef.current?.on("load", () => {
+          console.log("MAPBOX LOADED");
+        });
+
+        useMapStore.getState().setMapRef(mapRef);
+      }
+    };
+
+    initMap();
   }, [mapContainerRef.current]);
 };
 
-// Initializes program with user location
-export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
-  // Lift !userLocation check to up here
-  const { setUserLocation, setViewState, setMeetingArea } = useMapStore();
+/**
+ * The `useUserLocation` hook initializes the user's location using the state action.
+ *
+ * @param {React.RefObject<Map | null>} mapRef - A ref object to the Mapbox map instance.
+ *
+ * @example
+ * const mapRef = useRef<Map | null>(null);
+ * useUserLocation(mapRef);
+ *
+ * @returns {void}
+ */
+export const useUserLocation = (mapRef: RefObject<Map | null>) => {
+  const { setUserLocation } = useMapStore();
 
   useEffect(() => {
     if (
@@ -43,64 +81,82 @@ export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
     ) {
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         const { latitude, longitude } = coords;
-        const location = new LngLat(longitude, latitude);
-        setUserLocation(location);
-        setViewState({
-          longitude: location.lng,
-          latitude: location.lat,
-          zoom: 14,
-        });
-        // Create meeting area if it doesn't exist
-        if (!useMapStore.getState().meetingArea) {
-          setMeetingArea(
-            new MeetingArea(location, createMarker(location, "white"))
-          );
-          useMapStore.getState().meetingArea?.marker.addTo(mapRef.current!);
-        }
+        const userLocation = new LngLat(longitude, latitude);
+        setUserLocation(userLocation);
       });
     }
   }, [mapRef.current]);
 };
 
-export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
+/**
+ * The `useStateListener` hook subscribes to the global state and updates the map based on state changes.
+ * It handles view state updates, people updates, and meeting area updates.
+ *
+ * @param {RefObject<Map | null>} mapRef - A ref object to the Mapbox map instance.
+ *
+ * @example
+ * const mapRef = useRef<Map | null>(null);
+ * useStateListener(mapRef);
+ *
+ * @returns {void}
+ */
+export const useStateListener = (mapRef: RefObject<Map | null>) => {
   useEffect(() => {
     const unsubscribe = useMapStore.subscribe((state, prevState) => {
       if (!mapRef.current) return;
-
-      // Change map to match viewState
+      // VIEW STATE
       if (state.viewState !== prevState.viewState) {
         const { longitude, latitude, zoom } = state.viewState!;
         mapRef.current.setCenter([longitude, latitude]);
         mapRef.current.setZoom(zoom!);
       }
 
-      if (state.people.length === 0) return;
+      // PEOPLE
+      if (state.people.length === 0) {
+        state.meetingArea?.updateCircle(false);
+        if (state.meetingArea) state.clearPOIs(state.meetingArea);
+        state.selectedPOI?.handleMarkerClick();
+        return;
+      }
 
-      // Add marker for each person and extend camera bounds to include them
       if (state.people !== prevState.people) {
-        const bounds = new LngLatBounds();
-        state.people.forEach((person: Person, _: number) => {
-          const coord = getAddressCoords(person.address);
-          bounds.extend([coord.lng, coord.lat]);
+        const cameraBounds = new LngLatBounds();
+        state.people.forEach((person: Person) => {
+          const personCoordinate = person.address.coord;
+          cameraBounds.extend([personCoordinate.lng, personCoordinate.lat]);
           person.marker?.addTo(mapRef.current!);
         });
 
-        if (state.meetingArea && state.people.length > 1) {
-          const centroid = calculateCentroid(state.people);
-          state.meetingArea.centroid = centroid;
-          state.meetingArea?.marker.setLngLat(centroid);
+        customFitBounds(mapRef, cameraBounds);
 
-          if (state.meetingArea !== prevState.meetingArea) {
-            console.log("Fetching routes...");
-            if (state.meetingArea) {
-              state.people.forEach(async (person: Person, _: number) => {
-                const coord = getAddressCoords(person.address);
-                await fetchMatchingRoute([coord, centroid]);
-              });
-            }
+        // MEETING AREA
+        if (state.meetingArea) {
+          state.selectedPOI?.handleMarkerClick();
+
+          const centroid: LngLat = calculateCentroid(state.people);
+          const centroidHasChanged =
+            centroid != prevState.meetingArea?.centroid;
+
+          if (centroidHasChanged) {
+            state.meetingArea.centroid = centroid;
+            state.meetingArea.marker.setLngLat(centroid);
+            state.meetingArea.updateCircle();
+
+            // POI REFRESH
+            state.clearPOIs(state.meetingArea);
+            state.refreshPOIs(state.meetingArea);
+
+            // ROUTE REFRESH
+            state.people.forEach(async (person: Person) => {
+              person.clearRouteFromMap(mapRef.current!);
+              await state.updatePersonRouteData(
+                person,
+                state.meetingArea!.centroid
+              );
+              person.addRouteToMap(mapRef.current!);
+            });
           }
         }
-        customFitBounds(mapRef, bounds);
       }
     }); // End subscribe
 

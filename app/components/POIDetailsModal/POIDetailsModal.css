@@ -1,0 +1,16 @@
+.modal-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  box-shadow: 4px 0px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease-in-out;
+}
+
+.modal-hidden {
+  /* Extra 20% to compensate for bootstrap margins */
+  transform: translateX(125%);
+}
+
+.modal-visible {
+  transform: translateX(0);
+}

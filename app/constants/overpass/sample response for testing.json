@@ -1,0 +1,795 @@
+[
+  {
+    "id": "4mlllk9vz",
+    "name": "LCBO",
+    "coord": {
+      "lng": -75.6864653,
+      "lat": 45.4289491
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "275",
+      "addr:postcode": "K1N 5Y3",
+      "addr:street": "Rideau Street",
+      "brand": "LCBO",
+      "brand:wikidata": "Q845263",
+      "brand:wikipedia": "en:Liquor Control Board of Ontario",
+      "building": "retail",
+      "internet_access": "yes",
+      "mapillary": "130489685705315",
+      "name": "LCBO",
+      "opening_hours": "Mo-Sa 10:00-22:00; Su 11:00-18:00",
+      "phone": "+1-613-789-5226",
+      "ref": "38",
+      "shop": "alcohol",
+      "source": "City of Ottawa",
+      "website": "https://www.lcbo.com",
+      "wheelchair": "yes"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6864653,
+        "lat": 45.4289491
+      },
+      "_pos": {
+        "x": 1326,
+        "y": 372
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "l3r2mgg14",
+    "name": "Rideau Centre",
+    "coord": {
+      "lng": -75.6912551,
+      "lat": 45.4253336
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "50",
+      "addr:street": "Rideau Street",
+      "building": "retail",
+      "building:levels": "4",
+      "name": "Rideau Centre",
+      "name:en": "Rideau Centre",
+      "name:fr": "Centre Rideau",
+      "name:ko": "리도 센터",
+      "operator": "Cadillac Fairview",
+      "shop": "mall",
+      "source": "CanVec 6.0 - NRCan",
+      "wheelchair": "yes",
+      "wikidata": "Q2944877"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6912551,
+        "lat": 45.4253336
+      },
+      "_pos": {
+        "x": 1215,
+        "y": 492
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "33p9xj8n6",
+    "name": "Hudson's Bay",
+    "coord": {
+      "lng": -75.6927616,
+      "lat": 45.4262371
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "73",
+      "addr:postcode": "K1N 5W8",
+      "addr:street": "Rideau Street",
+      "alt_name": "The Bay",
+      "brand": "Hudson's Bay",
+      "brand:wikidata": "Q641129",
+      "brand:wikipedia": "en:Hudson's Bay (department store)",
+      "building": "retail",
+      "ele": "4",
+      "name": "Hudson's Bay",
+      "name:en": "Hudson's Bay",
+      "name:fr": "La Baie",
+      "shop": "department_store",
+      "toilets:wheelchair": "no",
+      "wheelchair": "limited"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6927616,
+        "lat": 45.4262371
+      },
+      "_pos": {
+        "x": 1180,
+        "y": 462
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "b6e6au9ad",
+    "name": "Freiman Mall",
+    "coord": {
+      "lng": -75.6922359,
+      "lat": 45.426479
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "building": "retail",
+      "name": "Freiman Mall",
+      "name:en": "Freiman Mall",
+      "name:ko": "프라이만 몰",
+      "wheelchair": "yes",
+      "wikidata": "Q5501416"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6922359,
+        "lat": 45.426479
+      },
+      "_pos": {
+        "x": 1192,
+        "y": 454
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "hjfkekels",
+    "name": "Loblaws",
+    "coord": {
+      "lng": -75.6838765,
+      "lat": 45.4301695
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "363",
+      "addr:street": "Rideau Street",
+      "brand": "Loblaws",
+      "brand:wikidata": "Q3257626",
+      "brand:wikipedia": "en:Loblaws",
+      "building": "retail",
+      "building:colour": "beige",
+      "building:levels": "1",
+      "mapillary": "291770895831315",
+      "name": "Loblaws",
+      "opening_hours": "Mo-Su 07:00-22:00",
+      "phone": "+1-613-789-3330",
+      "shop": "supermarket",
+      "source": "City of Ottawa",
+      "wheelchair": "yes"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6838765,
+        "lat": 45.4301695
+      },
+      "_pos": {
+        "x": 1387,
+        "y": 332
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "lxub3qlcr",
+    "name": "Circle K",
+    "coord": {
+      "lng": -75.6843885,
+      "lat": 45.4296783
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "333",
+      "addr:street": "Rideau Street",
+      "brand": "Circle K",
+      "brand:wikidata": "Q3268010",
+      "brand:wikipedia": "en:Circle K",
+      "building": "retail",
+      "name": "Circle K",
+      "shop": "convenience",
+      "source": "City of Ottawa",
+      "wheelchair": "yes"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6843885,
+        "lat": 45.4296783
+      },
+      "_pos": {
+        "x": 1375,
+        "y": 348
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "qr0mo159d",
+    "name": "Pizza Pizza",
+    "coord": {
+      "lng": -75.6840433,
+      "lat": 45.429128
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "336",
+      "addr:street": "Rideau Street",
+      "amenity": "fast_food",
+      "brand": "Pizza Pizza",
+      "brand:wikidata": "Q1194143",
+      "brand:wikipedia": "en:Pizza Pizza",
+      "building": "retail",
+      "building:levels": "1",
+      "cuisine": "pizza",
+      "mapillary": "518112399387382",
+      "name": "Pizza Pizza",
+      "source": "Bing",
+      "takeaway": "yes",
+      "toilets": "yes",
+      "wheelchair": "yes"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6840433,
+        "lat": 45.429128
+      },
+      "_pos": {
+        "x": 1383,
+        "y": 366
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "8cs2odj6a",
+    "name": "Former Geological Survey of Canada",
+    "coord": {
+      "lng": -75.6937172,
+      "lat": 45.4266363
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "building": "retail",
+      "building:levels": "4",
+      "heritage": "2",
+      "heritage:operator": "hsmbc",
+      "heritage:website": "https://www.historicplaces.ca/en/rep-reg/place-lieu.aspx?id=1142",
+      "historic": "building",
+      "hsmbc:criteria": "nhs",
+      "hsmbc:inscription_date": "1955-12-12",
+      "name": "Former Geological Survey of Canada",
+      "ref:hpc": "1142",
+      "source": "Bing",
+      "wikidata": "Q15218037"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6937172,
+        "lat": 45.4266363
+      },
+      "_pos": {
+        "x": 1157,
+        "y": 449
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "hvn0loqiu",
+    "name": "Shawarma Andalos",
+    "coord": {
+      "lng": -75.6967216,
+      "lat": 45.4183684
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "154",
+      "addr:street": "O'Connor Street",
+      "amenity": "fast_food",
+      "building": "retail",
+      "cuisine": "kebab",
+      "name": "Shawarma Andalos",
+      "name:es": "Shawarma Ándalos",
+      "source": "City of Ottawa"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6967216,
+        "lat": 45.4183684
+      },
+      "_pos": {
+        "x": 1087,
+        "y": 723
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "64nf4t8z0",
+    "name": "Giant Tiger",
+    "coord": {
+      "lng": -75.6905565,
+      "lat": 45.4273888
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "93",
+      "addr:street": "George Street",
+      "brand": "Giant Tiger",
+      "brand:wikidata": "Q5558429",
+      "brand:wikipedia": "en:Giant Tiger",
+      "building": "retail",
+      "name": "Giant Tiger",
+      "opening_hours": "Mo,Tu 09:00-19:00; We-Fr 09:00-20:00; Sa 09:00-18:00; Su 10:00-18:00",
+      "shop": "department_store",
+      "toilets:wheelchair": "no",
+      "wheelchair": "no"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6905565,
+        "lat": 45.4273888
+      },
+      "_pos": {
+        "x": 1231,
+        "y": 424
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "snwhc1h8i",
+    "name": "Steve's Music Store",
+    "coord": {
+      "lng": -75.6849268,
+      "lat": 45.428811
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "308",
+      "addr:street": "Rideau Street",
+      "building": "retail",
+      "mapillary": "510077150117562",
+      "name": "Steve's Music Store",
+      "opening_hours": "Mo-We 09:30-17:30; Th,Fr 09:30-21:00; Sa 09:30-17:30; Su 12:00-17:00",
+      "phone": "+1-877-978-3837",
+      "shop": "musical_instrument",
+      "website": "https://www.stevesmusic.com/",
+      "wheelchair": "no"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6849268,
+        "lat": 45.428811
+      },
+      "_pos": {
+        "x": 1362,
+        "y": 377
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "p92ptuydi",
+    "name": "Fire & Flower",
+    "coord": {
+      "lng": -75.6903665,
+      "lat": 45.429614
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "129",
+      "addr:street": "York Street",
+      "building": "retail",
+      "name": "Fire & Flower",
+      "shop": "cannabis",
+      "source": "City of Ottawa"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6903665,
+        "lat": 45.429614
+      },
+      "_pos": {
+        "x": 1235,
+        "y": 350
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "11ci2r6hb",
+    "name": "Lashes & Nails",
+    "coord": {
+      "lng": -75.6945073,
+      "lat": 45.4297718
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "110",
+      "addr:street": "Parent Avenue",
+      "building": "retail",
+      "name": "Lashes & Nails",
+      "shop": "beauty",
+      "source": "City of Ottawa"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6945073,
+        "lat": 45.4297718
+      },
+      "_pos": {
+        "x": 1139,
+        "y": 345
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "cku5s35m1",
+    "name": "Bar Lucy",
+    "coord": {
+      "lng": -75.6908535,
+      "lat": 45.4293378
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "111",
+      "addr:postcode": "K1N 5T4",
+      "addr:street": "York Street",
+      "amenity": "cafe",
+      "building": "retail",
+      "name": "Bar Lucy",
+      "opening_hours": "We-Sa 17:00-23:00",
+      "source": "City of Ottawa",
+      "website": "https://barlucy.ca/"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6908535,
+        "lat": 45.4293378
+      },
+      "_pos": {
+        "x": 1224,
+        "y": 359
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "g8hc3tsgu",
+    "name": "First Choice Haircutters",
+    "coord": {
+      "lng": -75.6845574,
+      "lat": 45.4296087
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "addr:housenumber": "331",
+      "addr:street": "Rideau Street",
+      "brand": "First Choice Haircutters",
+      "brand:wikidata": "Q5452622",
+      "brand:wikipedia": "en:First Choice Haircutters",
+      "building": "retail",
+      "name": "First Choice Haircutters",
+      "shop": "hairdresser",
+      "source": "City of Ottawa",
+      "wheelchair": "yes"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6845574,
+        "lat": 45.4296087
+      },
+      "_pos": {
+        "x": 1371,
+        "y": 350
+      },
+      "_fadeTimer": null
+    }
+  },
+  {
+    "id": "v5rpjuft2",
+    "name": "Le Bac a Frites",
+    "coord": {
+      "lng": -75.6850659,
+      "lat": 45.4232337
+    },
+    "category": "shopping",
+    "tagsJson": {
+      "amenity": "fast_food",
+      "building": "retail",
+      "cuisine": "burger",
+      "name": "Le Bac a Frites",
+      "operator": "University of Ottawa",
+      "wheelchair": "yes"
+    },
+    "marker": {
+      "_anchor": "center",
+      "_color": "#3FB1CE",
+      "_scale": 1,
+      "_draggable": false,
+      "_clickTolerance": 0,
+      "_isDragging": false,
+      "_state": "inactive",
+      "_rotation": 0,
+      "_rotationAlignment": "auto",
+      "_pitchAlignment": "auto",
+      "_occludedOpacity": 0.2,
+      "_element": {},
+      "_offset": {
+        "x": 0,
+        "y": 0
+      },
+      "_popup": null,
+      "_lngLat": {
+        "lng": -75.6850659,
+        "lat": 45.4232337
+      },
+      "_pos": {
+        "x": 1359,
+        "y": 562
+      },
+      "_fadeTimer": null
+    }
+  }
+]
