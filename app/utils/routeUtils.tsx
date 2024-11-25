@@ -1,5 +1,6 @@
 import { Map } from "mapbox-gl";
 import Person from "@/app/models/Person";
+import { RefObject } from "react";
 
 /**
  * The `setRouteOpacityOnHover` function sets the opacity of routes on the map when hovering over a person.
@@ -7,7 +8,7 @@ import Person from "@/app/models/Person";
  *
  * @param {boolean} isHover - A boolean indicating whether the current person is already being hovered over.
  * @param {Function} setIsHover - A function to update the hover state.
- * @param {React.RefObject<Map | null>} mapRef - A reference to the Mapbox map instance.
+ * @param {RefObject<Map | null>} mapRef - A reference to the Mapbox map instance.
  * @param {Person[]} people - An array of people whose routes are displayed on the map.
  * @param {string} currentPersonId - The ID of the current person being hovered over.
  * @param {boolean} enter - A boolean indicating whether the hover event is entering or leaving.
@@ -20,7 +21,7 @@ import Person from "@/app/models/Person";
 export const setRouteOpacityOnHover = (
   isHover: boolean,
   setIsHover: (hover: boolean) => void,
-  mapRef: React.RefObject<Map | null>,
+  mapRef: RefObject<Map | null>,
   people: Person[],
   currentPersonId: string,
   enter: boolean

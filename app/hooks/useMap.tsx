@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, MutableRefObject, RefObject } from "react";
 import mapboxgl, { LngLat, Map, LngLatBounds } from "mapbox-gl";
 
 import useMapStore from "@/app/state/useMapStore";
@@ -15,8 +15,8 @@ import { fetchMapboxTokenClient } from "@/app/utils/clientRequests/fetchMapboxTo
  * It is intended to be used in a component that renders a Mapbox map.
  * This hook ensures that the map is initialized only once and sets up the necessary configurations.
  *
- * @param {React.MutableRefObject<HTMLDivElement | null>} mapContainerRef - A ref object pointing to the map container div.
- * @param {React.MutableRefObject<Map | null>} mapRef - A ref object to store the Mapbox map instance.
+ * @param {MutableRefObject<HTMLDivElement | null>} mapContainerRef - A ref object pointing to the map container div.
+ * @param {MutableRefObject<Map | null>} mapRef - A ref object to store the Mapbox map instance.
  *
  * @example
  * const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -26,8 +26,8 @@ import { fetchMapboxTokenClient } from "@/app/utils/clientRequests/fetchMapboxTo
  * @returns {void}
  */
 export const useInitMap = (
-  mapContainerRef: React.MutableRefObject<HTMLDivElement | null>,
-  mapRef: React.MutableRefObject<Map | null>
+  mapContainerRef: MutableRefObject<HTMLDivElement | null>,
+  mapRef: MutableRefObject<Map | null>
 ) => {
   useEffect(() => {
     const initMap = async () => {
@@ -70,7 +70,7 @@ export const useInitMap = (
  *
  * @returns {void}
  */
-export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
+export const useUserLocation = (mapRef: RefObject<Map | null>) => {
   const { setUserLocation } = useMapStore();
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
  * The `useStateListener` hook subscribes to the global state and updates the map based on state changes.
  * It handles view state updates, people updates, and meeting area updates.
  *
- * @param {React.RefObject<Map | null>} mapRef - A ref object to the Mapbox map instance.
+ * @param {RefObject<Map | null>} mapRef - A ref object to the Mapbox map instance.
  *
  * @example
  * const mapRef = useRef<Map | null>(null);
@@ -100,7 +100,7 @@ export const useUserLocation = (mapRef: React.RefObject<Map | null>) => {
  *
  * @returns {void}
  */
-export const useStateListener = (mapRef: React.RefObject<Map | null>) => {
+export const useStateListener = (mapRef: RefObject<Map | null>) => {
   useEffect(() => {
     const unsubscribe = useMapStore.subscribe((state, prevState) => {
       if (!mapRef.current) return;

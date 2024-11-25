@@ -23,12 +23,13 @@ import {
   setSelectedPOIAction,
   clearSelectedPOIAction,
 } from "@/app/state/actions/selectedPOIActions";
+import { RefObject } from "react";
 
 /**
  * The `MapStore` interface defines the structure of the global state for the map application.
  *
  * @interface MapStore
- * @property {React.RefObject<Map | null>} mapRef - A reference to the Mapbox map instance.
+ * @property {RefObject<Map | null>} mapRef - A reference to the Mapbox map instance.
  * @property {LngLat | null} userLocation - The user's current location.
  * @property {MapViewState | null} viewState - The current view state of the map.
  * @property {Person[]} people - An array of people on the map.
@@ -48,14 +49,14 @@ import {
  */
 export interface MapStore {
   // State
-  mapRef: React.RefObject<Map | null>;
+  mapRef: RefObject<Map | null>;
   userLocation: LngLat | null;
   viewState: MapViewState | null;
   people: Person[];
   meetingArea: MeetingArea | null;
   selectedPOI: POI | null;
   // Actions
-  setMapRef: (mapRef: React.RefObject<Map | null>) => void;
+  setMapRef: (mapRef: RefObject<Map | null>) => void;
   setUserLocation: (location: LngLat) => void;
   setViewState: (state: MapViewState) => void;
   addPerson: (person: Person) => void;
@@ -88,7 +89,7 @@ const useMapStore = create<MapStore>()((set) => ({
   meetingArea: null,
   selectedPOI: null,
   // Map actions
-  setMapRef: (mapRef: React.RefObject<Map | null>) => set(() => ({ mapRef })),
+  setMapRef: (mapRef: RefObject<Map | null>) => set(() => ({ mapRef })),
   setUserLocation: (location: LngLat) => setUserLocationAction(set)(location),
   setViewState: (newViewState: MapViewState) =>
     set(() => ({
