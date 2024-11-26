@@ -89,10 +89,8 @@ export const setUserLocationAction =
         const marker = createMarker(location, "white");
         const meetingArea = new MeetingArea(location, marker);
         setMeetingArea(meetingArea);
-        // if (state.mapRef.current) {
         meetingArea.marker.addTo(state.mapRef.current!);
         meetingArea.initCircle();
-        // }
       }
 
       return {
