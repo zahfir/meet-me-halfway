@@ -28,14 +28,14 @@ import {
  * @param {number} latitude - The latitude of the point of interest.
  * @param {number} longitude - The longitude of the point of interest.
  * @param {PlaceCategory} category - The category of the point of interest.
- * @param {Object} tagsJson - Additional tags associated with the point of interest.
+ * @param {Record<string, string>} tagsJson - Additional tags associated with the point of interest.
  *
  * @property {string} id - The unique identifier for the point of interest.
  * @property {string} name - The name of the point of interest.
  * @property {LngLat} coord - The coordinates of the point of interest.
  * @property {PlaceCategory} category - The category of the point of interest.
  * @property {Marker} [marker] - The marker representing the point of interest on the map.
- * @property {Object} tagsJson - Additional tags associated with the point of interest.
+ * @property {Record<string, string>} tagsJson - Additional tags associated with the point of interest.
  *
  * @example
  * const poi = new POI("Central Park", 40.785091, -73.968285, PlaceCategory.Park, {});
@@ -47,14 +47,14 @@ class POI {
   coord: LngLat;
   category: PlaceCategory;
   marker?: Marker;
-  tagsJson: { [key: string]: string };
+  tagsJson: Record<string, string>;
 
   constructor(
     name: string,
     latitude: number,
     longitude: number,
     category: PlaceCategory,
-    tagsJson: {}
+    tagsJson: Record<string, string>
   ) {
     this.id = Math.random().toString(36).substring(2, 11);
     this.name = name;
@@ -107,8 +107,6 @@ class POI {
       this.marker.addTo(map);
     }
   }
-
-  // isSelected = (): boolean => this === useMapStore.getState().selectedPOI;
 
   /**
    * Calculates distance from user location
