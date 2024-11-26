@@ -56,7 +56,7 @@ export const useInitMap = (
     };
 
     initMap();
-  }, [mapContainerRef.current]);
+  });
 };
 
 /**
@@ -85,7 +85,7 @@ export const useUserLocation = (mapRef: RefObject<Map | null>) => {
         setUserLocation(userLocation);
       });
     }
-  }, [mapRef.current]);
+  });
 };
 
 /**
