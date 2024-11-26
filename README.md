@@ -1,4 +1,5 @@
 # Meet Me Halfway
+[Click here to try it out!](https://meetmehalfway.vercel.app/)
 
 ## About the Project
 
