@@ -14,7 +14,7 @@ import { NextRequest, NextResponse } from "next/server";
  *
  * @throws {Error} Throws an error if the environment variables are not set or if the fetch request fails.
  */
-export const fetchRoute = async (
+const fetchRoute = async (
   start: LngLat,
   end: LngLat
 ): Promise<GeoJSON.FeatureCollection<GeoJSON.LineString> | undefined> => {
@@ -53,6 +53,7 @@ export const POST = async (
     const data = await fetchRoute(start, end);
     return NextResponse.json(data);
   } catch (error) {
+    console.error("Error fetching route:", error);
     return NextResponse.error();
   }
 };
